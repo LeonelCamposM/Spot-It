@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/rooms/create_room.dart';
 
 class WaitingRoomPage extends StatefulWidget {
@@ -12,6 +11,7 @@ class WaitingRoomPage extends StatefulWidget {
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
   _WaitingRoomPageState() : isLoading = true;
   bool isLoading;
+  List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
 
   @override
   void initState() {
@@ -26,57 +26,152 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sala de espera')),
+      appBar: AppBar(
+        title: const Text('Sala de espera'),
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RoomPage()),
-                    );
-                  },
-                  child: const Text('Home'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RoomPage()),
-                    );
-                  },
-                  child: const Text('Chat'),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('ID'),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Participantes'),
-              ],
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const RoomPage()),
-                  );
-                },
-                child: const Text('Comenzar'),
+            Flexible(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.home),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoomPage()),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.chat),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoomPage()),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ])
+            ),
+            Flexible(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.content_copy),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoomPage()),
+                      );
+                    },
+                  ),
+                  const Text('gMIPh2BsGpaZqIx6EHPj'),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 8,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(
+                              top: 18, bottom: 18),
+                          child: Text(
+                            "Participantes",
+                            style: new TextStyle(fontSize: 18.0),
+                          ),
+                        )
+                      ],
+                    ),
+                    ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          margin: EdgeInsets.zero,
+                          elevation: 0.4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          child: Container(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                  child: Image.network(
+                                      "https://via.placeholder.com/150")),
+                              title: Text(
+                                "Coconut Oil",
+                                style: TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Row(
+                                children: <Widget>[
+                                  Icon(Icons.linear_scale,
+                                      color: Colors.greenAccent),
+                                  Text(
+                                    "Go Green!",
+                                    style: TextStyle(color: Colors.black87),
+                                  )
+                                ],
+                              ),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                color: Colors.black87,
+                                size: 30.0,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Colors.deepPurpleAccent, // This is what you need!
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoomPage()),
+                      );
+                    },
+                    child: const Text('Comenzar'),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

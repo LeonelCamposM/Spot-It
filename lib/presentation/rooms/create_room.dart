@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
+import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
-import '../../infrastructure/rooms/rooms_repository.dart';
 
 class RoomPage extends StatefulWidget {
   static String routeName = '/';
