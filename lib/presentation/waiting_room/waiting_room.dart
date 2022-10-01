@@ -84,27 +84,18 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  Text("Participantes", style: new TextStyle(fontSize: 18.0)),
+            ),
             Flexible(
               flex: 8,
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                              top: 18, bottom: 18),
-                          child: Text(
-                            "Participantes",
-                            style: new TextStyle(fontSize: 18.0),
-                          ),
-                        )
-                      ],
-                    ),
                     ListView.builder(
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.symmetric(),
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: 10,
@@ -126,21 +117,6 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     color: Colors.black87,
                                     fontWeight: FontWeight.bold),
                               ),
-                              subtitle: Row(
-                                children: <Widget>[
-                                  Icon(Icons.linear_scale,
-                                      color: Colors.greenAccent),
-                                  Text(
-                                    "Go Green!",
-                                    style: TextStyle(color: Colors.black87),
-                                  )
-                                ],
-                              ),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right,
-                                color: Colors.black87,
-                                size: 30.0,
-                              ),
                             ),
                           ),
                         );
@@ -150,26 +126,29 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.deepPurpleAccent, // This is what you need!
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Flexible(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.deepPurpleAccent, // This is what you need!
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RoomPage()),
+                        );
+                      },
+                      child: const Text('Comenzar'),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RoomPage()),
-                      );
-                    },
-                    child: const Text('Comenzar'),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],
