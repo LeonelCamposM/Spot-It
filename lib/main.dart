@@ -21,6 +21,6 @@ class MyApp extends StatelessWidget {
           WaitingRoomPage.routeName: (context) => const WaitingRoomPage(),
           RoomPage.routeName: (context) => const RoomPage(),
         },
-        initialRoute: RoomPage.routeName);
+        initialRoute: WaitingRoomPage.routeName);
   }
 }

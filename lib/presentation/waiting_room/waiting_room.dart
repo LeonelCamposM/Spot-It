@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/rooms/create_room.dart';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -25,47 +26,60 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Room')),
+      appBar: AppBar(title: const Text('Sala de espera')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: isLoading ? const LoadingWidget() : const Text('Room'),
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RoomPage()),
+                    );
+                  },
+                  child: const Text('Home'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RoomPage()),
+                    );
+                  },
+                  child: const Text('Chat'),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('ID'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Participantes'),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RoomPage()),
+                  );
+                },
+                child: const Text('Comenzar'),
+              ),
+            ])
+          ],
         ),
       ),
     );
   }
 }
-
-// class _RoomWidget extends StatefulWidget {
-//   const _RoomWidget({Key? key}) : super(key: key);
-//   @override
-//   State<_RoomWidget> createState() => _RoomWidgetState();
-// }
-
-// class _RoomWidgetState extends State<_RoomWidget> {
-//   final ClientService clientService = ClientService();
-//   final ButtonStyle style =
-//       ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         const SizedBox(height: 30),
-//         ElevatedButton(
-//           style: style,
-//           onPressed: () => clientService.emitCreateRoom(
-//             "user name",
-//           ),
-//           child: const Text('Crear sala'),
-//         ),
-//         const SizedBox(height: 30),
-//         ElevatedButton(
-//           style: style,
-//           onPressed: () {},
-//           child: const Text('Unirse a sala'),
-//         ),
-//       ],
-//     );
-//   }
-// }
