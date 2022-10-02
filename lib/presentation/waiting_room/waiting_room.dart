@@ -42,6 +42,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
+                    iconSize: 30.0,
                     icon: const Icon(Icons.home),
                     color: Colors.white,
                     onPressed: () {
@@ -53,6 +54,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                     },
                   ),
                   IconButton(
+                    iconSize: 30.0,
                     icon: const Icon(Icons.chat),
                     color: Colors.white,
                     onPressed: () {
@@ -72,42 +74,38 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
+                    iconSize: 30.0,
                     icon: const Icon(Icons.content_copy),
                     color: Colors.white,
                     onPressed: () async {
                       await Clipboard.setData(ClipboardData(text: roomID));
                     },
                   ),
-                  Text(roomID),
+                  Text(roomID, style: new TextStyle(fontSize: 20.0)),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child:
-                  Text("Participantes", style: new TextStyle(fontSize: 18.0)),
-            ),
+            Text("", style: new TextStyle(fontSize: 40.0)),
             Flexible(
               flex: 4,
               child:
-                  SizedBox(height: 500, width: 850, child: _horizontalList(4)),
+                  SizedBox(height: 150, width: 850, child: _horizontalList(4)),
             ),
             Flexible(
                 flex: 4,
                 child: SizedBox(
-                    height: 500, width: 850, child: _horizontalList(4))),
+                    height: 150, width: 850, child: _horizontalList(4))),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Flexible(
                 flex: 1,
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.deepPurpleAccent, // This is what you need!
-                      ),
+                    IconButton(
+                      iconSize: 50.0,
+                      icon: const Icon(Icons.play_circle),
+                      color: Colors.white,
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -115,8 +113,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                               builder: (context) => const RoomPage()),
                         );
                       },
-                      child: const Text('Comenzar'),
                     ),
+                    const Text("Comenzar", style: TextStyle(fontSize: 20.0)),
                   ],
                 ),
               ),
@@ -144,8 +142,8 @@ Container _horizontalList(int n) {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
-                  width: 100,
-                  height: 100,
+                  width: 75,
+                  height: 75,
                   decoration: BoxDecoration(
                       color: Colors.amber, shape: BoxShape.circle),
                   child: Icon(Icons.person)),
