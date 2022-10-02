@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/rooms/create_room.dart';
+import 'package:flutter/services.dart';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -12,6 +13,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   _WaitingRoomPageState() : isLoading = true;
   bool isLoading;
   List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
+  String roomID = "gMIPh2BsGpaZqIx6EHPj";
 
   @override
   void initState() {
@@ -72,15 +74,11 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                   IconButton(
                     icon: const Icon(Icons.content_copy),
                     color: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RoomPage()),
-                      );
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: roomID));
                     },
                   ),
-                  const Text('gMIPh2BsGpaZqIx6EHPj'),
+                  Text(roomID),
                 ],
               ),
             ),
@@ -90,42 +88,14 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                   Text("Participantes", style: new TextStyle(fontSize: 18.0)),
             ),
             Flexible(
-              flex: 8,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    ListView.builder(
-                      padding: const EdgeInsets.symmetric(),
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 0.4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          child: Container(
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                  child: Image.network(
-                                      "https://via.placeholder.com/150")),
-                              title: Text(
-                                "Coconut Oil",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
+              flex: 4,
+              child:
+                  SizedBox(height: 500, width: 850, child: _horizontalList(4)),
             ),
+            Flexible(
+                flex: 4,
+                child: SizedBox(
+                    height: 500, width: 850, child: _horizontalList(4))),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Flexible(
@@ -156,4 +126,34 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
       ),
     );
   }
+}
+
+Container _horizontalList(int n) {
+  return Container(
+    alignment: Alignment.center,
+    child: ListView(
+      scrollDirection: Axis.horizontal,
+      children: List.generate(
+        n,
+        (i) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            width: 200,
+            height: 200,
+            alignment: Alignment.center,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.amber, shape: BoxShape.circle),
+                  child: Icon(Icons.person)),
+              Text("Participantes", style: new TextStyle(fontSize: 20.0))
+            ]),
+          ),
+        ),
+      ),
+    ),
+  );
 }
