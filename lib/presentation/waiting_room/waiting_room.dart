@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/rooms/create_room.dart';
 import 'package:flutter/services.dart';
+import 'dart:math';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -11,7 +12,14 @@ class WaitingRoomPage extends StatefulWidget {
 
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
   _WaitingRoomPageState() : isLoading = true;
+
   bool isLoading;
+  List<IconData> icons = [
+    Icons.soap,
+    Icons.nearby_error,
+    Icons.join_left,
+    Icons.leaderboard
+  ];
   List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
   String roomID = "gMIPh2BsGpaZqIx6EHPj";
 
@@ -81,29 +89,41 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       await Clipboard.setData(ClipboardData(text: roomID));
                     },
                   ),
-                  Text(roomID, style: new TextStyle(fontSize: 20.0)),
+                  Text(roomID, style: const TextStyle(fontSize: 20.0)),
                 ],
               ),
             ),
-            Text("", style: new TextStyle(fontSize: 40.0)),
+            const Text("", style: TextStyle(fontSize: 40.0)),
             Flexible(
               flex: 4,
-              child:
-                  SizedBox(height: 150, width: 850, child: _horizontalList(4)),
+              child: SizedBox(
+                  height: 150,
+                  width: 850,
+                  child: _horizontalList(4, names, icons)),
             ),
             Flexible(
                 flex: 4,
                 child: SizedBox(
-                    height: 150, width: 850, child: _horizontalList(4))),
+                    height: 150,
+                    width: 850,
+                    child: _horizontalList(4, names, icons))),
+            const Text("", style: TextStyle(fontSize: 40.0)),
             Flexible(
               flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    iconSize: 50.0,
-                    icon: const Icon(Icons.play_circle),
-                    color: Colors.white,
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith(
+                          (states) => const StadiumBorder()),
+                      fixedSize: MaterialStateProperty.resolveWith(
+                          (states) => const Size(150, 60)),
+                      backgroundColor: MaterialStateProperty.resolveWith(
+                          (states) => Color.fromARGB(255, 75, 79, 72)),
+                      textStyle: MaterialStateProperty.resolveWith(
+                          (states) => const TextStyle(fontSize: 20.0)),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -111,8 +131,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                             builder: (context) => const RoomPage()),
                       );
                     },
+                    child: const Text("Comenzar"),
                   ),
-                  const Text("Comenzar", style: TextStyle(fontSize: 20.0)),
                 ],
               ),
             ),
@@ -123,7 +143,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   }
 }
 
-Container _horizontalList(int n) {
+Container _horizontalList(int n, List<String> names, List<IconData> icons) {
   return Container(
     alignment: Alignment.center,
     child: ListView(
@@ -142,9 +162,14 @@ Container _horizontalList(int n) {
                   width: 75,
                   height: 75,
                   decoration: BoxDecoration(
-                      color: Colors.amber, shape: BoxShape.circle),
-                  child: Icon(Icons.person)),
-              Text("Participantes", style: new TextStyle(fontSize: 20.0))
+                      color: Colors
+                          .primaries[Random().nextInt(Colors.primaries.length)],
+                      shape: BoxShape.circle),
+                  child: Icon(
+                    icons[i],
+                    size: 50,
+                  )),
+              Text(names[i], style: const TextStyle(fontSize: 20.0))
             ]),
           ),
         ),
