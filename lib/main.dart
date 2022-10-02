@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/rooms/create_room.dart';
+import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 Future<void> main() async {
@@ -21,6 +21,6 @@ class MyApp extends StatelessWidget {
           WaitingRoomPage.routeName: (context) => const WaitingRoomPage(),
           RoomPage.routeName: (context) => const RoomPage(),
         },
-        initialRoute: WaitingRoomPage.routeName);
+        initialRoute: RoomPage.routeName);
   }
 }

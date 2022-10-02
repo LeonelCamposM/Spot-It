@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/rooms/create_room.dart';
+import 'package:spot_it_game/presentation/core/button_style.dart';
+import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 
@@ -114,16 +115,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith(
-                          (states) => const StadiumBorder()),
-                      fixedSize: MaterialStateProperty.resolveWith(
-                          (states) => const Size(150, 60)),
-                      backgroundColor: MaterialStateProperty.resolveWith(
-                          (states) => Color.fromARGB(255, 75, 79, 72)),
-                      textStyle: MaterialStateProperty.resolveWith(
-                          (states) => const TextStyle(fontSize: 20.0)),
-                    ),
+                    style: getButtonStyle(150, 60, 20.0, Color.fromARGB(255, 75, 79, 72)),
                     onPressed: () {
                       Navigator.push(
                         context,
