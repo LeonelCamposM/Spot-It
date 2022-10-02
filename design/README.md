@@ -1,0 +1,1 @@
+![mapsite](/design/mapsite.svg)

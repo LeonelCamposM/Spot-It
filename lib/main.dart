@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
-import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/rooms/create_room.dart';
+import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,13 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Spot it',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: RoomPage(
-        useCase: RoomUseCase(RoomRepository(FirebaseFirestore.instance)),
-      ),
-    );
+        title: 'Spot it',
+        theme: ThemeData.dark(),
+        routes: {
+          WaitingRoomPage.routeName: (context) => const WaitingRoomPage(),
+          RoomPage.routeName: (context) => const RoomPage(),
+        },
+        initialRoute: WaitingRoomPage.routeName);
   }
 }

@@ -1,15 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
+import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 
 class RoomPage extends StatefulWidget {
-  final RoomUseCase _roomUseCase;
-
-  const RoomPage({required RoomUseCase useCase, Key? key})
-      : _roomUseCase = useCase,
-        super(key: key);
+  static String routeName = '/';
+  const RoomPage({Key? key}) : super(key: key);
 
   @override
   State<RoomPage> createState() => _RoomPageState();
@@ -17,6 +16,7 @@ class RoomPage extends StatefulWidget {
 
 class _RoomPageState extends State<RoomPage> {
   _RoomPageState() : isLoading = true;
+  final _roomUseCase = RoomUseCase(RoomRepository(FirebaseFirestore.instance));
   bool isLoading;
 
   @override
@@ -27,7 +27,7 @@ class _RoomPageState extends State<RoomPage> {
 
   Future<void> addRoom() async {
     Room newRoom = Room("leonel", true);
-    await widget._roomUseCase.createRoom(newRoom);
+    await _roomUseCase.createRoom(newRoom);
     setState(() {
       isLoading = false;
     });

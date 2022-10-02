@@ -20,6 +20,7 @@ https://docs.flutter.dev/get-started/install/windows
 ## code lint
 dart analyze 
 dart format .
+use #package import format
 
 ## Collaborators
 Angie Sofia Castillo Campos. B91750
