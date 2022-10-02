@@ -95,30 +95,27 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 flex: 4,
                 child: SizedBox(
                     height: 150, width: 850, child: _horizontalList(4))),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Flexible(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      iconSize: 50.0,
-                      icon: const Icon(Icons.play_circle),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RoomPage()),
-                        );
-                      },
-                    ),
-                    const Text("Comenzar", style: TextStyle(fontSize: 20.0)),
-                  ],
-                ),
+            Flexible(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    iconSize: 50.0,
+                    icon: const Icon(Icons.play_circle),
+                    color: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RoomPage()),
+                      );
+                    },
+                  ),
+                  const Text("Comenzar", style: TextStyle(fontSize: 20.0)),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),
