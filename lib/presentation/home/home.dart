@@ -38,10 +38,10 @@ class _RoomPageState extends State<RoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 09, 114, 171),
+      backgroundColor: const Color.fromARGB(255, 09, 114, 171),
       appBar: AppBar(
           title: const Text('Inicio'),
-          backgroundColor: Color.fromARGB(255, 06, 70, 99)),
+          backgroundColor: const Color.fromARGB(255, 06, 70, 99)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -62,7 +62,7 @@ class _RoomWidget extends StatefulWidget {
 class _RoomWidgetState extends State<_RoomWidget> {
   final ClientService clientService = ClientService();
   final ButtonStyle style =
-      getButtonStyle(650, 85, 30.0, Color.fromARGB(255, 06, 70, 99));
+      getButtonStyle(650, 85, 30.0, const Color.fromARGB(255, 06, 70, 99));
 
   @override
   Widget build(BuildContext context) {

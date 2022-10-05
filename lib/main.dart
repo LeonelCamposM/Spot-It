@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/presentation/cards/card_usage.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
         routes: {
           WaitingRoomPage.routeName: (context) => const WaitingRoomPage(),
           RoomPage.routeName: (context) => const RoomPage(),
+          CardUsage.routeName: (context) => const CardUsage()
         },
-        initialRoute: RoomPage.routeName);
+        initialRoute: CardUsage.routeName);
   }
 }
