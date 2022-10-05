@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/application/deck/deck_use_case.dart';
+import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
+import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
-import 'package:spot_it_game/domain/cards/card_data.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
-
-import '../../domain/deck/deck.dart';
-import '../../infrastructure/deck/deck_repository.dart';
 
 class CardUsage extends StatefulWidget {
   static String routeName = '/card_usage';
@@ -19,8 +16,8 @@ class CardUsage extends StatefulWidget {
 
 class _CardUsageState extends State<CardUsage> {
   _CardUsageState() : isLoading = true;
-  DeckUseCase deckUseCase =
-      DeckUseCase(DeckRepository(FirebaseFirestore.instance));
+  CardUseCase cardUseCase =
+      CardUseCase(CardRepository(FirebaseFirestore.instance));
   Iterable<CardModel> deckData = [];
 
   bool isLoading;
@@ -32,7 +29,7 @@ class _CardUsageState extends State<CardUsage> {
   }
 
   Future<void> addRoom() async {
-    final deck = await deckUseCase.getDeck();
+    final deck = await cardUseCase.getDeck();
     setState(() {
       deckData = deck;
       isLoading = false;

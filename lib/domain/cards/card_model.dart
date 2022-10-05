@@ -21,10 +21,6 @@ class CardModel {
     );
   }
 
-  String toString() {
-    return iconEight;
-  }
-
   factory CardModel.fromJson(Map<String, dynamic> json) => CardModel(
         json['iconOne'] as String,
         json['iconTwo'] as String,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/domain/cards/card_data.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 
 // @return returns a container with rendered card

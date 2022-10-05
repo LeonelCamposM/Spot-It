@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
-import 'package:spot_it_game/domain/deck/i_deck_repository.dart';
-import 'package:spot_it_game/domain/deck/deck.dart';
+import 'package:spot_it_game/domain/cards/i_card_repository.dart';
 
-class DeckRepository implements IDeckRepository {
+class CardRepository implements ICardRepository {
   final CollectionReference<CardModel> _deckCollection;
 
-  DeckRepository(FirebaseFirestore firestore)
+  CardRepository(FirebaseFirestore firestore)
       : _deckCollection = firestore.collection('Deck').withConverter<CardModel>(
               fromFirestore: (doc, options) => CardModel.fromJson(doc.data()!),
               toFirestore: (cardModel, options) => cardModel.toJson(),

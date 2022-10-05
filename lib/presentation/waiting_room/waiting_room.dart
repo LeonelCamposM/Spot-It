@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/presentation/cards/card_usage.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -58,7 +59,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RoomPage()),
+                            builder: (context) => const HomePage()),
                       );
                     },
                   ),
@@ -70,7 +71,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RoomPage()),
+                            builder: (context) => const HomePage()),
                       );
                     },
                   ),
@@ -115,12 +116,13 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    style: getButtonStyle(150, 60, 20.0, Color.fromARGB(255, 75, 79, 72)),
+                    style: getButtonStyle(
+                        150, 60, 20.0, const Color.fromARGB(255, 75, 79, 72)),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RoomPage()),
+                            builder: (context) => const CardUsage()),
                       );
                     },
                     child: const Text("Comenzar"),
