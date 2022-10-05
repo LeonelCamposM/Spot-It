@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/deck/deck_use_case.dart';
@@ -20,8 +19,9 @@ class CardUsage extends StatefulWidget {
 
 class _CardUsageState extends State<CardUsage> {
   _CardUsageState() : isLoading = true;
-  DeckUseCase deckUseCase = DeckUseCase(DeckRepository(FirebaseFirestore.instance));
-  Iterable<CardModel> deckData = []; 
+  DeckUseCase deckUseCase =
+      DeckUseCase(DeckRepository(FirebaseFirestore.instance));
+  Iterable<CardModel> deckData = [];
 
   bool isLoading;
 
@@ -48,7 +48,8 @@ class _CardUsageState extends State<CardUsage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: isLoading ? const LoadingWidget() : _RoomWidget(deck:deckData),
+          child:
+              isLoading ? const LoadingWidget() : _RoomWidget(deck: deckData),
         ),
       ),
     );
@@ -64,37 +65,11 @@ class _RoomWidget extends StatefulWidget {
 }
 
 class _RoomWidgetState extends State<_RoomWidget> {
-
   final Iterable<CardModel> deck;
-
   _RoomWidgetState(this.deck);
-
-  
-  // static const List<String> icons = [
-  //   "Anchor",
-  //   "Apple",
-  //   "Bomb",
-  //   "Cactus",
-  //   "Candle",
-  //   "Carrot",
-  //   "Cheese",
-  //   "Chess knight"
-  // ];
-
-  // static final jsonCard = {
-  //   'icons':
-  //       '[Anchor, Apple, Bomb, Cactus, Candle, Carrot, Cheese, Chess knight]'
-  // };
-  // static CardData card = CardData.fromJson(jsonCard);
-
-  // card that will be displayed
-  // static CardData card = CardData(icons);
-
-  // Map<String, dynamic> json = card.toJson();
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -103,10 +78,21 @@ class _RoomWidgetState extends State<_RoomWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-                Text(deck.first.toString()),
+              Text(deck.first.toString()),
+              // DropdownButton<CardModel>(
+              //     hint: const Text('Cartas'),
+              //     items: widget.deck
+              //         .map(
+              //           (d) => DropdownMenuItem<CardModel>(
+              //             child: Text(d.iconOne + d.iconTwo + d.iconThree),
+              //             value: d,
+              //           ),
+              //         )
+              //         .toList(),
+              //     onChanged: (dimension) {})
 
               // renderig card
-              // getCardStyle(card, 300),
+              getCardStyle(deck.elementAt(0), 300),
               // getCardStyle(card, 200),
               // getCardStyle(card, 100),
               // getCardStyle(card, 200),

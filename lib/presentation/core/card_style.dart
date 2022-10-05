@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_data.dart';
+import 'package:spot_it_game/domain/cards/card_model.dart';
 
 // @return returns a container with rendered card
 // @param card: CardData with all cards icons
 // @param size: te size will be assigned to width and height
-Container getCardStyle(CardData card, double size) {
-  var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
+Container getCardStyle(CardModel card, double size) {
+  var cardBackgroundColor = Color.fromARGB(255, 164, 65, 65);
   var cardBorderColor = Colors.black;
 
   return Container(
@@ -21,32 +22,32 @@ Container getCardStyle(CardData card, double size) {
               shape: BoxShape.circle),
           child: Column(
             children: [
-              Flexible(flex: 1, child: card.getIcon(7)),
+              Flexible(flex: 1, child: Text(card.iconOne)),
               Flexible(
                   flex: 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(child: card.getIcon(0)),
-                      card.getIcon(2),
+                      Container(child: Text(card.iconTwo)),
+                      Text(card.iconEight),
                     ],
                   )),
               Flexible(
                   flex: 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [card.getIcon(3), card.getIcon(4)],
+                    children: [Text(card.iconFour), Text(card.iconThree)],
                   )),
               Flexible(
                   flex: 1,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      card.getIcon(5),
-                      card.getIcon(6),
+                      Text(card.iconFive),
+                      Text(card.iconSix),
                     ],
                   )),
-              Flexible(flex: 1, child: card.getIcon(1))
+              Flexible(flex: 1, child: Text(card.iconSeven))
             ],
           )));
 }
