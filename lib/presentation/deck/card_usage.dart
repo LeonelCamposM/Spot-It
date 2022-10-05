@@ -1,7 +1,14 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/deck/deck_use_case.dart';
+import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/domain/cards/card_data.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+
+import '../../domain/deck/deck.dart';
+import '../../infrastructure/deck/deck_repository.dart';
 
 class CardUsage extends StatefulWidget {
   static String routeName = '/card_usage';
@@ -13,6 +20,9 @@ class CardUsage extends StatefulWidget {
 
 class _CardUsageState extends State<CardUsage> {
   _CardUsageState() : isLoading = true;
+  DeckUseCase deckUseCase = DeckUseCase(DeckRepository(FirebaseFirestore.instance));
+  Iterable<CardModel> deckData = []; 
+
   bool isLoading;
 
   @override
@@ -22,7 +32,9 @@ class _CardUsageState extends State<CardUsage> {
   }
 
   Future<void> addRoom() async {
+    final deck = await deckUseCase.getDeck();
     setState(() {
+      deckData = deck;
       isLoading = false;
     });
   }
@@ -36,7 +48,7 @@ class _CardUsageState extends State<CardUsage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: isLoading ? const LoadingWidget() : const _RoomWidget(),
+          child: isLoading ? const LoadingWidget() : _RoomWidget(deck:deckData),
         ),
       ),
     );
@@ -44,23 +56,30 @@ class _CardUsageState extends State<CardUsage> {
 }
 
 class _RoomWidget extends StatefulWidget {
-  const _RoomWidget({Key? key}) : super(key: key);
+  final Iterable<CardModel> deck;
+  _RoomWidget({Key? key, required this.deck}) : super(key: key);
 
   @override
-  State<_RoomWidget> createState() => _RoomWidgetState();
+  State<_RoomWidget> createState() => _RoomWidgetState(deck);
 }
 
 class _RoomWidgetState extends State<_RoomWidget> {
-  static const List<String> icons = [
-    "Anchor",
-    "Apple",
-    "Bomb",
-    "Cactus",
-    "Candle",
-    "Carrot",
-    "Cheese",
-    "Chess knight"
-  ];
+
+  final Iterable<CardModel> deck;
+
+  _RoomWidgetState(this.deck);
+
+  
+  // static const List<String> icons = [
+  //   "Anchor",
+  //   "Apple",
+  //   "Bomb",
+  //   "Cactus",
+  //   "Candle",
+  //   "Carrot",
+  //   "Cheese",
+  //   "Chess knight"
+  // ];
 
   // static final jsonCard = {
   //   'icons':
@@ -69,12 +88,13 @@ class _RoomWidgetState extends State<_RoomWidget> {
   // static CardData card = CardData.fromJson(jsonCard);
 
   // card that will be displayed
-  static CardData card = CardData(icons);
+  // static CardData card = CardData(icons);
 
-  Map<String, dynamic> json = card.toJson();
+  // Map<String, dynamic> json = card.toJson();
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -83,14 +103,15 @@ class _RoomWidgetState extends State<_RoomWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(json.toString()),
+                Text(deck.first.toString()),
+
               // renderig card
-              getCardStyle(card, 300),
-              getCardStyle(card, 200),
-              getCardStyle(card, 100),
-              getCardStyle(card, 200),
-              getCardStyle(card, 200),
-              getCardStyle(card, 200),
+              // getCardStyle(card, 300),
+              // getCardStyle(card, 200),
+              // getCardStyle(card, 100),
+              // getCardStyle(card, 200),
+              // getCardStyle(card, 200),
+              // getCardStyle(card, 200),
             ],
           ),
         ),

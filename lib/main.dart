@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/cards/card_usage.dart';
+import 'package:spot_it_game/presentation/deck/card_usage.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 

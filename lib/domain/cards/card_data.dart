@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CardData {
   List<String> icons = [
-    "assets/logo.png",
-    "assets/logo.png",
-    "assets/logo.png",
-    "assets/logo.png",
-    "assets/logo.png",
-    "assets/logo.png",
-    "assets/logo.png",
-    "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
+    // "assets/logo.png",
   ];
 
   CardData(this.icons);
