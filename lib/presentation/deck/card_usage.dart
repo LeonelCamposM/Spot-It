@@ -78,26 +78,12 @@ class _RoomWidgetState extends State<_RoomWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(deck.first.toString()),
-              // DropdownButton<CardModel>(
-              //     hint: const Text('Cartas'),
-              //     items: widget.deck
-              //         .map(
-              //           (d) => DropdownMenuItem<CardModel>(
-              //             child: Text(d.iconOne + d.iconTwo + d.iconThree),
-              //             value: d,
-              //           ),
-              //         )
-              //         .toList(),
-              //     onChanged: (dimension) {})
-
-              // renderig card
               getCardStyle(deck.elementAt(0), 300),
-              // getCardStyle(card, 200),
-              // getCardStyle(card, 100),
-              // getCardStyle(card, 200),
-              // getCardStyle(card, 200),
-              // getCardStyle(card, 200),
+              getCardStyle(deck.elementAt(0), 200),
+              getCardStyle(deck.elementAt(0), 100),
+              getCardStyle(deck.elementAt(0), 200),
+              getCardStyle(deck.elementAt(0), 200),
+              getCardStyle(deck.elementAt(0), 200),
             ],
           ),
         ),

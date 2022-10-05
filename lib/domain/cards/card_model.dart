@@ -13,10 +13,9 @@ class CardModel {
   CardModel(this.iconOne, this.iconTwo, this.iconThree, this.iconFour,
       this.iconFive, this.iconSix, this.iconSeven, this.iconEight);
 
-  Image getIcon(int n) {
+  Image getIcon(String iconName) {
     return Image.asset(
-      // "assets/icons/" + icons[n] + ".png",
-      "assets/logo.png",
+      "assets/icons/" + iconName + ".png",
       scale: 0.3,
       fit: BoxFit.fitWidth,
     );
