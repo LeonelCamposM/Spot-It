@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
+import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 
@@ -75,6 +76,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              openChat(context),
               getCardStyle(deck.elementAt(0), 300),
               getCardStyle(deck.elementAt(0), 200),
               getCardStyle(deck.elementAt(0), 100),
