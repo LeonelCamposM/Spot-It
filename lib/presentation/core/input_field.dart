@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Card getInputField(String inputMessage) {
-  Color backgroundColor = const Color.fromARGB(164, 0, 0, 0);
+  Color backgroundColor = Color.fromRGBO(255, 255, 255, 1);
   return Card(
     elevation: 10,
     color: backgroundColor,
@@ -18,11 +18,12 @@ Card getInputField(String inputMessage) {
           width: 600,
           height: 50,
           child: TextField(
+            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
             textAlign: TextAlign.center,
             decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: "  " + inputMessage,
-            ),
+                border: InputBorder.none,
+                hintText: "  " + inputMessage,
+                hintStyle: const TextStyle(color: Colors.black)),
           ),
         ),
       ),
