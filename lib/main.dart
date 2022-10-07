@@ -26,6 +26,6 @@ class MyApp extends StatelessWidget {
           ScoreboardPage.routeName: (context) => const ScoreboardPage(),
           CardUsage.routeName: (context) => const CardUsage()
         },
-        initialRoute: HomePage.routeName);
+        initialRoute: ScoreboardPage.routeName);
   }
 }

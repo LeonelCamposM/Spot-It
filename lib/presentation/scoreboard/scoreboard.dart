@@ -21,12 +21,11 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
 
   bool isLoading;
   List<IconData> icons = [
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard
+    Icons.panorama_vertical,
+    Icons.leaderboard,
+    Icons.panorama_vertical_select,
   ];
-  List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
+  List<String> names = ["Sofia", "Nayeri", "Jeremy"];
   String roomID = "Tabla de posiciones";
 
   @override
@@ -102,7 +101,7 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
                           getSecondaryColor(),
                           IconButton(
                             iconSize: getIconSize(),
-                            icon: const Icon(Icons.content_copy),
+                            icon: const Icon(Icons.list),
                             onPressed: () async {
                               await Clipboard.setData(
                                   ClipboardData(text: roomID));
@@ -120,17 +119,10 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
                   Flexible(
                     flex: 4,
                     child: SizedBox(
-                        height: 150,
+                        height: 300,
                         width: 850,
-                        child: _horizontalList(4, names, icons)),
+                        child: _horizontalList(3, names, icons)),
                   ),
-                  Flexible(
-                      flex: 4,
-                      child: SizedBox(
-                          height: 150,
-                          width: 850,
-                          child: _horizontalList(4, names, icons))),
-                  const Text("", style: TextStyle(fontSize: 40.0)),
                 ],
               ),
               500,
@@ -154,21 +146,22 @@ Container _horizontalList(int n, List<String> names, List<IconData> icons) {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             width: 200,
-            height: 200,
+            height: 400,
             alignment: Alignment.center,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
-                  width: 75,
-                  height: 75,
+                  width: 150,
+                  height: 150,
                   decoration: BoxDecoration(
                       color: Colors
                           .primaries[Random().nextInt(Colors.primaries.length)],
                       shape: BoxShape.circle),
                   child: Icon(
                     icons[i],
-                    size: 50,
+                    size: 100,
                   )),
+              const Text("", style: TextStyle(fontSize: 40.0)),
               Text(names[i], style: const TextStyle(fontSize: 20.0))
             ]),
           ),
