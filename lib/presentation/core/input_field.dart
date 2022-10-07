@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Card getInputField(String inputMessage) {
+Card getInputField(String inputMessage, context) {
   Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
   return Card(
     elevation: 10,
@@ -10,22 +10,13 @@ Card getInputField(String inputMessage) {
     ),
     // ignore: prefer_const_constructors
     child: SizedBox(
-      width: 600,
-      height: 50,
-      // ignore: prefer_const_constructors
-      child: SizedBox(
-        child: SizedBox(
-          width: 600,
-          height: 50,
-          child: TextField(
-            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "  " + inputMessage,
-                hintStyle: const TextStyle(color: Colors.black)),
-          ),
-        ),
+      child: TextField(
+        style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "  " + inputMessage,
+            hintStyle: const TextStyle(color: Colors.black)),
       ),
     ),
   );

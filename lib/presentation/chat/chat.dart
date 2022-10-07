@@ -45,21 +45,28 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                             width: 20,
                             height: 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: getInputField(" Ingrese un mensaje"),
+                          Flexible(
+                            flex: 8,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child:
+                                  getInputField(" Ingrese un mensaje", context),
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: getIconButtonStyle(
-                                secondaryColor,
-                                IconButton(
-                                  iconSize: 30.0,
-                                  icon: const Icon(Icons.send),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )),
+                          Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: getIconButtonStyle(
+                                  secondaryColor,
+                                  IconButton(
+                                    iconSize: 30.0,
+                                    icon: const Icon(Icons.send),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )),
+                            ),
                           ),
                           const SizedBox(
                             width: 20,
