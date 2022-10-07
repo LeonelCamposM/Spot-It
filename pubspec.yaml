@@ -38,6 +38,8 @@ dependencies:
   firebase_core: ^1.16.0
   socket_io_client: ^1.0.2
   jsonize: ^1.6.2
+  popup_card: ^0.1.0
+  flutter_screenutil: ^5.5.4
 
 dev_dependencies:
   flutter_test:
