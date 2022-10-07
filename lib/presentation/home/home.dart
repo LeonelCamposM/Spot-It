@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
+import 'package:spot_it_game/presentation/core/focus_box.dart';
+import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 class HomePage extends StatefulWidget {
@@ -35,11 +38,11 @@ class _RoomPageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 09, 114, 171),
+      backgroundColor: getPrimaryColor(),
       appBar: AppBar(
           title: const Text('Inicio'),
           automaticallyImplyLeading: false,
-          backgroundColor: const Color.fromARGB(255, 06, 70, 99)),
+          backgroundColor: getSecondaryColor()),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -65,67 +68,80 @@ class _RoomWidgetState extends State<_RoomWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Flexible(
-          flex: 3,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // ignore: prefer_const_literals_to_create_immutables
+        getFocusBox(
+          Column(
             children: [
-              const Image(
-                image: AssetImage('assets/logo.png'),
-              ),
-              const Text(
-                "Spot it!",
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                flex: 3,
+                child: 
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Flexible(
+                      flex: 3,
+                      child:
+                      Image(
+                        image: AssetImage('assets/logo.png'),
+                      ),
+                    ), 
+                    const Flexible(
+                      flex: 1,
+                      child:
+                        Text(
+                          "Spot it!",
+                          style: TextStyle(
+                            fontSize: 38,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-        Flexible(
-          flex: 2,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                style: style,
-                onPressed: () => clientService.emitCreateRoom(
-                  "user name",
+              Flexible(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: style,
+                      onPressed: () => clientService.emitCreateRoom(
+                        "user name",
+                      ),
+                      child: const Text('ANFITRIÓN'),
+                    ),
+                    ElevatedButton(
+                      style: style,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WaitingRoomPage()),
+                        );
+                      },
+                      child: const Text('INVITADO'),
+                    ),
+                  ],
                 ),
-                child: const Text('ANFITRIÓN'),
-              ),
-              ElevatedButton(
-                style: style,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const WaitingRoomPage()),
-                  );
-                },
-                child: const Text('INVITADO'),
-              ),
-            ],
+              ),],
+          ), 600, 800),
+          Flexible(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                getIconButtonStyle(getSecondaryColor(), IconButton(
+                  iconSize: getIconSize(),
+                  icon: const Icon(Icons.receipt),
+                  onPressed: () async {},
+                )
+                ),
+              ],
+            ),
           ),
-        ),
-        Flexible(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                iconSize: 35.0,
-                icon: const Icon(Icons.receipt),
-                color: const Color.fromARGB(255, 06, 70, 99),
-                onPressed: () async {},
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }
