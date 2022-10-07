@@ -20,7 +20,8 @@ class _CardUsageState extends State<CardUsage> {
   CardUseCase cardUseCase =
       CardUseCase(CardRepository(FirebaseFirestore.instance));
   Iterable<CardModel> deckData = [];
-
+  Color secondaryColor = const Color.fromARGB(255, 60, 60, 60);
+  Color primaryColor = const Color.fromARGB(255, 09, 114, 171);
   bool isLoading;
 
   @override
@@ -40,9 +41,9 @@ class _CardUsageState extends State<CardUsage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: primaryColor,
       appBar: AppBar(
-          title: const Text('Guia cartas'),
-          backgroundColor: const Color.fromARGB(255, 60, 60, 60)),
+          title: const Text('Guia cartas'), backgroundColor: secondaryColor),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -65,6 +66,8 @@ class _RoomWidget extends StatefulWidget {
 class _RoomWidgetState extends State<_RoomWidget> {
   final Iterable<CardModel> deck;
   _RoomWidgetState(this.deck);
+  Color secondaryColor = const Color.fromARGB(255, 109, 31, 138);
+  Color primaryColor = const Color.fromARGB(255, 156, 33, 201);
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              openChat(context),
+              openChat(context, secondaryColor, primaryColor),
               getCardStyle(deck.elementAt(0), 300),
               getCardStyle(deck.elementAt(0), 200),
               getCardStyle(deck.elementAt(0), 100),

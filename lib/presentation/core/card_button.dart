@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-Card getIconButton(IconData icon) {
+Card getIconButton(IconData icon, Color secondaryColor) {
   return Card(
     elevation: 10,
-    color: const Color.fromARGB(164, 0, 0, 0),
+    color: secondaryColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(35.0),
     ),
@@ -11,7 +11,6 @@ Card getIconButton(IconData icon) {
     child: SizedBox(
       width: 50,
       height: 50,
-      // ignore: prefer_const_constructors
       child: Icon(
         icon,
         color: const Color.fromARGB(255, 255, 255, 255),

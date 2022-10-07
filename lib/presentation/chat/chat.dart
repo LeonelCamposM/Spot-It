@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/core/card_button.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 
-IconButton openChat(context) {
+IconButton openChat(context, Color secondaryColor, Color primaryColor) {
   return IconButton(
     onPressed: () {
       showDialog(
@@ -12,7 +12,7 @@ IconButton openChat(context) {
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(32.0))),
                 contentPadding: const EdgeInsets.only(top: 10.0),
-                backgroundColor: Color.fromARGB(255, 156, 33, 201),
+                backgroundColor: primaryColor,
                 // ignore: prefer_const_literals_to_create_immutables
                 content: Stack(children: [
                   Column(
@@ -22,7 +22,7 @@ IconButton openChat(context) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          getIconButton(Icons.close),
+                          getIconButton(Icons.close, secondaryColor),
                           const SizedBox(
                             width: 20,
                             height: 20,
@@ -37,8 +37,14 @@ IconButton openChat(context) {
                             width: 20,
                             height: 20,
                           ),
-                          getInputField(" Ingrese un mensaje"),
-                          getIconButton(Icons.send),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: getInputField(" Ingrese un mensaje"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: getIconButton(Icons.send, secondaryColor),
+                          ),
                           const SizedBox(
                             width: 20,
                             height: 20,
