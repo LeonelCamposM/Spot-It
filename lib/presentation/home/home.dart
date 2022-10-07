@@ -1,24 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
-import 'package:spot_it_game/domain/rooms/room.dart';
-import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
-class RoomPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   static String routeName = '/';
-  const RoomPage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<RoomPage> createState() => _RoomPageState();
+  State<HomePage> createState() => _RoomPageState();
 }
 
-class _RoomPageState extends State<RoomPage> {
+class _RoomPageState extends State<HomePage> {
   _RoomPageState() : isLoading = true;
-  final _roomUseCase = RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+  // TODO final _roomUseCase = RoomUseCase(RoomRepository(FirebaseFirestore.instance));
   bool isLoading;
 
   @override
@@ -28,8 +24,9 @@ class _RoomPageState extends State<RoomPage> {
   }
 
   Future<void> addRoom() async {
-    Room newRoom = Room("leonel", true);
-    await _roomUseCase.createRoom(newRoom);
+    // TODO move
+    // Room newRoom = Room("leonel", true);
+    // await _roomUseCase.createRoom(newRoom);
     setState(() {
       isLoading = false;
     });
@@ -41,6 +38,7 @@ class _RoomPageState extends State<RoomPage> {
       backgroundColor: const Color.fromARGB(255, 09, 114, 171),
       appBar: AppBar(
           title: const Text('Inicio'),
+          automaticallyImplyLeading: false,
           backgroundColor: const Color.fromARGB(255, 06, 70, 99)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -122,7 +120,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
               IconButton(
                 iconSize: 35.0,
                 icon: const Icon(Icons.receipt),
-                color: Color.fromARGB(255, 06, 70, 99),
+                color: const Color.fromARGB(255, 06, 70, 99),
                 onPressed: () async {},
               ),
             ],
