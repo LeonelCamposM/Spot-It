@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/core/card_button.dart';
+import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 
 IconButton openChat(context, Color secondaryColor, Color primaryColor) {
   return IconButton(
+    iconSize: getIconSize(),
     onPressed: () {
       showDialog(
           context: context,
@@ -22,9 +23,16 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          getIconButton(Icons.close, secondaryColor),
+                          getIconButtonStyle(
+                              secondaryColor,
+                              IconButton(
+                                iconSize: 30.0,
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              )),
                           const SizedBox(
-                            width: 20,
                             height: 20,
                           ),
                         ],
@@ -43,7 +51,15 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
-                            child: getIconButton(Icons.send, secondaryColor),
+                            child: getIconButtonStyle(
+                                secondaryColor,
+                                IconButton(
+                                  iconSize: 30.0,
+                                  icon: const Icon(Icons.send),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )),
                           ),
                           const SizedBox(
                             width: 20,
