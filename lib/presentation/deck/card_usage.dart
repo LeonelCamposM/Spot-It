@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/application/cards/deck_use_case.dart';
+import 'package:spot_it_game/application/deck/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
-import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
-import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
+import 'package:spot_it_game/domain/cards/card_data.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+
+import '../../domain/deck/deck.dart';
+import '../../infrastructure/deck/deck_repository.dart';
 
 class CardUsage extends StatefulWidget {
   static String routeName = '/card_usage';
@@ -17,11 +19,10 @@ class CardUsage extends StatefulWidget {
 
 class _CardUsageState extends State<CardUsage> {
   _CardUsageState() : isLoading = true;
-  CardUseCase cardUseCase =
-      CardUseCase(CardRepository(FirebaseFirestore.instance));
+  DeckUseCase deckUseCase =
+      DeckUseCase(DeckRepository(FirebaseFirestore.instance));
   Iterable<CardModel> deckData = [];
-  Color secondaryColor = const Color.fromARGB(255, 60, 60, 60);
-  Color primaryColor = const Color.fromARGB(255, 09, 114, 171);
+
   bool isLoading;
 
   @override
@@ -31,7 +32,7 @@ class _CardUsageState extends State<CardUsage> {
   }
 
   Future<void> addRoom() async {
-    final deck = await cardUseCase.getDeck();
+    final deck = await deckUseCase.getDeck();
     setState(() {
       deckData = deck;
       isLoading = false;
@@ -41,9 +42,9 @@ class _CardUsageState extends State<CardUsage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
       appBar: AppBar(
-          title: const Text('Guia cartas'), backgroundColor: secondaryColor),
+          title: const Text('Guia cartas'),
+          backgroundColor: const Color.fromARGB(255, 60, 60, 60)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -66,8 +67,6 @@ class _RoomWidget extends StatefulWidget {
 class _RoomWidgetState extends State<_RoomWidget> {
   final Iterable<CardModel> deck;
   _RoomWidgetState(this.deck);
-  Color secondaryColor = const Color.fromARGB(255, 109, 31, 138);
-  Color primaryColor = const Color.fromARGB(255, 156, 33, 201);
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +78,26 @@ class _RoomWidgetState extends State<_RoomWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              openChat(context, secondaryColor, primaryColor),
+              Text(deck.first.toString()),
+              // DropdownButton<CardModel>(
+              //     hint: const Text('Cartas'),
+              //     items: widget.deck
+              //         .map(
+              //           (d) => DropdownMenuItem<CardModel>(
+              //             child: Text(d.iconOne + d.iconTwo + d.iconThree),
+              //             value: d,
+              //           ),
+              //         )
+              //         .toList(),
+              //     onChanged: (dimension) {})
+
+              // renderig card
               getCardStyle(deck.elementAt(0), 300),
-              getCardStyle(deck.elementAt(0), 200),
-              getCardStyle(deck.elementAt(0), 100),
-              getCardStyle(deck.elementAt(0), 200),
-              getCardStyle(deck.elementAt(0), 200),
-              getCardStyle(deck.elementAt(0), 200),
+              // getCardStyle(card, 200),
+              // getCardStyle(card, 100),
+              // getCardStyle(card, 200),
+              // getCardStyle(card, 200),
+              // getCardStyle(card, 200),
             ],
           ),
         ),

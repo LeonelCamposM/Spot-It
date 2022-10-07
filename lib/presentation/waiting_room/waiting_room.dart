@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/cards/card_usage.dart';
+import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
+import 'package:spot_it_game/presentation/core/focus_box.dart';
+import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
+
+import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -38,7 +43,9 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: getPrimaryColor(),
       appBar: AppBar(
+        backgroundColor: getSecondaryColor(),
         title: const Text('Sala de espera'),
         automaticallyImplyLeading: false,
       ),
@@ -47,88 +54,93 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
         child: Column(
           children: [
             Flexible(
-              flex: 1,
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    iconSize: 30.0,
-                    icon: const Icon(Icons.home),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
-                    },
+                  getIconButtonStyle(
+                    getSecondaryColor(),
+                    IconButton(
+                      iconSize: getIconSize(),
+                      icon: const Icon(Icons.home),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
+                      },
+                    ),
                   ),
-                  IconButton(
-                    iconSize: 30.0,
-                    icon: const Icon(Icons.chat),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
-                    },
-                  ),
+                  getIconButtonStyle(
+                      getSecondaryColor(),
+                      openChat(
+                          context, getSecondaryColor(), getPrimaryColor())),
                 ],
               ),
             ),
-            Flexible(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            getFocusBox(
+              Column(
                 children: [
-                  IconButton(
-                    iconSize: 30.0,
-                    icon: const Icon(Icons.content_copy),
-                    color: Colors.white,
-                    onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: roomID));
-                    },
+                  Flexible(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        getIconButtonStyle(
+                          getSecondaryColor(),
+                          IconButton(
+                            iconSize: getIconSize(),
+                            icon: const Icon(Icons.content_copy),
+                            onPressed: () async {
+                              await Clipboard.setData(
+                                  ClipboardData(text: roomID));
+                            },
+                          ),
+                        ),
+                        Text(roomID, style: const TextStyle(fontSize: 20.0)),
+                      ],
+                    ),
                   ),
-                  Text(roomID, style: const TextStyle(fontSize: 20.0)),
+                  const Text("", style: TextStyle(fontSize: 40.0)),
+                  Flexible(
+                    flex: 4,
+                    child: SizedBox(
+                        height: 150,
+                        width: 850,
+                        child: _horizontalList(4, names, icons)),
+                  ),
+                  Flexible(
+                      flex: 4,
+                      child: SizedBox(
+                          height: 150,
+                          width: 850,
+                          child: _horizontalList(4, names, icons))),
+                  const Text("", style: TextStyle(fontSize: 40.0)),
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: getButtonStyle(
+                              150, 60, 20.0, getSecondaryColor()),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const CardUsage()),
+                            );
+                          },
+                          child: const Text("Comenzar"),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-            const Text("", style: TextStyle(fontSize: 40.0)),
-            Flexible(
-              flex: 4,
-              child: SizedBox(
-                  height: 150,
-                  width: 850,
-                  child: _horizontalList(4, names, icons)),
-            ),
-            Flexible(
-                flex: 4,
-                child: SizedBox(
-                    height: 150,
-                    width: 850,
-                    child: _horizontalList(4, names, icons))),
-            const Text("", style: TextStyle(fontSize: 40.0)),
-            Flexible(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    style: getButtonStyle(
-                        150, 60, 20.0, const Color.fromARGB(255, 75, 79, 72)),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CardUsage()),
-                      );
-                    },
-                    child: const Text("Comenzar"),
-                  ),
-                ],
-              ),
+              500,
+              900,
             ),
           ],
         ),
