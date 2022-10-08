@@ -104,7 +104,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 15.0),
-                          child: Text(roomID, style: const TextStyle(fontSize: 20.0)),
+                          child: Text("   " + roomID,
+                              style: const TextStyle(fontSize: 20.0)),
                         ),
                       ],
                     ),
@@ -134,13 +135,12 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                           ElevatedButton(
                             style: getButtonStyle(
                                 200, 60, 20.0, getSecondaryColor()),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const GamePage()
-                                    ),
-                                  );
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const GamePage()),
+                              );
                             },
                             child: getText("COMENZAR", 25, Alignment.center),
                           ),
