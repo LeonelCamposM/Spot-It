@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/cards/card_usage.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
@@ -54,7 +55,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
         child: Column(
           children: [
             Flexible(
-              flex: 1,
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -87,18 +88,25 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        getIconButtonStyle(
-                          getSecondaryColor(),
-                          IconButton(
-                            iconSize: getIconSize(),
-                            icon: const Icon(Icons.content_copy),
-                            onPressed: () async {
-                              await Clipboard.setData(
-                                  ClipboardData(text: roomID));
-                            },
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: getIconButtonStyle(
+                            getSecondaryColor(),
+                            IconButton(
+                              iconSize: getIconSize(),
+                              icon: const Icon(Icons.content_copy),
+                              onPressed: () async {
+                                await Clipboard.setData(
+                                    ClipboardData(text: roomID));
+                              },
+                            ),
                           ),
                         ),
-                        Text(roomID, style: const TextStyle(fontSize: 20.0)),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: Text("   " + roomID,
+                              style: const TextStyle(fontSize: 20.0)),
+                        ),
                       ],
                     ),
                   ),
@@ -118,23 +126,26 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                           child: _horizontalList(4, names, icons))),
                   const Text("", style: TextStyle(fontSize: 40.0)),
                   Flexible(
-                    flex: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: getButtonStyle(
-                              150, 60, 20.0, getSecondaryColor()),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const CardUsage()),
-                            );
-                          },
-                          child: const Text("Comenzar"),
-                        ),
-                      ],
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            style: getButtonStyle(
+                                200, 60, 20.0, getSecondaryColor()),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const GamePage()),
+                              );
+                            },
+                            child: getText("COMENZAR", 25, Alignment.center),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -102,9 +102,12 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
                           IconButton(
                             iconSize: getIconSize(),
                             icon: const Icon(Icons.list),
-                            onPressed: () async {
-                              await Clipboard.setData(
-                                  ClipboardData(text: roomID));
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()),
+                              );
                             },
                           ),
                         ),
