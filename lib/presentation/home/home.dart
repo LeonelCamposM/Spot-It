@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -23,6 +24,11 @@ class _RoomPageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     addRoom();
   }
 
@@ -71,77 +77,78 @@ class _RoomWidgetState extends State<_RoomWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         getFocusBox(
-          Column(
-            children: [
-              Flexible(
-                flex: 3,
-                child: 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const Flexible(
-                      flex: 3,
-                      child:
-                      Image(
-                        image: AssetImage('assets/logo.png'),
+            Column(
+              children: [
+                Flexible(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Flexible(
+                        flex: 3,
+                        child: Image(
+                          image: AssetImage('assets/logo.png'),
+                        ),
                       ),
-                    ), 
-                    const Flexible(
-                      flex: 1,
-                      child:
-                        Text(
+                      const Flexible(
+                        flex: 1,
+                        child: Text(
                           "Spot it!",
                           style: TextStyle(
                             fontSize: 38,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      style: style,
-                      onPressed: () => clientService.emitCreateRoom(
-                        "user name",
                       ),
-                      child: const Text('ANFITRIÓN'),
-                    ),
-                    ElevatedButton(
-                      style: style,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WaitingRoomPage()),
-                        );
-                      },
-                      child: const Text('INVITADO'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),],
-          ), 600, 800),
-          Flexible(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                getIconButtonStyle(getSecondaryColor(), IconButton(
-                  iconSize: getIconSize(),
-                  icon: const Icon(Icons.receipt),
-                  onPressed: () async {},
-                )
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: style,
+                        onPressed: () => clientService.emitCreateRoom(
+                          "user name",
+                        ),
+                        child: const Text('ANFITRIÓN'),
+                      ),
+                      ElevatedButton(
+                        style: style,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const WaitingRoomPage()),
+                          );
+                        },
+                        child: const Text('INVITADO'),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
+            600,
+            800),
+        Flexible(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              getIconButtonStyle(
+                  getSecondaryColor(),
+                  IconButton(
+                    iconSize: getIconSize(),
+                    icon: const Icon(Icons.receipt),
+                    onPressed: () async {},
+                  )),
+            ],
           ),
+        ),
       ],
     );
   }

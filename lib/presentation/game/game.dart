@@ -1,10 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:spot_it_game/application/cards/deck_use_case.dart';
+import 'package:spot_it_game/domain/cards/card_model.dart';
+import 'package:spot_it_game/domain/deck/deck.dart';
+import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
+import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-
 
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
@@ -14,34 +20,46 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePagePageState extends State<GamePage> {
+  CardUseCase cardUseCase =
+      CardUseCase(CardRepository(FirebaseFirestore.instance));
   _GamePagePageState() : isLoading = true;
   bool isLoading;
+  Iterable<CardModel> deckData = [];
 
   @override
   void initState() {
     super.initState();
+    getDeck();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  }
+
+  Future<void> getDeck() async {
+    final deckModel = await cardUseCase.getDeck();
+    setState(() {
+      deckData = deckModel;
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
-      appBar: AppBar(
-        title: const Text('Juego'),
-        automaticallyImplyLeading: false,
-        backgroundColor: getSecondaryColor(),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          children: getGameScreenWidget(context),
+          children: getGameScreenWidget(context, deckData),
         ),
       ),
     );
   }
 }
 
-Container getLeaderboard(){
+Container getLeaderboard() {
   return Container(
     width: 200,
     height: 200,
@@ -61,8 +79,10 @@ Container getLeaderboard(){
   );
 }
 
-Widget getChildrenWithIcon(BuildContext context, Icon icon, MaterialPageRoute route){
-  return getIconButtonStyle(getSecondaryColor(), 
+Widget getChildrenWithIcon(
+    BuildContext context, Icon icon, MaterialPageRoute route) {
+  return getIconButtonStyle(
+    getSecondaryColor(),
     IconButton(
       icon: icon,
       iconSize: getIconSize(),
@@ -77,38 +97,55 @@ Widget getChildrenWithIcon(BuildContext context, Icon icon, MaterialPageRoute ro
   );
 }
 
-
-List<Widget> getGameScreenWidget(BuildContext context){
-  return (
-    [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          getChildrenWithIcon(context, const Icon(Icons.home), 
-              MaterialPageRoute(builder: (context) => const HomePage())
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: getChildrenWithIcon(context, const Icon(Icons.question_mark_rounded),
-                  MaterialPageRoute(builder: (context) => const HomePage())
-                ),
-              ),
-              getIconButtonStyle(getSecondaryColor(), openChat(context, getSecondaryColor(), getPrimaryColor()),)
-            ],
-          ),
-        ],
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 18.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+List<Widget> getGameScreenWidget(
+    BuildContext context, Iterable<CardModel> deck) {
+  return ([
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        getChildrenWithIcon(context, const Icon(Icons.home),
+            MaterialPageRoute(builder: (context) => const HomePage())),
+        Row(
           children: [
-            getLeaderboard(),
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: getChildrenWithIcon(
+                  context,
+                  const Icon(Icons.question_mark_rounded),
+                  MaterialPageRoute(builder: (context) => const HomePage())),
+            ),
+            getIconButtonStyle(
+              getSecondaryColor(),
+              openChat(context, getSecondaryColor(), getPrimaryColor()),
+            ),
           ],
         ),
+      ],
+    ),
+    Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // getLeaderboard(),
+        ],
       ),
-    ]
-  );
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        getCardStyle(deck.elementAt(0), 100),
+        getCardStyle(deck.elementAt(0), 100),
+        getCardStyle(deck.elementAt(0), 100),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        getCardStyle(deck.elementAt(0), 100),
+        getCardStyle(deck.elementAt(0), 100),
+        getCardStyle(deck.elementAt(0), 100),
+      ],
+    )
+  ]);
 }
