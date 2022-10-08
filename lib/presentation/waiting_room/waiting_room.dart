@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
+import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
@@ -59,19 +60,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  getIconButtonStyle(
-                    getSecondaryColor(),
-                    IconButton(
-                      iconSize: getIconSize(),
-                      icon: const Icon(Icons.home),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()),
-                        );
-                      },
-                    ),
+                  getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
+                      MaterialPageRoute(builder: (context) => const HomePage())
                   ),
                   getIconButtonStyle(
                       getSecondaryColor(),
@@ -82,6 +72,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
             ),
             getFocusBox(
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
                     flex: 2,

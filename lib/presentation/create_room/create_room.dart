@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
+import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/create_room/colors.dart';
@@ -23,17 +24,17 @@ class _HostCreateRoomPageState extends State<HostCreateRoomPage> {
   _HostCreateRoomPageState() : isLoading = true;
   bool isLoading;
 
-  List<IconData> userIcons = [
-    Icons.account_circle,
-    Icons.face,
-    Icons.face_2,
-    Icons.face_3,
-    Icons.face_4,
-    Icons.face_5,
-    Icons.face_6,
-    Icons.boy,
-    Icons.girl
-  ];
+  // List<IconData> userIcons = [
+  //   Icons.account_circle,
+  //   Icons.face,
+  //   Icons.face_2,
+  //   Icons.face_3,
+  //   Icons.face_4,
+  //   Icons.face_5,
+  //   Icons.face_6,
+  //   Icons.boy,
+  //   Icons.girl
+  // ];
 
   @override
   void initState() {
@@ -73,7 +74,7 @@ class _RoomWidget extends StatefulWidget {
 class _RoomWidgetState extends State<_RoomWidget> {
   final ClientService clientService = ClientService();
   final ButtonStyle style =
-      getButtonStyle(650, 85, 30.0, const Color.fromARGB(255, 76, 7, 112));
+      getButtonStyle(650, 85, 30.0, getSecondaryColor());
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +85,8 @@ class _RoomWidgetState extends State<_RoomWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                getIconButtonStyle(
-                    getSecondaryColor(),
-                    IconButton(
-                        iconSize: getIconSize(),
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
-                        }))
+                getChildrenWithIcon(context, const Icon(Icons.arrow_back), getSecondaryColor(),
+                        MaterialPageRoute(builder: (context) => const HomePage())),
               ],
             )),
         getFocusBox(
@@ -105,18 +96,32 @@ class _RoomWidgetState extends State<_RoomWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    getIconButtonStyle(
-                        getSecondaryColor(),
-                        IconButton(
-                            iconSize: getIconSize(),
-                            icon: const Icon(Icons.face),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
-                              );
-                            })),
+                    Flexible(
+                      flex: 3,
+                      child: SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: Card(
+                            elevation: 10,
+                            color: getSecondaryColor(),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(35.0),
+                            ),
+                            child: 
+                              IconButton(
+                                iconSize:100.0,
+                                icon: const Icon(Icons.face),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const HomePage()),
+                                  );
+                                },
+                              ),
+                            ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -130,7 +135,8 @@ class _RoomWidgetState extends State<_RoomWidget> {
                       SizedBox(
                           height: 70,
                           width: 610,
-                          child: getInputField("Ingrese su nombre", context)),
+                          child: getInputField("Ingrese su nombre", context)
+                      ),
                       ElevatedButton(
                         style: style,
                         onPressed: () {
