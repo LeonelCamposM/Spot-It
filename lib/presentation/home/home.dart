@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
+import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
@@ -133,12 +134,8 @@ class _RoomWidgetState extends State<_RoomWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                getIconButtonStyle(getSecondaryColor(), IconButton(
-                  iconSize: getIconSize(),
-                  icon: const Icon(Icons.receipt),
-                  onPressed: () async {},
-                )
-                ),
+                getChildrenWithIcon(context, const Icon(Icons.question_mark_rounded), getSecondaryColor(),
+                        MaterialPageRoute(builder: (context) => const HomePage())),
               ],
             ),
           ),
