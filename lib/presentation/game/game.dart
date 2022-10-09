@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
+import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
@@ -61,21 +62,6 @@ Container getLeaderboard(){
   );
 }
 
-Widget getChildrenWithIcon(BuildContext context, Icon icon, MaterialPageRoute route){
-  return getIconButtonStyle(getSecondaryColor(), 
-    IconButton(
-      icon: icon,
-      iconSize: getIconSize(),
-      alignment: Alignment.center,
-      onPressed: () {
-        Navigator.push(
-          context,
-          route,
-        );
-      },
-    ),
-  );
-}
 
 
 List<Widget> getGameScreenWidget(BuildContext context){
@@ -84,14 +70,14 @@ List<Widget> getGameScreenWidget(BuildContext context){
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          getChildrenWithIcon(context, const Icon(Icons.home), 
+          getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
               MaterialPageRoute(builder: (context) => const HomePage())
           ),
           Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
-                child: getChildrenWithIcon(context, const Icon(Icons.question_mark_rounded),
+                child: getChildrenWithIcon(context, const Icon(Icons.question_mark_rounded), getSecondaryColor(),
                   MaterialPageRoute(builder: (context) => const HomePage())
                 ),
               ),
