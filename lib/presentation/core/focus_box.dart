@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Container getFocusBox(Column column, double height, double width) {
+Container getFocusBox(Widget widget, double height, double width) {
   return Container(
       height: height,
       width: width,
@@ -8,5 +8,5 @@ Container getFocusBox(Column column, double height, double width) {
           color: Color.fromARGB(140, 0, 0, 0),
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      child: column);
+      child: widget);
 }
