@@ -24,18 +24,6 @@ class _HostCreateRoomPageState extends State<HostCreateRoomPage> {
   _HostCreateRoomPageState() : isLoading = true;
   bool isLoading;
 
-  // List<IconData> userIcons = [
-  //   Icons.account_circle,
-  //   Icons.face,
-  //   Icons.face_2,
-  //   Icons.face_3,
-  //   Icons.face_4,
-  //   Icons.face_5,
-  //   Icons.face_6,
-  //   Icons.boy,
-  //   Icons.girl
-  // ];
-
   @override
   void initState() {
     super.initState();
@@ -73,8 +61,7 @@ class _RoomWidget extends StatefulWidget {
 
 class _RoomWidgetState extends State<_RoomWidget> {
   final ClientService clientService = ClientService();
-  final ButtonStyle style =
-      getButtonStyle(650, 85, 30.0, getSecondaryColor());
+  final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +72,11 @@ class _RoomWidgetState extends State<_RoomWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                getChildrenWithIcon(context, const Icon(Icons.arrow_back), getSecondaryColor(),
-                        MaterialPageRoute(builder: (context) => const HomePage())),
+                getChildrenWithIcon(
+                    context,
+                    const Icon(Icons.arrow_back),
+                    getSecondaryColor(),
+                    MaterialPageRoute(builder: (context) => const HomePage())),
               ],
             )),
         getFocusBox(
@@ -97,59 +87,107 @@ class _RoomWidgetState extends State<_RoomWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Flexible(
-                      flex: 3,
-                      child: SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Card(
-                            elevation: 10,
-                            color: getSecondaryColor(),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(35.0),
-                            ),
-                            child: 
-                              IconButton(
-                                iconSize:100.0,
-                                icon: const Icon(Icons.face),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
-                                  );
-                                },
+                        flex: 3,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Flexible(
+                              flex: 3,
+                              child: SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Card(
+                                  elevation: 10,
+                                  color: getSecondaryColor(),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  child: IconButton(
+                                    iconSize: 100.0,
+                                    icon: const Icon(
+                                        Icons.keyboard_double_arrow_left),
+                                    onPressed: () {
+                                      //
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
+                            Flexible(
+                              flex: 3,
+                              child: SizedBox(
+                                width: 250,
+                                height: 250,
+                                child: Card(
+                                  elevation: 10,
+                                  color: getSecondaryColor(),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  child: IconButton(
+                                    iconSize: 200.0,
+                                    icon: const Icon(Icons.face),
+                                    onPressed: () {
+                                      //
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Card(
+                                  elevation: 10,
+                                  color: getSecondaryColor(),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(35.0),
+                                  ),
+                                  child: IconButton(
+                                    iconSize: 100.0,
+                                    icon: const Icon(
+                                        Icons.keyboard_double_arrow_right),
+                                    onPressed: () {
+                                      //
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Flexible(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                                height: 70,
+                                width: 610,
+                                child: getInputField(
+                                    "Ingrese su nombre", context)),
+                            ElevatedButton(
+                              style: style,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const WaitingRoomPage()),
+                                );
+                              },
+                              child:
+                                  getText("CREAR SALA", 25, Alignment.center),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                          height: 70,
-                          width: 610,
-                          child: getInputField("Ingrese su nombre", context)
-                      ),
-                      ElevatedButton(
-                        style: style,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const WaitingRoomPage()),
-                          );
-                        },
-                        child: getText("CREAR SALA", 25, Alignment.center),
-                      )
-                    ],
-                  ),
                 ),
               ),
             ]),
