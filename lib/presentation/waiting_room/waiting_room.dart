@@ -120,8 +120,7 @@ Row getIDBanner(String roomID) {
 // @param names: Player names in order
 // @param icons: Player images in order
 // @return Container with horizontal list view
-Container getHorizontalList(List<String> names, List<IconData> icons,
-    double safeBlockVertical, double safeBlockHorizontal) {
+Container getHorizontalList(List<String> names, List<IconData> icons) {
   return Container(
       alignment: Alignment.center,
       child: ListView(
@@ -133,8 +132,8 @@ Container getHorizontalList(List<String> names, List<IconData> icons,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
-                  width: safeBlockVertical * 17,
-                  height: safeBlockHorizontal * 9,
+                  width: SizeConfig.blockSizeVertical * 17,
+                  height: SizeConfig.blockSizeHorizontal * 9,
                   decoration: BoxDecoration(
                       color: Colors
                           .primaries[Random().nextInt(Colors.primaries.length)],
@@ -144,10 +143,11 @@ Container getHorizontalList(List<String> names, List<IconData> icons,
                     children: [
                       Icon(
                         icons[index],
-                        size: safeBlockVertical * 10,
+                        size: SizeConfig.blockSizeVertical * 10,
                       ),
                       Text(names[index],
-                          style: TextStyle(fontSize: safeBlockHorizontal))
+                          style: TextStyle(
+                              fontSize: SizeConfig.blockSizeHorizontal))
                     ],
                   )),
             ]),
@@ -165,13 +165,14 @@ Column getPlayersList(List<String> names, List<IconData> icons) {
       SizedBox(
           height: SizeConfig.safeBlockVertical * 20,
           width: SizeConfig.safeBlockHorizontal * 40,
-          child: getHorizontalList(names, icons, SizeConfig.safeBlockVertical,
-              SizeConfig.blockSizeHorizontal)),
+          child: getHorizontalList(names, icons)),
       SizedBox(
           height: SizeConfig.safeBlockVertical * 20,
           width: SizeConfig.safeBlockHorizontal * 40,
-          child: getHorizontalList(names, icons, SizeConfig.safeBlockVertical,
-              SizeConfig.blockSizeHorizontal)),
+          child: getHorizontalList(
+            names,
+            icons,
+          )),
     ],
   );
 }
