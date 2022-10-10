@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
-import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
-import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
-import 'dart:math';
-
 import 'package:spot_it_game/presentation/waiting_room/colors.dart';
+import 'dart:math';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -20,9 +19,7 @@ class WaitingRoomPage extends StatefulWidget {
 }
 
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
-  _WaitingRoomPageState() : isLoading = true;
-
-  bool isLoading;
+  // Testing data
   List<IconData> icons = [
     Icons.soap,
     Icons.nearby_error,
@@ -35,153 +32,146 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   void initState() {
     super.initState();
-    addRoom();
-  }
-
-  Future<void> addRoom() async {
-    isLoading = false;
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
-      appBar: AppBar(
-        backgroundColor: getSecondaryColor(),
-        title: const Text('Sala de espera'),
-        automaticallyImplyLeading: false,
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Flexible(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
-                      MaterialPageRoute(builder: (context) => const HomePage())
-                  ),
-                  getIconButtonStyle(
-                      getSecondaryColor(),
-                      openChat(
-                          context, getSecondaryColor(), getPrimaryColor())),
-                ],
-              ),
-            ),
-            getFocusBox(
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Home icon
+              getChildrenWithIcon(
+                  context,
+                  const Icon(Icons.home),
+                  getSecondaryColor(),
+                  MaterialPageRoute(builder: (context) => const HomePage())),
+
+              // Main screen
+              Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: getFocusBox(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: getIconButtonStyle(
+                        // Room ID
+                        getIDBanner(roomID),
+
+                        // Players list view
+                        getPlayersList(names, icons),
+
+                        // Start button
+                        getTextButton(
+                            "COMENZAR",
+                            SizeConfig.safeBlockHorizontal * 20,
+                            SizeConfig.safeBlockVertical * 10,
+                            SizeConfig.safeBlockHorizontal * 2,
                             getSecondaryColor(),
-                            IconButton(
-                              iconSize: getIconSize(),
-                              icon: const Icon(Icons.content_copy),
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                    ClipboardData(text: roomID));
-                              },
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: Text("   " + roomID,
-                              style: const TextStyle(fontSize: 20.0)),
-                        ),
+                            const GamePage(),
+                            context)
                       ],
                     ),
-                  ),
-                  const Text("", style: TextStyle(fontSize: 40.0)),
-                  Flexible(
-                    flex: 4,
-                    child: SizedBox(
-                        height: 150,
-                        width: 850,
-                        child: _horizontalList(4, names, icons)),
-                  ),
-                  Flexible(
-                      flex: 4,
-                      child: SizedBox(
-                          height: 150,
-                          width: 850,
-                          child: _horizontalList(4, names, icons))),
-                  const Text("", style: TextStyle(fontSize: 40.0)),
-                  Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            style: getButtonStyle(
-                                200, 60, 20.0, getSecondaryColor()),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const GamePage()),
-                              );
-                            },
-                            child: getText("COMENZAR", 25, Alignment.center),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                    SizeConfig.safeBlockVertical * 85,
+                    SizeConfig.safeBlockHorizontal * 50),
               ),
-              500,
-              900,
-            ),
-          ],
-        ),
-      ),
+
+              // Chat icon
+              getIconButtonStyle(getSecondaryColor(),
+                  openChat(context, getSecondaryColor(), getPrimaryColor())),
+            ],
+          )),
     );
   }
 }
 
-Container _horizontalList(int n, List<String> names, List<IconData> icons) {
+// @param names: Player names in order
+// @param icons: Player images in order
+// @return Container with horizontal list view
+Row getIDBanner(String roomID) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      getIconButtonStyle(
+        getSecondaryColor(),
+        IconButton(
+          iconSize: getIconSize(),
+          icon: const Icon(Icons.content_copy),
+          onPressed: () async {
+            await Clipboard.setData(ClipboardData(text: roomID));
+          },
+        ),
+      ),
+      Text("   " + roomID,
+          style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 2)),
+    ],
+  );
+}
+
+// @param names: Player names in order
+// @param icons: Player images in order
+// @return Container with horizontal list view
+Container getHorizontalList(List<String> names, List<IconData> icons,
+    double safeBlockVertical, double safeBlockHorizontal) {
   return Container(
-    alignment: Alignment.center,
-    child: ListView(
-      scrollDirection: Axis.horizontal,
-      children: List.generate(
-        n,
-        (i) => Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            width: 200,
-            height: 200,
-            alignment: Alignment.center,
+      alignment: Alignment.center,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(
+          names.length,
+          (index) => Padding(
+            padding: const EdgeInsets.only(right: 15),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
-                  width: 75,
-                  height: 75,
+                  width: safeBlockVertical * 17,
+                  height: safeBlockHorizontal * 9,
                   decoration: BoxDecoration(
                       color: Colors
                           .primaries[Random().nextInt(Colors.primaries.length)],
                       shape: BoxShape.circle),
-                  child: Icon(
-                    icons[i],
-                    size: 50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        icons[index],
+                        size: safeBlockVertical * 10,
+                      ),
+                      Text(names[index],
+                          style: TextStyle(fontSize: safeBlockHorizontal))
+                    ],
                   )),
-              Text(names[i], style: const TextStyle(fontSize: 20.0))
             ]),
           ),
         ),
-      ),
-    ),
+      ));
+}
+
+// @param names: Player names in order
+// @param icons: Player images in order
+// @return Column with 2 horizontal lists
+Column getPlayersList(List<String> names, List<IconData> icons) {
+  return Column(
+    children: [
+      SizedBox(
+          height: SizeConfig.safeBlockVertical * 20,
+          width: SizeConfig.safeBlockHorizontal * 40,
+          child: getHorizontalList(names, icons, SizeConfig.safeBlockVertical,
+              SizeConfig.blockSizeHorizontal)),
+      SizedBox(
+          height: SizeConfig.safeBlockVertical * 20,
+          width: SizeConfig.safeBlockHorizontal * 40,
+          child: getHorizontalList(names, icons, SizeConfig.safeBlockVertical,
+              SizeConfig.blockSizeHorizontal)),
+    ],
   );
 }
