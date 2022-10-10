@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/cards/card_usage.dart';
-import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-import 'package:flutter/services.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
 
 import 'package:spot_it_game/presentation/scoreboard/colors.dart';
@@ -20,13 +18,6 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
   _ScoreboardPageState() : isLoading = true;
 
   bool isLoading;
-  List<IconData> icons = [
-    Icons.panorama_vertical,
-    Icons.leaderboard,
-    Icons.panorama_vertical_select,
-  ];
-  List<String> names = ["Sofia", "Nayeri", "Jeremy"];
-  String roomID = "Tabla de posiciones";
 
   @override
   void initState() {
@@ -111,21 +102,21 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
                             },
                           ),
                         ),
-                        Text(roomID,
-                            style: const TextStyle(fontSize: 20.0),
+                        const Text("Tabla de posiciones",
+                            style: TextStyle(fontSize: 20.0),
                             textAlign: TextAlign.center),
                         const Text("", style: TextStyle(fontSize: 20.0)),
                       ],
                     ),
                   ),
                   const Text("", style: TextStyle(fontSize: 40.0)),
-                  Flexible(
-                    flex: 4,
-                    child: SizedBox(
-                        height: 300,
-                        width: 850,
-                        child: _horizontalList(3, names, icons)),
-                  ),
+                  // Flexible(
+                  //   flex: 4,
+                  //   child: SizedBox(
+                  //       height: 300,
+                  //       width: 850,
+                  //       child: _horizontalList(3, names, icons)),
+                  // ),
                 ],
               ),
               500,
