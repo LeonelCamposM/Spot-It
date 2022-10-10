@@ -9,5 +9,9 @@ Color getSecondaryColor() {
 }
 
 Color getFontColor() {
-  return Color.fromARGB(255, 255, 255, 255);
+  return const Color.fromARGB(255, 255, 255, 255);
+}
+
+Color getColumnColor() {
+  return const Color.fromARGB(255, 201, 158, 62);
 }
