@@ -4,15 +4,12 @@ import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
-import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/create_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
-import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'dart:math';
 
 import '../core/text_button_style.dart';
 
@@ -77,6 +74,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                //Arrow back icon to get to the home page
                 getChildrenWithIcon(
                     context,
                     const Icon(Icons.arrow_back),
@@ -84,6 +82,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
                     MaterialPageRoute(builder: (context) => const HomePage())),
               ],
             )),
+        //Main screen
         getFocusBox(
             Column(children: [
               Flexible(
@@ -98,6 +97,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
                           children: [
                             Flexible(
                               flex: 3,
+                              // Double arrow back to get the previous icon
                               child: getButtonWithIcon(
                                   const Icon(Icons.keyboard_double_arrow_left),
                                   8.0,
@@ -106,11 +106,13 @@ class _RoomWidgetState extends State<_RoomWidget> {
                             ),
                             Flexible(
                               flex: 3,
+                              //Icon for the user
                               child: getButtonWithIcon(
                                   const Icon(Icons.face), 12.0, 18.0, 6.0),
                             ),
                             Flexible(
                               flex: 3,
+                              // Double arrow back to get the next icon
                               child: getButtonWithIcon(
                                   const Icon(Icons.keyboard_double_arrow_right),
                                   8,
@@ -132,6 +134,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
                               child:
                                   getInputField("Ingrese su nombre", context),
                             ),
+                            // Create Room Button
                             getTextButton(
                                 "CREAR SALA",
                                 SizeConfig.safeBlockHorizontal * 31,
@@ -155,6 +158,11 @@ class _RoomWidgetState extends State<_RoomWidget> {
   }
 }
 
+// @param newIcon: Icon for the button
+// @param boxWidth: size for the box's width
+// @param boxHeight: size fot the box's height
+// @param sizeIcon: icon's size
+// @return Container with horizontal list view
 Container getButtonWithIcon(
     Icon newIcon, double boxWidth, double boxHeight, double sizeIcon) {
   return Container(
