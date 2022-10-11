@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -10,12 +11,14 @@ import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'dart:math';
+
+import '../core/text_button_style.dart';
 
 class HostCreateRoomPage extends StatefulWidget {
   static String routeName = '/create_room';
   const HostCreateRoomPage({Key? key}) : super(key: key);
-
   @override
   State<HostCreateRoomPage> createState() => _HostCreateRoomPageState();
 }
@@ -28,6 +31,11 @@ class _HostCreateRoomPageState extends State<HostCreateRoomPage> {
   void initState() {
     super.initState();
     addRoom();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
   Future<void> addRoom() async {
@@ -36,12 +44,9 @@ class _HostCreateRoomPageState extends State<HostCreateRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
-      appBar: AppBar(
-          title: const Text('Crear sala'),
-          automaticallyImplyLeading: false,
-          backgroundColor: getSecondaryColor()),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -93,68 +98,24 @@ class _RoomWidgetState extends State<_RoomWidget> {
                           children: [
                             Flexible(
                               flex: 3,
-                              child: SizedBox(
-                                width: 150,
-                                height: 150,
-                                child: Card(
-                                  elevation: 10,
-                                  color: getSecondaryColor(),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(35.0),
-                                  ),
-                                  child: IconButton(
-                                    iconSize: 100.0,
-                                    icon: const Icon(
-                                        Icons.keyboard_double_arrow_left),
-                                    onPressed: () {
-                                      //
-                                    },
-                                  ),
-                                ),
-                              ),
+                              child: getButtonWithIcon(
+                                  const Icon(Icons.keyboard_double_arrow_left),
+                                  8.0,
+                                  14.0,
+                                  4.0),
                             ),
                             Flexible(
                               flex: 3,
-                              child: SizedBox(
-                                width: 250,
-                                height: 250,
-                                child: Card(
-                                  elevation: 10,
-                                  color: getSecondaryColor(),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(35.0),
-                                  ),
-                                  child: IconButton(
-                                    iconSize: 200.0,
-                                    icon: const Icon(Icons.face),
-                                    onPressed: () {
-                                      //
-                                    },
-                                  ),
-                                ),
-                              ),
+                              child: getButtonWithIcon(
+                                  const Icon(Icons.face), 12.0, 18.0, 6.0),
                             ),
                             Flexible(
                               flex: 3,
-                              child: SizedBox(
-                                width: 150,
-                                height: 150,
-                                child: Card(
-                                  elevation: 10,
-                                  color: getSecondaryColor(),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(35.0),
-                                  ),
-                                  child: IconButton(
-                                    iconSize: 100.0,
-                                    icon: const Icon(
-                                        Icons.keyboard_double_arrow_right),
-                                    onPressed: () {
-                                      //
-                                    },
-                                  ),
-                                ),
-                              ),
+                              child: getButtonWithIcon(
+                                  const Icon(Icons.keyboard_double_arrow_right),
+                                  8,
+                                  14.0,
+                                  4.0),
                             ),
                           ],
                         )),
@@ -166,23 +127,19 @@ class _RoomWidgetState extends State<_RoomWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             SizedBox(
-                                height: 70,
-                                width: 610,
-                                child: getInputField(
-                                    "Ingrese su nombre", context)),
-                            ElevatedButton(
-                              style: style,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const WaitingRoomPage()),
-                                );
-                              },
+                              height: SizeConfig.safeBlockVertical * 8,
+                              width: SizeConfig.safeBlockHorizontal * 31,
                               child:
-                                  getText("CREAR SALA", 25, Alignment.center),
-                            )
+                                  getInputField("Ingrese su nombre", context),
+                            ),
+                            getTextButton(
+                                "CREAR SALA",
+                                SizeConfig.safeBlockHorizontal * 31,
+                                SizeConfig.safeBlockVertical * 9,
+                                SizeConfig.safeBlockHorizontal * 2,
+                                getSecondaryColor(),
+                                const WaitingRoomPage(),
+                                context),
                           ],
                         ),
                       ),
@@ -191,9 +148,32 @@ class _RoomWidgetState extends State<_RoomWidget> {
                 ),
               ),
             ]),
-            600,
-            800), //focus box
+            SizeConfig.safeBlockVertical * 80,
+            SizeConfig.safeBlockHorizontal * 45), //focus box
       ],
     );
   }
+}
+
+Container getButtonWithIcon(
+    Icon newIcon, double boxWidth, double boxHeight, double sizeIcon) {
+  return Container(
+      child: SizedBox(
+    width: SizeConfig.safeBlockHorizontal * boxWidth,
+    height: SizeConfig.safeBlockVertical * boxHeight,
+    child: Card(
+      elevation: 10,
+      color: getSecondaryColor(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(35.0),
+      ),
+      child: IconButton(
+        iconSize: SizeConfig.safeBlockHorizontal * sizeIcon,
+        icon: newIcon,
+        onPressed: () {
+          //
+        },
+      ),
+    ),
+  ));
 }

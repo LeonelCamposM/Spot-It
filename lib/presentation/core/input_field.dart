@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
 
 Card getInputField(String inputMessage, context) {
   Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
@@ -6,7 +7,7 @@ Card getInputField(String inputMessage, context) {
     elevation: 10,
     color: backgroundColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(30.0),
     ),
     // ignore: prefer_const_constructors
     child: SizedBox(
@@ -16,7 +17,9 @@ Card getInputField(String inputMessage, context) {
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: "  " + inputMessage,
-            hintStyle: const TextStyle(color: Colors.black)),
+            hintStyle: TextStyle(
+                color: Colors.black,
+                fontSize: SizeConfig.safeBlockVertical * 4)),
       ),
     ),
   );
