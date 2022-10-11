@@ -6,13 +6,13 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 // @return returns a container with rendered card
 // @param card: CardData with all cards icons
 // @param size: te size will be assigned to width and height
-SizedBox getCardStyle(CardModel card) {
+SizedBox getCardStyle(CardModel card, int width, int height) {
   var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
   var cardBorderColor = Colors.black;
 
   return SizedBox(
-      width: SizeConfig.safeBlockHorizontal * 15,
-      height: SizeConfig.safeBlockHorizontal * 15,
+      width: SizeConfig.safeBlockHorizontal * width,
+      height: SizeConfig.safeBlockHorizontal * height,
       child: Container(
           decoration: BoxDecoration(
               border: Border.all(

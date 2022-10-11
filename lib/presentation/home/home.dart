@@ -5,6 +5,9 @@ import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/create_room/create_room.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
@@ -69,6 +72,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -87,15 +91,9 @@ class _RoomWidgetState extends State<_RoomWidget> {
                           image: AssetImage('assets/logo.png'),
                         ),
                       ),
-                      const Flexible(
+                      Flexible(
                         flex: 1,
-                        child: Text(
-                          "Spot it!",
-                          style: TextStyle(
-                            fontSize: 38,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        child: getText("Spot it!",SizeConfig.blockSizeHorizontal * 3, Alignment.center),
                       ),
                     ],
                   ),
@@ -105,34 +103,34 @@ class _RoomWidgetState extends State<_RoomWidget> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                        style: style,
-                        onPressed: () => clientService.emitCreateRoom(
-                          "user name",
-                        ),
-                        child: const Text('ANFITRIÓN'),
+                      getTextButton(
+                          "ANFITRIÓN",
+                          SizeConfig.safeBlockHorizontal * 30,
+                          SizeConfig.safeBlockVertical * 12,
+                          SizeConfig.safeBlockHorizontal * 2,
+                          getSecondaryColor(),
+                          const HostCreateRoomPage(),
+                          context
                       ),
-                      ElevatedButton(
-                        style: style,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const HostCreateRoomPage()),
-                          );
-                        },
-                        child: const Text('INVITADO'),
+                      getTextButton(
+                          "INVITADO",
+                          SizeConfig.safeBlockHorizontal * 30,
+                          SizeConfig.safeBlockVertical * 12,
+                          SizeConfig.safeBlockHorizontal * 2,
+                          getSecondaryColor(),
+                          const HostCreateRoomPage(),
+                          context
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            600,
-            800),
+            SizeConfig.safeBlockVertical * 80,
+            SizeConfig.safeBlockHorizontal * 50
+          ),
         Flexible(
-          flex: 2,
+          flex: 3,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -140,7 +138,8 @@ class _RoomWidgetState extends State<_RoomWidget> {
                   context,
                   const Icon(Icons.question_mark_rounded),
                   getSecondaryColor(),
-                  MaterialPageRoute(builder: (context) => const HomePage())),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+              ),
             ],
           ),
         ),

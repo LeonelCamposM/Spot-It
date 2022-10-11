@@ -8,6 +8,7 @@ import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
@@ -43,13 +44,9 @@ class _GamePagePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
-      appBar: AppBar(
-        title: const Text('Juego'),
-        automaticallyImplyLeading: false,
-        backgroundColor: getSecondaryColor(),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(0.0),
         child: Center(
@@ -89,25 +86,23 @@ class _GameWidgetState extends State<_GameWidget> {
 
 Container getLeaderboard(){
   return Container(
-    width: 200,
-    height: 200,
+    width: SizeConfig.blockSizeHorizontal * 12,
+    height: SizeConfig.blockSizeVertical * 20,
     decoration: const BoxDecoration(
       color: Color.fromARGB(100, 109, 31, 138),
       borderRadius: BorderRadius.all(Radius.circular(20)),
     ),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        getText("Posición", 18, Alignment.topCenter),
-        getText("1. Leo", 16, Alignment.topLeft),
-        getText("2. Jere", 16, Alignment.topLeft),
-        getText("3. Naye", 16, Alignment.topLeft),
+        getText("Posición", SizeConfig.blockSizeHorizontal * 1, Alignment.topCenter),
+        getText("1. Leo", SizeConfig.blockSizeHorizontal * 1, Alignment.topLeft),
+        getText("2. Jere", SizeConfig.blockSizeHorizontal * 1, Alignment.topLeft),
+        getText("3. Naye", SizeConfig.blockSizeHorizontal * 1, Alignment.topLeft),
       ],
     ),
   );
 }
-
-
 
 List<Widget> getGameScreenWidget(BuildContext context, Iterable<CardModel> deckData){
   return (
@@ -152,34 +147,34 @@ List<Widget> getGameScreenWidget(BuildContext context, Iterable<CardModel> deckD
                             Flexible(
                               flex: 1,
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 15.0, 0.0),
-                                child: getCardStyle(deckData.elementAt(0), 120),
+                                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 10, 10),
                               ),
                             ),
                             Flexible(
                               flex: 1,
-                              child: getCardStyle(deckData.elementAt(0), 120),
+                              child: getCardStyle(deckData.elementAt(0), 10, 10),
                             ),
                             Flexible(
                               flex: 1,
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(15.0, 40.0, 0.0, 0.0),
-                                child: getCardStyle(deckData.elementAt(0), 120),
+                                padding: const EdgeInsets.fromLTRB(0, 0.0, 0.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 10, 10),
                               ),
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(180.0, 0.0, 0.0, 0.0),
+                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Flexible(
                               flex: 1,
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 70.0, 0.0),
-                                child: getCardStyle(deckData.elementAt(0), 120),
+                                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 10, 10),
                               ),
                             ),
                             const SizedBox(
@@ -191,9 +186,9 @@ List<Widget> getGameScreenWidget(BuildContext context, Iterable<CardModel> deckD
                             ),
                             Flexible(
                               flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(70.0, 0.0, 0.0, 0.0),
-                                child: getCardStyle(deckData.elementAt(0), 120),
+                              child: Padding( 
+                                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 10, 10),
                               ),
                             ),
                           ],
@@ -225,19 +220,19 @@ List<Widget> getGameScreenWidget(BuildContext context, Iterable<CardModel> deckD
                   Flexible(
                     flex: 1,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 150.0),
-                      child: getCardStyle(deckData.elementAt(0), 120),
+                      padding: const EdgeInsets.only(bottom: 0.0),
+                      child: getCardStyle(deckData.elementAt(0), 10, 10),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: getCardStyle(deckData.elementAt(0), 250),
+                    padding: const EdgeInsets.only(top:0.0),
+                    child: getCardStyle(deckData.elementAt(0), 15, 15),
                   ),
                   Flexible(
                     flex: 1,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 150.0),
-                      child: getCardStyle(deckData.elementAt(0), 120),
+                      padding: const EdgeInsets.only(bottom: 0.0),
+                      child: getCardStyle(deckData.elementAt(0), 10, 10),
                     ),
                   ),
                 ],
