@@ -141,7 +141,8 @@ class _RoomWidgetState extends State<_RoomWidget> {
                                 SizeConfig.safeBlockVertical * 9,
                                 SizeConfig.safeBlockHorizontal * 2,
                                 getSecondaryColor(),
-                                const WaitingRoomPage(),
+                                WaitingRoomPage.routeName,
+                                WaitingRoomArgs(true),
                                 context),
                           ],
                         ),
@@ -184,4 +185,9 @@ Container getButtonWithIcon(
       ),
     ),
   ));
+}
+
+class WaitingRoomArgs {
+  final bool isHost;
+  WaitingRoomArgs(this.isHost);
 }

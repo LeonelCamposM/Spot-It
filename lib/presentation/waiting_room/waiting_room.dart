@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_new
+
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -5,6 +7,8 @@ import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/create_room/create_room.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +45,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
@@ -71,14 +76,21 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         getPlayersList(names, icons),
 
                         // Start button
-                        getTextButton(
-                            "COMENZAR",
-                            SizeConfig.safeBlockHorizontal * 20,
-                            SizeConfig.safeBlockVertical * 10,
-                            SizeConfig.safeBlockHorizontal * 2,
-                            getSecondaryColor(),
-                            const GamePage(),
-                            context)
+                        Center(
+                            child: args.isHost == true
+                                ? getTextButton(
+                                    "COMENZAR",
+                                    SizeConfig.safeBlockHorizontal * 20,
+                                    SizeConfig.safeBlockVertical * 10,
+                                    SizeConfig.safeBlockHorizontal * 2,
+                                    getSecondaryColor(),
+                                    const GamePage(),
+                                    null,
+                                    context)
+                                : getText(
+                                    "Esperando al host para comenzar ...",
+                                    SizeConfig.safeBlockHorizontal * 1.5,
+                                    Alignment.topCenter)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,
@@ -175,4 +187,26 @@ Column getPlayersList(List<String> names, List<IconData> icons) {
           )),
     ],
   );
+}
+
+class ExtractArgumentsScreen extends StatelessWidget {
+  const ExtractArgumentsScreen({Key? key}) : super(key: key);
+
+  static const routeName = '/extractArguments';
+
+  @override
+  Widget build(BuildContext context) {
+    // Extract the arguments from the current ModalRoute
+    // settings and cast them as ScreenArguments.
+    final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(args.isHost.toString()),
+      ),
+      body: Center(
+        child: Text(args.isHost.toString()),
+      ),
+    );
+  }
 }
