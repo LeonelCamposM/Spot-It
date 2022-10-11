@@ -15,7 +15,7 @@ SizedBox getTextButton(String text, double width, double height,
           MaterialPageRoute(builder: (context) => route),
         );
       },
-      child: getText("COMENZAR", fontSize, Alignment.center),
+      child: getText(text, fontSize, Alignment.center),
     ),
   );
 }

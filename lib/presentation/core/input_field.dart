@@ -6,7 +6,7 @@ Card getInputField(String inputMessage, context) {
     elevation: 10,
     color: backgroundColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(30.0),
     ),
     // ignore: prefer_const_constructors
     child: SizedBox(
