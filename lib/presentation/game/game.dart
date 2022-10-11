@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/cards/deck_use_case.dart';
+import 'package:spot_it_game/domain/cards/card_model.dart';
+import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
+import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
+import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
@@ -16,11 +22,23 @@ class GamePage extends StatefulWidget {
 
 class _GamePagePageState extends State<GamePage> {
   _GamePagePageState() : isLoading = true;
+  CardUseCase cardUseCase =
+  CardUseCase(CardRepository(FirebaseFirestore.instance));
+  Iterable<CardModel> deckData = [];
   bool isLoading;
 
   @override
   void initState() {
     super.initState();
+    getDeck();
+  }
+
+  Future<void> getDeck() async {
+    final deck = await cardUseCase.getDeck();
+    setState(() {
+      deckData = deck;
+      isLoading = false;
+    });
   }
 
   @override
@@ -33,14 +51,41 @@ class _GamePagePageState extends State<GamePage> {
         backgroundColor: getSecondaryColor(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: getGameScreenWidget(context),
+        padding: const EdgeInsets.all(0.0),
+        child: Center(
+          child: isLoading? const LoadingWidget(): _GameWidget(deckData: deckData),
         ),
       ),
     );
   }
 }
+
+class _GameWidget extends StatefulWidget {
+  final Iterable<CardModel> deckData;
+  const _GameWidget({Key? key, required this.deckData}) : super(key: key);
+
+  @override
+  State<_GameWidget> createState() => _GameWidgetState(deckData);
+}
+
+class _GameWidgetState extends State<_GameWidget> {
+  final Iterable<CardModel> deckData;
+  _GameWidgetState(this.deckData);
+  Color secondaryColor = getPrimaryColor();
+  Color primaryColor = getSecondaryColor();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: getGameScreenWidget(context, deckData),
+      ),
+    );
+  }
+}
+
+
 
 Container getLeaderboard(){
   return Container(
@@ -64,7 +109,7 @@ Container getLeaderboard(){
 
 
 
-List<Widget> getGameScreenWidget(BuildContext context){
+List<Widget> getGameScreenWidget(BuildContext context, Iterable<CardModel> deckData){
   return (
     [
       Row(
@@ -86,15 +131,121 @@ List<Widget> getGameScreenWidget(BuildContext context){
           ),
         ],
       ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Flexible(
+            flex: 3,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 1,
+                  child:
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(180.0, 0.0, 0.0, 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 15.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 120),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: getCardStyle(deckData.elementAt(0), 120),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(15.0, 40.0, 0.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 120),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(180.0, 0.0, 0.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 70.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 120),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 120,
+                              height: 120,
+                              child: Image(
+                                image: AssetImage('assets/logo.png'),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(70.0, 0.0, 0.0, 0.0),
+                                child: getCardStyle(deckData.elementAt(0), 120),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ), 
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              getLeaderboard(),
+            ],
+          ),
+        ],
+      ),
       Padding(
-        padding: const EdgeInsets.only(top: 18.0),
+        padding: const EdgeInsets.only(top: 0.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            getLeaderboard(),
+            Flexible(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 150.0),
+                      child: getCardStyle(deckData.elementAt(0), 120),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: getCardStyle(deckData.elementAt(0), 250),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 150.0),
+                      child: getCardStyle(deckData.elementAt(0), 120),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
+      )
     ]
   );
 }

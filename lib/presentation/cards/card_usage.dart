@@ -75,7 +75,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          flex: 1,
+          flex: 1,  
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
