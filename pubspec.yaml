@@ -72,6 +72,16 @@ flutter:
     - assets/icons/Carrot.png
     - assets/icons/Cheese.png
     - assets/icons/Chessknight.png
+    - assets/icons/NoEntrySign.png
+    - assets/icons/Pencil.png
+    - assets/icons/PurpleBird.png
+    - assets/icons/PurpleCat.png
+    - assets/icons/QuestionMark.png
+    - assets/icons/ScarecrowMan.png
+    - assets/icons/Scissors.png
+    - assets/icons/SkullAndCrossbones.png
+    - assets/icons/Snowflake.png
+    - assets/icons/Snowman.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
