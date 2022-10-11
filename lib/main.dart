@@ -5,6 +5,7 @@ import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/create_room/create_room.dart';
+import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
         routes: {
           WaitingRoomPage.routeName: (context) => const WaitingRoomPage(),
           HomePage.routeName: (context) => const HomePage(),
+          ScoreboardPage.routeName: (context) => const ScoreboardPage(),
           CardUsage.routeName: (context) => const CardUsage(),
           GamePage.routeName: (context) => const GamePage(),
           HostCreateRoomPage.routeName: (context) => const HostCreateRoomPage()
         },
-        initialRoute: HostCreateRoomPage.routeName);
+        initialRoute: HomePage.routeName);
   }
 }

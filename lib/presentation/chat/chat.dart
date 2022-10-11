@@ -4,6 +4,7 @@ import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
 
 IconButton openChat(context, Color secondaryColor, Color primaryColor) {
   // Testing data
@@ -43,15 +44,23 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // close button
-                  getCloseButton(secondaryColor, context),
-
-                  // chat list view
                   Flexible(
                     flex: 4,
-                    child: SizedBox(
-                        height: 850,
-                        width: 850,
-                        child: getVerticalList(names, icons)),
+                    child: Row(
+                      children: [
+                        const Text(""),
+                        SizedBox(
+                            height: SizeConfig.blockSizeVertical * 85,
+                            width: SizeConfig.blockSizeHorizontal * 50,
+                            child: getVerticalList(names, icons)),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            getCloseButton(secondaryColor, context),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
 
                   // user input
@@ -123,35 +132,33 @@ Row getCloseButton(Color secondaryColor, context) {
 // @return Container with vertical list chat view
 ListView getVerticalList(List<String> messages, List<IconData> icons) {
   return ListView(
-    scrollDirection: Axis.vertical,
-    children: List.generate(
-      messages.length,
-      (index) => SizedBox(
-          child: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: getFocusBox(
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                    width: SizeConfig.blockSizeVertical * 17,
-                    height: SizeConfig.blockSizeHorizontal * 9,
-                    decoration: BoxDecoration(
-                        color: Colors.primaries[
-                            Random().nextInt(Colors.primaries.length)],
-                        shape: BoxShape.circle),
-                    child: Icon(
-                      icons[index],
-                      size: SizeConfig.blockSizeVertical * 5,
-                    )),
-                Text("  " + messages[index],
-                    style: TextStyle(
-                        fontSize: SizeConfig.blockSizeHorizontal * 1.5)),
-              ],
-            ),
-            SizeConfig.blockSizeVertical * 10,
-            SizeConfig.blockSizeHorizontal * 50),
-      )),
-    ),
-  );
+      scrollDirection: Axis.vertical,
+      children: List.generate(
+        messages.length,
+        (index) => Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                  width: SizeConfig.blockSizeHorizontal * 5,
+                  height: SizeConfig.blockSizeVertical * 10,
+                  decoration: BoxDecoration(
+                      color: Colors
+                          .primaries[Random().nextInt(Colors.primaries.length)],
+                      shape: BoxShape.circle),
+                  child: Icon(
+                    icons[index],
+                    size: SizeConfig.blockSizeVertical * 5,
+                  )),
+              const Text("   "),
+              getFocusBox(
+                  getText(messages[index], SizeConfig.blockSizeHorizontal * 1.5,
+                      Alignment.centerLeft),
+                  SizeConfig.blockSizeVertical * 10,
+                  SizeConfig.blockSizeHorizontal * 43),
+            ],
+          ),
+        ),
+      ));
 }
