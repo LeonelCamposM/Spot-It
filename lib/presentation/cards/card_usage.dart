@@ -6,6 +6,7 @@ import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
 
 class CardUsage extends StatefulWidget {
   static String routeName = '/card_usage';
@@ -40,6 +41,7 @@ class _CardUsageState extends State<CardUsage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
@@ -57,7 +59,7 @@ class _CardUsageState extends State<CardUsage> {
 
 class _RoomWidget extends StatefulWidget {
   final Iterable<CardModel> deck;
-  _RoomWidget({Key? key, required this.deck}) : super(key: key);
+  const _RoomWidget({Key? key, required this.deck}) : super(key: key);
 
   @override
   State<_RoomWidget> createState() => _RoomWidgetState(deck);
@@ -80,12 +82,10 @@ class _RoomWidgetState extends State<_RoomWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               openChat(context, secondaryColor, primaryColor),
-              getCardStyle(deck.elementAt(0), 300),
-              getCardStyle(deck.elementAt(0), 200),
-              getCardStyle(deck.elementAt(0), 100),
-              getCardStyle(deck.elementAt(0), 200),
-              getCardStyle(deck.elementAt(0), 200),
-              getCardStyle(deck.elementAt(0), 200),
+              getCardStyle(deck.elementAt(0)),
+              getCardStyle(deck.elementAt(0)),
+              getCardStyle(deck.elementAt(0)),
+              getCardStyle(deck.elementAt(0)),
             ],
           ),
         ),
