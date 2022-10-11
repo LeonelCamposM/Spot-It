@@ -162,7 +162,7 @@ class _RoomWidgetState extends State<_RoomWidget> {
 // @param boxWidth: size for the box's width
 // @param boxHeight: size fot the box's height
 // @param sizeIcon: icon's size
-// @return Container with horizontal list view
+// @return the button with the icon
 Container getButtonWithIcon(
     Icon newIcon, double boxWidth, double boxHeight, double sizeIcon) {
   return Container(
