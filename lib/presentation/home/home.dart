@@ -5,6 +5,7 @@ import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/create_room/create_room.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
@@ -72,73 +73,77 @@ class _RoomWidgetState extends State<_RoomWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         getFocusBox(
-          Column(
-            children: [
-              Flexible(
-                flex: 3,
-                child: 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const Flexible(
-                      flex: 3,
-                      child:
-                      Image(
-                        image: AssetImage('assets/logo.png'),
+            Column(
+              children: [
+                Flexible(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Flexible(
+                        flex: 3,
+                        child: Image(
+                          image: AssetImage('assets/logo.png'),
+                        ),
                       ),
-                    ), 
-                    const Flexible(
-                      flex: 1,
-                      child:
-                        Text(
+                      const Flexible(
+                        flex: 1,
+                        child: Text(
                           "Spot it!",
                           style: TextStyle(
                             fontSize: 38,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      style: style,
-                      onPressed: () => clientService.emitCreateRoom(
-                        "user name",
                       ),
-                      child: const Text('ANFITRIÓN'),
-                    ),
-                    ElevatedButton(
-                      style: style,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WaitingRoomPage()),
-                        );
-                      },
-                      child: const Text('INVITADO'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),],
-          ), 600, 800),
-          Flexible(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                getChildrenWithIcon(context, const Icon(Icons.question_mark_rounded), getSecondaryColor(),
-                        MaterialPageRoute(builder: (context) => const HomePage())),
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: style,
+                        onPressed: () => clientService.emitCreateRoom(
+                          "user name",
+                        ),
+                        child: const Text('ANFITRIÓN'),
+                      ),
+                      ElevatedButton(
+                        style: style,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const HostCreateRoomPage()),
+                          );
+                        },
+                        child: const Text('INVITADO'),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
+            600,
+            800),
+        Flexible(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              getChildrenWithIcon(
+                  context,
+                  const Icon(Icons.question_mark_rounded),
+                  getSecondaryColor(),
+                  MaterialPageRoute(builder: (context) => const HomePage())),
+            ],
           ),
+        ),
       ],
     );
   }
