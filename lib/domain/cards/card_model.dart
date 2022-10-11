@@ -16,7 +16,6 @@ class CardModel {
   Image getIcon(String iconName) {
     return Image.asset(
       "assets/icons/" + iconName + ".png",
-      scale: 0.3,
       fit: BoxFit.fitWidth,
     );
   }
