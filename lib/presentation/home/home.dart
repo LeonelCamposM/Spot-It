@@ -91,7 +91,7 @@ class _RoomPageState extends State<HomePage> {
               children: [
                 getChildrenWithIcon(
                   context,
-                  const Icon(Icons.question_mark_rounded),
+                  const Icon(Icons.receipt),
                   getSecondaryColor(),
                   MaterialPageRoute(builder: (context) => const HomePage()),
                 ),

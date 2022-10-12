@@ -12,7 +12,6 @@ import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 
 import '../core/text_button_style.dart';
-import '../core/text_style.dart';
 
 class RegisterRoomPage extends StatefulWidget {
   static String routeName = '/register_room';
@@ -184,10 +183,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 // @param boxHeight: size fot the box's height
 // @param sizeIcon: icon's size
 // @return the button with the icon
-Container getButtonWithIcon(
+SizedBox getButtonWithIcon(
     Icon newIcon, double boxWidth, double boxHeight, double sizeIcon) {
-  return Container(
-      child: SizedBox(
+  return SizedBox(
     width: SizeConfig.safeBlockHorizontal * boxWidth,
     height: SizeConfig.safeBlockVertical * boxHeight,
     child: Card(
@@ -204,7 +202,7 @@ Container getButtonWithIcon(
         },
       ),
     ),
-  ));
+  );
 }
 
 class WaitingRoomArgs {
