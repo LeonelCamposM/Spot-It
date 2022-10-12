@@ -4,8 +4,8 @@ import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
+import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-
 
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
@@ -42,7 +42,7 @@ class _GamePagePageState extends State<GamePage> {
   }
 }
 
-Container getLeaderboard(){
+Container getLeaderboard() {
   return Container(
     width: 200,
     height: 200,
@@ -62,39 +62,36 @@ Container getLeaderboard(){
   );
 }
 
-
-
-List<Widget> getGameScreenWidget(BuildContext context){
-  return (
-    [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
-              MaterialPageRoute(builder: (context) => const HomePage())
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12.0),
-                child: getChildrenWithIcon(context, const Icon(Icons.question_mark_rounded), getSecondaryColor(),
-                  MaterialPageRoute(builder: (context) => const HomePage())
-                ),
-              ),
-              getIconButtonStyle(getSecondaryColor(), openChat(context, getSecondaryColor(), getPrimaryColor()),)
-            ],
-          ),
-        ],
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 18.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+List<Widget> getGameScreenWidget(BuildContext context) {
+  return ([
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        getChildrenWithIcon(
+            context,
+            const Icon(Icons.home),
+            getSecondaryColor(),
+            MaterialPageRoute(builder: (context) => const HomePage())),
+        Row(
           children: [
-            getLeaderboard(),
+            getIconButtonStyle(getSecondaryColor(),
+                openRules(context, getSecondaryColor(), getPrimaryColor())),
+            getIconButtonStyle(
+              getSecondaryColor(),
+              openChat(context, getSecondaryColor(), getPrimaryColor()),
+            )
           ],
         ),
+      ],
+    ),
+    Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          getLeaderboard(),
+        ],
       ),
-    ]
-  );
+    ),
+  ]);
 }
