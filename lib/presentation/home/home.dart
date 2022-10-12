@@ -67,7 +67,7 @@ class _RoomPageState extends State<HomePage> {
                             SizeConfig.safeBlockHorizontal * 2,
                             getSecondaryColor(),
                             RegisterRoomPage.routeName,
-                            WaitingRoomArgs(true),
+                            RegisterRoomArgs(true),
                             context),
                         const Text(""),
                         getTextButton(
@@ -77,7 +77,7 @@ class _RoomPageState extends State<HomePage> {
                             SizeConfig.safeBlockHorizontal * 2,
                             getSecondaryColor(),
                             RegisterRoomPage.routeName,
-                            WaitingRoomArgs(false),
+                            RegisterRoomArgs(false),
                             context),
                       ],
                     ),
