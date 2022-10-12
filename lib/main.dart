@@ -4,7 +4,7 @@ import 'package:spot_it_game/presentation/cards/card_usage.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
-import 'package:spot_it_game/presentation/create_room/create_room.dart';
+import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 Future<void> main() async {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           ScoreboardPage.routeName: (context) => const ScoreboardPage(),
           CardUsage.routeName: (context) => const CardUsage(),
           GamePage.routeName: (context) => const GamePage(),
-          HostCreateRoomPage.routeName: (context) => const HostCreateRoomPage(),
+          RegisterRoomPage.routeName: (context) => const RegisterRoomPage(),
         },
         initialRoute: HomePage.routeName);
   }
