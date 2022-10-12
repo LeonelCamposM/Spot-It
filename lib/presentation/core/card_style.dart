@@ -38,7 +38,7 @@ SizedBox getCardStyle(CardModel card, int width, int height) {
 Flexible getDoubleCardIcon(
     CardModel card, String iconNameOne, String iconNameTwo) {
   return Flexible(
-      flex: 1,
+      flex: 1,  
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

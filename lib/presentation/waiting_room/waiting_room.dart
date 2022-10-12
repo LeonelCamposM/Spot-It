@@ -45,7 +45,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
       body: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

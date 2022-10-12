@@ -33,70 +33,72 @@ class _RoomPageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(""),
-            getFocusBox(
-                Column(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: [
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 20,
-                          height: SizeConfig.blockSizeHorizontal * 18,
-                          child: const Image(
-                            image: AssetImage('assets/logo.png'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(""),
+              getFocusBox(
+                  Column(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 20,
+                            height: SizeConfig.blockSizeHorizontal * 18,
+                            child: const Image(
+                              image: AssetImage('assets/logo.png'),
+                            ),
                           ),
-                        ),
-                        getText("Spot it!", SizeConfig.blockSizeHorizontal * 3,
-                            Alignment.center),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        getTextButton(
-                            "ANFITRIÓN",
-                            SizeConfig.safeBlockHorizontal * 30,
-                            SizeConfig.safeBlockVertical * 12,
-                            SizeConfig.safeBlockHorizontal * 2,
-                            getSecondaryColor(),
-                            const HostCreateRoomPage(),
-                            context),
-                        const Text(""),
-                        getTextButton(
-                            "INVITADO",
-                            SizeConfig.safeBlockHorizontal * 30,
-                            SizeConfig.safeBlockVertical * 12,
-                            SizeConfig.safeBlockHorizontal * 2,
-                            getSecondaryColor(),
-                            const HostCreateRoomPage(),
-                            context),
-                      ],
-                    ),
-                  ],
-                ),
-                SizeConfig.safeBlockVertical * 85,
-                SizeConfig.safeBlockHorizontal * 50),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                getChildrenWithIcon(
-                  context,
-                  const Icon(Icons.question_mark_rounded),
-                  getSecondaryColor(),
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                ),
-              ],
-            ),
-          ],
-        )),
+                          getText("Spot it!", SizeConfig.blockSizeHorizontal * 3,
+                              Alignment.center),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          getTextButton(
+                              "ANFITRIÓN",
+                              SizeConfig.safeBlockHorizontal * 30,
+                              SizeConfig.safeBlockVertical * 12,
+                              SizeConfig.safeBlockHorizontal * 2,
+                              getSecondaryColor(),
+                              const HostCreateRoomPage(),
+                              context),
+                          const Text(""),
+                          getTextButton(
+                              "INVITADO",
+                              SizeConfig.safeBlockHorizontal * 30,
+                              SizeConfig.safeBlockVertical * 12,
+                              SizeConfig.safeBlockHorizontal * 2,
+                              getSecondaryColor(),
+                              const HostCreateRoomPage(),
+                              context),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizeConfig.safeBlockVertical * 85,
+                  SizeConfig.safeBlockHorizontal * 50
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  getChildrenWithIcon(
+                    context,
+                    const Icon(Icons.question_mark_rounded),
+                    getSecondaryColor(),
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
