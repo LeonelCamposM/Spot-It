@@ -8,7 +8,7 @@ import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
-import 'package:spot_it_game/presentation/create_room/create_room.dart';
+import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -187,26 +187,4 @@ Column getPlayersList(List<String> names, List<IconData> icons) {
           )),
     ],
   );
-}
-
-class ExtractArgumentsScreen extends StatelessWidget {
-  const ExtractArgumentsScreen({Key? key}) : super(key: key);
-
-  static const routeName = '/extractArguments';
-
-  @override
-  Widget build(BuildContext context) {
-    // Extract the arguments from the current ModalRoute
-    // settings and cast them as ScreenArguments.
-    final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(args.isHost.toString()),
-      ),
-      body: Center(
-        child: Text(args.isHost.toString()),
-      ),
-    );
-  }
 }

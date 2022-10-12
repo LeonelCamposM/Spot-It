@@ -5,23 +5,24 @@ import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
-import 'package:spot_it_game/presentation/create_room/colors.dart';
+import 'package:spot_it_game/presentation/register_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 
 import '../core/text_button_style.dart';
+import '../core/text_style.dart';
 
-class HostCreateRoomPage extends StatefulWidget {
-  static String routeName = '/create_room';
-  const HostCreateRoomPage({Key? key}) : super(key: key);
+class RegisterRoomPage extends StatefulWidget {
+  static String routeName = '/register_room';
+  const RegisterRoomPage({Key? key}) : super(key: key);
   @override
-  State<HostCreateRoomPage> createState() => _HostCreateRoomPageState();
+  State<RegisterRoomPage> createState() => _RegisterRoomPageState();
 }
 
-class _HostCreateRoomPageState extends State<HostCreateRoomPage> {
-  _HostCreateRoomPageState() : isLoading = true;
+class _RegisterRoomPageState extends State<RegisterRoomPage> {
+  _RegisterRoomPageState() : isLoading = true;
   bool isLoading;
 
   @override
@@ -47,26 +48,28 @@ class _HostCreateRoomPageState extends State<HostCreateRoomPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: isLoading ? const LoadingWidget() : const _RoomWidget(),
+          child:
+              isLoading ? const LoadingWidget() : const _RegisterRoomWidget(),
         ),
       ),
     );
   }
 }
 
-class _RoomWidget extends StatefulWidget {
-  const _RoomWidget({Key? key}) : super(key: key);
+class _RegisterRoomWidget extends StatefulWidget {
+  const _RegisterRoomWidget({Key? key}) : super(key: key);
 
   @override
-  State<_RoomWidget> createState() => _RoomWidgetState();
+  State<_RegisterRoomWidget> createState() => _RegisterRoomWidgetState();
 }
 
-class _RoomWidgetState extends State<_RoomWidget> {
+class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final ClientService clientService = ClientService();
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as RegisterRoomArgs;
     return Column(
       children: [
         Flexible(
@@ -134,16 +137,33 @@ class _RoomWidgetState extends State<_RoomWidget> {
                               child:
                                   getInputField("Ingrese su nombre", context),
                             ),
+                            SizedBox(
+                                height: SizeConfig.safeBlockVertical * 8,
+                                width: SizeConfig.safeBlockHorizontal * 31,
+                                child: args.isHost == false
+                                    ? getInputField(
+                                        "Ingrese el ID de la sala", context)
+                                    : const SizedBox()),
                             // Create Room Button
-                            getTextButton(
-                                "CREAR SALA",
-                                SizeConfig.safeBlockHorizontal * 31,
-                                SizeConfig.safeBlockVertical * 9,
-                                SizeConfig.safeBlockHorizontal * 2,
-                                getSecondaryColor(),
-                                WaitingRoomPage.routeName,
-                                WaitingRoomArgs(true),
-                                context),
+                            args.isHost == true
+                                ? getTextButton(
+                                    "CREAR SALA",
+                                    SizeConfig.safeBlockHorizontal * 31,
+                                    SizeConfig.safeBlockVertical * 9,
+                                    SizeConfig.safeBlockHorizontal * 2,
+                                    getSecondaryColor(),
+                                    WaitingRoomPage.routeName,
+                                    WaitingRoomArgs(true),
+                                    context)
+                                : getTextButton(
+                                    "UNIRSE",
+                                    SizeConfig.safeBlockHorizontal * 31,
+                                    SizeConfig.safeBlockVertical * 9,
+                                    SizeConfig.safeBlockHorizontal * 2,
+                                    getSecondaryColor(),
+                                    WaitingRoomPage.routeName,
+                                    WaitingRoomArgs(false),
+                                    context),
                           ],
                         ),
                       ),
