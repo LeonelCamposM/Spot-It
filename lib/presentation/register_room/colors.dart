@@ -15,5 +15,5 @@ Color getSecondaryColor() {
 // @description
 // @return The Font Color of the Create Room Page
 Color getFontColor() {
-  return Color.fromARGB(255, 255, 255, 255);
+  return const Color.fromARGB(255, 255, 255, 255);
 }

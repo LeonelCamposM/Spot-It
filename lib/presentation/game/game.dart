@@ -65,6 +65,7 @@ class _GameWidget extends StatefulWidget {
   const _GameWidget({Key? key, required this.deckData}) : super(key: key);
 
   @override
+  // ignore: no_logic_in_create_state
   State<_GameWidget> createState() => _GameWidgetState(deckData);
 }
 
