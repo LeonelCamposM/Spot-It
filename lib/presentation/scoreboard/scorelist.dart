@@ -1,11 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
-import 'package:spot_it_game/presentation/create_room/colors.dart';
-import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 IconButton openList(context, Color secondaryColor, Color primaryColor) {
   // Testing data
@@ -43,12 +40,11 @@ IconButton openList(context, Color secondaryColor, Color primaryColor) {
                   borderRadius: BorderRadius.all(Radius.circular(32.0))),
               backgroundColor: primaryColor,
               content: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // close button
-                  Flexible(
-                    flex: 4,
-                    child: SizedBox(
+                  SizedBox(
+                    child: Flexible(
+                      flex: 4,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -64,23 +60,14 @@ IconButton openList(context, Color secondaryColor, Color primaryColor) {
                           ),
                         ],
                       ),
-                      height: SizeConfig.blockSizeVertical * 20,
-                      width: SizeConfig.blockSizeHorizontal * 50,
                     ),
+                    height: SizeConfig.blockSizeVertical * 16,
+                    width: SizeConfig.blockSizeHorizontal * 50,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      Text("Icono", style: TextStyle(fontSize: 20.0)),
-                      Text("Nombre", style: TextStyle(fontSize: 20.0)),
-                      Text("Puntaje", style: TextStyle(fontSize: 20.0)),
-                    ],
-                  ),
-                  const Text("", style: TextStyle(fontSize: 20.0)),
                   SizedBox(
-                      height: SizeConfig.blockSizeVertical * 65,
+                      height: SizeConfig.blockSizeVertical * 70,
                       width: SizeConfig.blockSizeHorizontal * 50,
-                      child: getVerticalList(names, icons, score)),
+                      child: getVerticalScoreList(names, icons, score)),
                 ],
               ),
             );
@@ -90,9 +77,9 @@ IconButton openList(context, Color secondaryColor, Color primaryColor) {
   );
 }
 
-// @param secondaryColor: current page secondary color
-// @param context: build context
-// @return Row with close button aligned to rigth
+// @param secondaryColor: Current page secondary color
+// @param context: Build context
+// @return Row with close button aligned to right
 Row getCloseButton(Color secondaryColor, context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
@@ -117,7 +104,7 @@ Row getCloseButton(Color secondaryColor, context) {
 // @param icons: Player images in order
 // @param score: Player score in order
 // @return Container with vertical list of scores
-ListView getVerticalList(
+ListView getVerticalScoreList(
     List<String> names, List<IconData> icons, List<int> score) {
   return ListView(
       scrollDirection: Axis.vertical,
