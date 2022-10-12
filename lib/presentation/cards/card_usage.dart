@@ -77,15 +77,15 @@ class _RoomWidgetState extends State<_RoomWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          flex: 1,
+          flex: 1,  
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               openChat(context, secondaryColor, primaryColor),
-              getCardStyle(deck.elementAt(0)),
-              getCardStyle(deck.elementAt(0)),
-              getCardStyle(deck.elementAt(0)),
-              getCardStyle(deck.elementAt(0)),
+              getCardStyle(deck.elementAt(0), 15, 17),
+              getCardStyle(deck.elementAt(0), 15, 17),
+              getCardStyle(deck.elementAt(0), 15, 17),
+              getCardStyle(deck.elementAt(0), 15, 17),
             ],
           ),
         ),
