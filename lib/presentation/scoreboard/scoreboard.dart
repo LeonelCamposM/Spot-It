@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/scoreboard/scorelist.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
@@ -9,6 +10,8 @@ import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:flutter/services.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/scoreboard/colors.dart';
+
+import '../core/icon_button_style.dart';
 
 class ScoreboardPage extends StatefulWidget {
   static String routeName = '/scoreboard';
@@ -140,12 +143,10 @@ Flexible getHeader(context) {
         const Text("Tabla de posiciones",
             style: TextStyle(fontSize: 20.0), textAlign: TextAlign.center),
         Padding(
-          padding: const EdgeInsets.only(right: 13, top: 5),
-          child: getChildrenWithIcon(
-              context,
-              const Icon(Icons.list),
-              getSecondaryColor(),
-              MaterialPageRoute(builder: (context) => const GamePage())),
+          padding: const EdgeInsets.only(right: 15, top: 5),
+          // Open the list of scores as a popup
+          child: getIconButtonStyle(getSecondaryColor(),
+              openList(context, getSecondaryColor(), getPrimaryColor())),
         ),
       ],
     ),
