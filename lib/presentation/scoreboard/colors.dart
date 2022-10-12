@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
 // @description
 // @return The Primary Color of the Scoreboard Page
