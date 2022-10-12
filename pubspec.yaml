@@ -40,6 +40,7 @@ dependencies:
   syncfusion_flutter_charts: ^20.3.48
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.10.0"
   flutter_test:
     sdk: flutter
 
@@ -52,6 +53,14 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/logo.png
+  web:
+    generate: true
+    image_path: "assets/logo.png"
 
 # The following section is specific to Flutter.
 flutter:
@@ -108,3 +117,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
