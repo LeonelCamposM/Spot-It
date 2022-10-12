@@ -35,7 +35,7 @@ class _RoomPageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Center(
-            child: Row(
+          child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(""),
