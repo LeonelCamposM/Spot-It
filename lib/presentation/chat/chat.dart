@@ -106,7 +106,7 @@ Row getMessageBar(Color secondaryColor, context) {
 
 // @param secondaryColor: current page secondary color
 // @param context: build context
-// @return Row with close button aligned to rigth
+// @return Row with close button aligned to right
 Row getCloseButton(Color secondaryColor, context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,

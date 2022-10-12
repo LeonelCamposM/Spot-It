@@ -84,7 +84,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(),
-                                    const GamePage(),
+                                    GamePage.routeName,
                                     null,
                                     context)
                                 : getText(
