@@ -33,9 +33,9 @@ class _RoomPageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
-            child: Row(
+          child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(""),

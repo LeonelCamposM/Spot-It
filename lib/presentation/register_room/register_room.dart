@@ -46,7 +46,7 @@ class _RegisterRoomPageState extends State<RegisterRoomPage> {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
           child:
               isLoading ? const LoadingWidget() : const _RegisterRoomWidget(),
