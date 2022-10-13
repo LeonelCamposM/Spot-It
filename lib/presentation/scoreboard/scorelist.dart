@@ -43,23 +43,21 @@ IconButton openList(context, Color secondaryColor, Color primaryColor) {
                 children: [
                   // close button
                   SizedBox(
-                    child: Flexible(
-                      flex: 4,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(""),
-                          const Text("Tabla de posiciones",
-                              style: TextStyle(fontSize: 20.0),
-                              textAlign: TextAlign.center),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              getCloseButton(secondaryColor, context),
-                            ],
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(""),
+                        Text("Tabla de posiciones",
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal * 2),
+                            textAlign: TextAlign.center),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            getCloseButton(secondaryColor, context),
+                          ],
+                        ),
+                      ],
                     ),
                     height: SizeConfig.blockSizeVertical * 16,
                     width: SizeConfig.blockSizeHorizontal * 50,

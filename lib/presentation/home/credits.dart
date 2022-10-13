@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
-import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
@@ -10,10 +9,10 @@ import 'package:spot_it_game/presentation/home/colors.dart';
 IconButton openCredits(context, Color secondaryColor, Color primaryColor) {
   // Testing data
   List<IconData> icons = [
-    Icons.face_3,
-    Icons.face_2,
     Icons.face,
-    Icons.face_6,
+    Icons.face,
+    Icons.face,
+    Icons.face,
   ];
   List<String> names = [
     "Angie Sofia Castillo Campos ",
@@ -41,19 +40,19 @@ IconButton openCredits(context, Color secondaryColor, Color primaryColor) {
                   borderRadius: BorderRadius.all(Radius.circular(32.0))),
               backgroundColor: primaryColor,
               content: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      const Text(""),
+                      getText("Creadores", SizeConfig.blockSizeHorizontal * 2,
+                          Alignment.center),
                       // close button
                       getCloseButton(secondaryColor, context),
                     ],
                   ),
-                  getText("Creators", SizeConfig.blockSizeHorizontal * 2,
-                      Alignment.center),
                   Flexible(
-                    flex: 4,
+                    flex: 5,
                     child: Row(
                       children: [
                         SizedBox(
@@ -63,10 +62,10 @@ IconButton openCredits(context, Color secondaryColor, Color primaryColor) {
                       ],
                     ),
                   ),
-                  getText("References", SizeConfig.blockSizeHorizontal * 2,
+                  getText("Referencias", SizeConfig.blockSizeHorizontal * 2,
                       Alignment.center),
                   Flexible(
-                    flex: 4,
+                    flex: 1,
                     child: Row(
                       children: [
                         SizedBox(

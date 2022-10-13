@@ -131,24 +131,24 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             SizedBox(
-                              height: SizeConfig.safeBlockVertical * 8,
-                              width: SizeConfig.safeBlockHorizontal * 31,
-                              child:
-                                  getInputField("Ingrese su nombre", context),
+                              height: SizeConfig.safeBlockVertical * 10,
+                              width: SizeConfig.blockSizeHorizontal * 30,
+                              child: getInputField("Nombre", context),
                             ),
-                            SizedBox(
-                                height: SizeConfig.safeBlockVertical * 8,
-                                width: SizeConfig.safeBlockHorizontal * 31,
-                                child: args.isHost == false
-                                    ? getInputField(
-                                        "Ingrese el ID de la sala", context)
-                                    : const SizedBox()),
+
+                            args.isHost == false
+                                ? SizedBox(
+                                    width: SizeConfig.safeBlockHorizontal * 30,
+                                    height: SizeConfig.safeBlockVertical * 10,
+                                    child: getInputField("ID de sala", context),
+                                  )
+                                : const SizedBox(),
                             // Create Room Button
                             args.isHost == true
                                 ? getTextButton(
                                     "CREAR SALA",
-                                    SizeConfig.safeBlockHorizontal * 31,
-                                    SizeConfig.safeBlockVertical * 9,
+                                    SizeConfig.safeBlockHorizontal * 30,
+                                    SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(),
                                     WaitingRoomPage.routeName,
@@ -156,8 +156,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     context)
                                 : getTextButton(
                                     "UNIRSE",
-                                    SizeConfig.safeBlockHorizontal * 31,
-                                    SizeConfig.safeBlockVertical * 9,
+                                    SizeConfig.safeBlockHorizontal * 30,
+                                    SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(),
                                     WaitingRoomPage.routeName,
