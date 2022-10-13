@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+//resizing class
 class SizeConfig {
   static MediaQueryData _mediaQueryData = _mediaQueryData;
   static double screenWidth = 0;

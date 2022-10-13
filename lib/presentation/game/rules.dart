@@ -34,20 +34,25 @@ IconButton openRules(context, Color secondaryColor, Color primaryColor) {
                   // close button
                   Flexible(
                     flex: 4,
-                    child: Row(
+                    child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: getFocusBox(
-                              getVerticalList(rules),
-                              SizeConfig.blockSizeVertical * 85,
-                              SizeConfig.blockSizeHorizontal * 50),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            const Text(""),
+                            getText(
+                                "Reglas",
+                                SizeConfig.blockSizeHorizontal * 1.5,
+                                Alignment.center),
                             getCloseButton(secondaryColor, context),
                           ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10, left: 10),
+                          child: getFocusBox(
+                              getVerticalList(rules),
+                              SizeConfig.blockSizeVertical * 70,
+                              SizeConfig.blockSizeHorizontal * 45),
                         ),
                       ],
                     ),
@@ -101,7 +106,7 @@ ListView getVerticalList(List<String> rules) {
                       (index + 1).toString() + ". " + rules[index],
                       SizeConfig.blockSizeHorizontal * 1.5,
                       Alignment.centerLeft),
-                  SizeConfig.blockSizeVertical * 11,
+                  SizeConfig.blockSizeVertical * 12,
                   SizeConfig.blockSizeHorizontal * 43)
             ],
           ),

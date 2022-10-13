@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+// @param widget: generic widget: container, colunm, tetx, etc
+// @param height: size fot the focus box's height
+// @param width: size for the focus box's width
+// @return the focus box with the choosen size and widget to show
 Container getFocusBox(Widget widget, double height, double width) {
   return Container(
       height: height,

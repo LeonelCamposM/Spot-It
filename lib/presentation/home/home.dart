@@ -7,6 +7,9 @@ import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
+import 'package:spot_it_game/presentation/home/credits.dart';
+
+import '../core/icon_button_style.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = '/';
@@ -35,7 +38,7 @@ class _RoomPageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Center(
-          child: Row(
+            child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(""),
@@ -89,12 +92,10 @@ class _RoomPageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                getChildrenWithIcon(
-                  context,
-                  const Icon(Icons.receipt),
+                getIconButtonStyle(
                   getSecondaryColor(),
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                ),
+                  openCredits(context, getSecondaryColor(), getPrimaryColor()),
+                )
               ],
             ),
           ],

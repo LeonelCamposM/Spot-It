@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// @param secondaryColor: button's color
+// @param button: IconButton
+// @return the sixed box with the choosen color and icon button
 SizedBox getIconButtonStyle(Color secondaryColor, IconButton button) {
   return SizedBox(
     width: 60,

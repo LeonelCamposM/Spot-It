@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 
+// @param context: build context
+// @param inputMessage: field's message
+// @return card with the input field with the choosen message
 Card getInputField(String inputMessage, context) {
   Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
   return Card(
