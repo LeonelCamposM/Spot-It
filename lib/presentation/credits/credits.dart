@@ -70,14 +70,37 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   ];
   List<String> links = [
     "Icono: https://www.dobblegame.com/es/inicio/",
-    "Anchor: https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
-    "Apple: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
-    "Bomb: https://www.pngwing.com/en/free-png-byisd",
+    "Ancla: https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
+    "Manzana: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
+    "Bomba: https://www.pngwing.com/en/free-png-byisd",
     "Cactus: https://pngtree.com/freepng/hand-drawn-cute-cactus_4210174.html",
-    "Candle: FALTA",
-    "Carrot: https://clipartix.com/carrot-clipart-image-55597/",
-    "Cheese: https://www.pngwing.com/en/free-png-btzwp",
-    "ChessKnight: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
+    "Candela: FALTA",
+    "Zanahoria: https://clipartix.com/carrot-clipart-image-55597/",
+    "Queso: https://www.pngwing.com/en/free-png-btzwp",
+    "Caballo de Ajedrez: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
+        "Martillo: https://es.vexels.com/png-svg/vista-previa/198054/martillo-plano"
+        "Corazón: https://www.pngwing.com/es/free-png-bewwy",
+    "Cubos de hielo: https://www.pngwing.com/es/free-png-nulrc",
+    "Iglú: https://www.pngwing.com/es/free-png-bruhl",
+    "Llave: https://www.pngwing.com/es/free-png-ntksz",
+    "Mariquita: https://www.pngwing.com/es/free-png-zpnqa",
+    "Bombillo: https://www.pngwing.com/es/free-png-zxhea",
+    "Rayo: https://www.pngwing.com/es/free-png-ztsph",
+    "Candado: https://www.pngwing.com/es/free-png-ijglf",
+    "Hoja de arce: https://www.pngwing.com/es/free-png-dsjzl",
+    "Biberón: https://www.pngwing.com/es/free-png-pdfdg",
+    "Luna: https://flyclipart.com/pictures-of-crescent-moon-png-crescent-moon-png-672718",
+    "Signo No Entrar: https://www.discountsafetysignsaustralia.com.au/products/regulatory-road-signs/no-entry-sign-regulatory/",
+    "Espantapájaros: http://clipart-library.com/clip-art/scarecrow-clipart-transparent-15.htm",
+    "Lápiz: https://www.kindpng.com/imgv/xmTxiT_pencil-colored-drawing-mechanical-clip-art-yellow-cliparts/",
+    "Pájaro: https://www.freeiconspng.com/images/bird-purple-png-icon",
+    "Gato: https://clipartcraft.com/explore/Cat-clipart-purple/",
+    "Signo de pregunta: https://illustcut.com/?p=2757",
+    "Labios: http://clipart-library.com/lip-cartoon.html",
+    "Tijeras: https://www.iconsdb.com/purple-icons/scissors-6-icon.html",
+    "Calavera con huesos: https://www.onlinewebfonts.com/icon/493161",
+    "Copo de nieve: https://www.vectorstock.com/royalty-free-vector/snow-flake-icon-winter-symbol-vector-27559547",
+    "Hombre de nieve: https://maison-lachenal.fr/menu-des-fetes/"
   ];
   @override
   Widget build(BuildContext context) {
