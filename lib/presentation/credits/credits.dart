@@ -72,7 +72,7 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
     "Manzana: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
     "Bomba: https://www.pngwing.com/en/free-png-byisd",
     "Cactus: https://pngtree.com/freepng/hand-drawn-cute-cactus_4210174.html",
-    "Candela: FALTA",
+    "Candela: https://toppng.com/photo/35948/baboa-nyo-ghynya-shmaa-byda",
     "Zanahoria: https://clipartix.com/carrot-clipart-image-55597/",
     "Queso: https://www.pngwing.com/en/free-png-btzwp",
     "Caballo de Ajedrez: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
