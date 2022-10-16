@@ -7,7 +7,7 @@ import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
-import 'package:spot_it_game/presentation/home/credits.dart';
+import 'package:spot_it_game/presentation/credits/credits.dart';
 
 import '../core/icon_button_style.dart';
 
@@ -92,10 +92,12 @@ class _RoomPageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                getIconButtonStyle(
-                  getSecondaryColor(),
-                  openCredits(context, getSecondaryColor(), getPrimaryColor()),
-                )
+                getChildrenWithIcon(
+                    context,
+                    const Icon(Icons.receipt),
+                    getSecondaryColor(),
+                    MaterialPageRoute(
+                        builder: (context) => const CreditsPage()))
               ],
             ),
           ],

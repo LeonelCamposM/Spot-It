@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/presentation/credits/credits.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
           ScoreboardPage.routeName: (context) => const ScoreboardPage(),
           GamePage.routeName: (context) => const GamePage(),
           RegisterRoomPage.routeName: (context) => const RegisterRoomPage(),
+          CreditsPage.routeName: (context) => const CreditsPage(),
         },
-        initialRoute: HomePage.routeName);
+        initialRoute: CreditsPage.routeName);
   }
 }
