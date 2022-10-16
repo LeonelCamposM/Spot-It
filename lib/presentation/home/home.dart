@@ -9,8 +9,6 @@ import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/credits/credits.dart';
 
-import '../core/icon_button_style.dart';
-
 class HomePage extends StatefulWidget {
   static String routeName = '/';
   const HomePage({Key? key}) : super(key: key);

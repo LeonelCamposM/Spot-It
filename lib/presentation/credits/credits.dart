@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
-import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
