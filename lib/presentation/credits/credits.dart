@@ -62,13 +62,11 @@ class _CreditsWidget extends StatefulWidget {
 class _CreditsWidgetState extends State<_CreditsWidget> {
   final ClientService clientService = ClientService();
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
-  List<String> names = [
-    "Angie Sofia Castillo Campos",
-    "Nayeri Azofeifa Porras",
-    "Jeremy Vargas Artavia",
-    "Leonel Campos Murillo",
-  ];
   List<String> links = [
+    "Creador: Angie Sofia Castillo Campos",
+    "Creador: Nayeri Azofeifa Porras",
+    "Creador: Jeremy Vargas Artavia",
+    "Creador: Leonel Campos Murillo",
     "Icono: https://www.dobblegame.com/es/inicio/",
     "Ancla: https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
     "Manzana: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
@@ -104,45 +102,33 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Column(
+    //Arrow back icon to get to the home page
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Flexible(
-            flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //Arrow back icon to get to the home page
-                getChildrenWithIcon(
-                    context,
-                    const Icon(Icons.arrow_back),
-                    getSecondaryColor(),
-                    MaterialPageRoute(builder: (context) => const HomePage())),
-              ],
-            )),
-        //Main screen
-        getFocusBox(
-            Column(
-              children: [
-                Column(
-                  children: [
-                    getText("Creadores", SizeConfig.blockSizeHorizontal * 2,
-                        Alignment.center),
-                    SizedBox(
-                        height: SizeConfig.blockSizeVertical * 30,
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        child: getVerticalList(names)),
-                    getText("Referencias", SizeConfig.blockSizeHorizontal * 2,
-                        Alignment.center),
-                    SizedBox(
-                        height: SizeConfig.blockSizeVertical * 30,
-                        width: SizeConfig.blockSizeHorizontal * 45,
-                        child: getVerticalList(links)),
-                  ],
-                ),
-              ],
-            ),
-            SizeConfig.safeBlockVertical * 70,
-            SizeConfig.safeBlockHorizontal * 45), //focus box
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            getChildrenWithIcon(
+                context,
+                const Icon(Icons.arrow_back),
+                getSecondaryColor(),
+                MaterialPageRoute(builder: (context) => const HomePage())),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            getText("Créditos", SizeConfig.blockSizeHorizontal * 2,
+                Alignment.center),
+            SizedBox(
+                height: SizeConfig.blockSizeVertical * 80,
+                width: SizeConfig.blockSizeHorizontal * 80,
+                child: getVerticalList(links)),
+          ],
+        ),
+        const Text(""),
       ],
     );
   }
@@ -158,12 +144,15 @@ ListView getVerticalList(List<String> text) {
         (index) => Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const Text(""),
               getTransparentFocusBox(
                   getText(text[index], SizeConfig.blockSizeHorizontal * 1.5,
                       Alignment.centerLeft),
                   SizeConfig.blockSizeVertical * 10,
-                  SizeConfig.blockSizeHorizontal * 43)
+                  SizeConfig.blockSizeHorizontal * 43),
+              const Text(""),
             ],
           ),
         ),
