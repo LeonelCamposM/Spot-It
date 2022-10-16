@@ -6,6 +6,7 @@ import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
@@ -61,24 +62,22 @@ class _CreditsWidget extends StatefulWidget {
 class _CreditsWidgetState extends State<_CreditsWidget> {
   final ClientService clientService = ClientService();
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
-  List<IconData> icons = [
-    Icons.face,
-    Icons.face,
-    Icons.face,
-    Icons.face,
-  ];
   List<String> names = [
     "Angie Sofia Castillo Campos ",
     "Nayeri Azofeifa Porras",
     "Jeremy Vargas Artavia",
     "Leonel Campos Murillo",
   ];
-  List<String> images = [
-    "assets/logo.png",
-  ];
-  List<String> links = ["Icono: https://www.dobblegame.com/es/inicio/"];
-  List<IconData> temporal = [
-    Icons.front_hand,
+  List<String> links = [
+    "Icono: https://www.dobblegame.com/es/inicio/",
+    "Anchor:https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
+    "Apple: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
+    "Bomb: https://www.pngwing.com/en/free-png-byisd",
+    "Cactus: https://pngtree.com/freepng/hand-drawn-cute-cactus_4210174.html",
+    "Candle: ",
+    "Carrot: https://clipartix.com/carrot-clipart-image-55597/",
+    "Cheese: https://www.pngwing.com/en/free-png-btzwp",
+    "ChessKnight: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
   ];
   @override
   Widget build(BuildContext context) {
@@ -99,50 +98,26 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
             )),
         //Main screen
         getFocusBox(
-            Column(children: [
-              Flexible(
-                flex: 4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Column(
+              children: [
+                Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // const Text(""),
-                        getText("Creadores", SizeConfig.blockSizeHorizontal * 2,
-                            Alignment.center),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                            height: SizeConfig.blockSizeVertical * 70,
-                            width: SizeConfig.blockSizeHorizontal * 45,
-                            child: getVerticalList(names, icons)),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // const Text(""),
-                        getText(
-                            "Referencias",
-                            SizeConfig.blockSizeHorizontal * 2,
-                            Alignment.center),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        SizedBox(
-                            height: SizeConfig.blockSizeVertical * 70,
-                            width: SizeConfig.blockSizeHorizontal * 45,
-                            child: getVerticalList(links, temporal)),
-                      ],
-                    ),
+                    getText("Creadores", SizeConfig.blockSizeHorizontal * 2,
+                        Alignment.center),
+                    SizedBox(
+                        height: SizeConfig.blockSizeVertical * 30,
+                        width: SizeConfig.blockSizeHorizontal * 45,
+                        child: getVerticalList(names)),
+                    getText("Referencias", SizeConfig.blockSizeHorizontal * 2,
+                        Alignment.center),
+                    SizedBox(
+                        height: SizeConfig.blockSizeVertical * 30,
+                        width: SizeConfig.blockSizeHorizontal * 45,
+                        child: getVerticalList(links)),
                   ],
                 ),
-              ),
-            ]),
+              ],
+            ),
             SizeConfig.safeBlockVertical * 80,
             SizeConfig.safeBlockHorizontal * 45), //focus box
       ],
@@ -150,34 +125,22 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   }
 }
 
-// @param text: references or creators' names
-// @param icons: icons for creators
+// @param text: references or creators' names or images' links
 // @return Container with vertical list references
-ListView getVerticalList(List<String> text, List<IconData> icons) {
+ListView getVerticalList(List<String> text) {
   return ListView(
       scrollDirection: Axis.vertical,
       children: List.generate(
         text.length,
         (index) => Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.only(bottom: 8),
           child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                  width: SizeConfig.blockSizeHorizontal * 5,
-                  height: SizeConfig.blockSizeVertical * 10,
-                  decoration: BoxDecoration(
-                      color: getSecondaryColor(), shape: BoxShape.circle),
-                  child: Icon(
-                    icons[index],
-                    size: SizeConfig.blockSizeVertical * 5,
-                  )),
-              const Text("   "),
-              getFocusBox(
+              getTransparentFocusBox(
                   getText(text[index], SizeConfig.blockSizeHorizontal * 1.5,
                       Alignment.centerLeft),
                   SizeConfig.blockSizeVertical * 10,
-                  SizeConfig.blockSizeHorizontal * 37),
+                  SizeConfig.blockSizeHorizontal * 43)
             ],
           ),
         ),
