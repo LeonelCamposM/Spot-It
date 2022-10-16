@@ -63,18 +63,18 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   final ClientService clientService = ClientService();
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
   List<String> names = [
-    "Angie Sofia Castillo Campos ",
+    "Angie Sofia Castillo Campos",
     "Nayeri Azofeifa Porras",
     "Jeremy Vargas Artavia",
     "Leonel Campos Murillo",
   ];
   List<String> links = [
     "Icono: https://www.dobblegame.com/es/inicio/",
-    "Anchor:https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
+    "Anchor: https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
     "Apple: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
     "Bomb: https://www.pngwing.com/en/free-png-byisd",
     "Cactus: https://pngtree.com/freepng/hand-drawn-cute-cactus_4210174.html",
-    "Candle: ",
+    "Candle: FALTA",
     "Carrot: https://clipartix.com/carrot-clipart-image-55597/",
     "Cheese: https://www.pngwing.com/en/free-png-btzwp",
     "ChessKnight: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
