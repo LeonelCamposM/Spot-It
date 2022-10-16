@@ -118,7 +118,7 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
                 ),
               ],
             ),
-            SizeConfig.safeBlockVertical * 80,
+            SizeConfig.safeBlockVertical * 70,
             SizeConfig.safeBlockHorizontal * 45), //focus box
       ],
     );
