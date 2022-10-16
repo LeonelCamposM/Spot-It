@@ -30,6 +30,6 @@ class MyApp extends StatelessWidget {
           RegisterRoomPage.routeName: (context) => const RegisterRoomPage(),
           CreditsPage.routeName: (context) => const CreditsPage(),
         },
-        initialRoute: CreditsPage.routeName);
+        initialRoute: HomePage.routeName);
   }
 }
