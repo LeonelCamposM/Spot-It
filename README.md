@@ -1,5 +1,5 @@
 ## Requirements of the system
-For this project, a solution will be developed to solve the problem of creating a concurrent web server in which the game **Spot It!** can be played by multiple players at the same time.
+For this project, a solution will be developed to solve the problem of creating a concurrent game **Spot It!** that can be played by multiple players at the same time.
 
 ## Instalation
 https://docs.flutter.dev/get-started/install/windows
@@ -9,13 +9,9 @@ https://docs.flutter.dev/get-started/install/windows
 3) run flutter doctor
 4) cd project directory
 5) flutter pug get
-7) cd game_server
-8) npm install
 
 ## Execution instructions
 1) flutter run
-2) cd game_server
-3) npm run dev
 
 ## code lint
 dart analyze 
