@@ -8,7 +8,7 @@ https://docs.flutter.dev/get-started/install/windows
 2) git clone https://github.com/flutter/flutter.git -b stable
 3) run flutter doctor
 4) cd project directory
-5) flutter pug get
+5) flutter pub get
 
 ## Execution instructions
 1) flutter run
