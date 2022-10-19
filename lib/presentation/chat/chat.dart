@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
@@ -52,7 +53,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                         SizedBox(
                             height: SizeConfig.blockSizeVertical * 85,
                             width: SizeConfig.blockSizeHorizontal * 50,
-                            child: getVerticalList(names, icons)),
+                            child: OnChatUpdate()),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
