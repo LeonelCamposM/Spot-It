@@ -4,7 +4,8 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 // @param context: build context
 // @param inputMessage: field's message
 // @return card with the input field with the choosen message
-Card getInputField(String inputMessage, context) {
+Card getInputField(
+    String inputMessage, TextEditingController textController, context) {
   Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
   return Card(
     elevation: 10,
@@ -15,6 +16,7 @@ Card getInputField(String inputMessage, context) {
     // ignore: prefer_const_constructors
     child: SizedBox(
       child: TextField(
+        controller: textController,
         style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
         textAlign: TextAlign.center,
         decoration: InputDecoration(

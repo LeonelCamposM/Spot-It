@@ -70,7 +70,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                   ),
 
                   // user input
-                  getMessageBar(secondaryColor, context, chatUseCase),
+                  getMessageBar(secondaryColor, chatUseCase, context),
                 ],
               ),
             );
@@ -83,7 +83,8 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with input text and send button
-Row getMessageBar(Color secondaryColor, context, ChatUseCase chatUseCase) {
+Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase, context) {
+  final textController = TextEditingController();
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
@@ -91,7 +92,7 @@ Row getMessageBar(Color secondaryColor, context, ChatUseCase chatUseCase) {
         flex: 8,
         child: Padding(
           padding: const EdgeInsets.only(),
-          child: getInputField(" Ingrese un mensaje", context),
+          child: getInputField(" Ingrese un mensaje", textController, context),
         ),
       ),
       Padding(
@@ -103,7 +104,8 @@ Row getMessageBar(Color secondaryColor, context, ChatUseCase chatUseCase) {
               icon: const Icon(Icons.send),
               onPressed: () {
                 chatUseCase.sendMessage(
-                    Message("Hola"), " jTKFlTMyk0Rw24pdPcmv");
+                    Message(textController.text), " jTKFlTMyk0Rw24pdPcmv");
+                textController.clear();
               },
             )),
       ),
@@ -155,7 +157,7 @@ ListView getVerticalList(List<String> messages, List<IconData> icons) {
                           .primaries[Random().nextInt(Colors.primaries.length)],
                       shape: BoxShape.circle),
                   child: Icon(
-                    icons[index],
+                    icons[0],
                     size: SizeConfig.blockSizeVertical * 5,
                   )),
               const Text("   "),

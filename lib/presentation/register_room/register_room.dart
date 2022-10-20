@@ -133,14 +133,16 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                             SizedBox(
                               height: SizeConfig.safeBlockVertical * 10,
                               width: SizeConfig.blockSizeHorizontal * 30,
-                              child: getInputField("Nombre", context),
+                              child: getInputField(
+                                  "Nombre", TextEditingController(), context),
                             ),
 
                             args.isHost == false
                                 ? SizedBox(
                                     width: SizeConfig.safeBlockHorizontal * 30,
                                     height: SizeConfig.safeBlockVertical * 10,
-                                    child: getInputField("ID de sala", context),
+                                    child: getInputField("ID de sala",
+                                        TextEditingController(), context),
                                   )
                                 : const SizedBox(),
                             // Create Room Button
