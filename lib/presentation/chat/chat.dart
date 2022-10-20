@@ -1,40 +1,19 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/chat/rooms_use_case.dart';
 import 'package:spot_it_game/domain/chat/message.dart';
 import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
-import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 
-IconButton openChat(context, Color secondaryColor, Color primaryColor) {
+IconButton openChat(
+    BuildContext context, Color secondaryColor, Color primaryColor) {
+  // Abstract Interface that provides database services
   final chatUseCase = ChatUseCase(ChatRepository(FirebaseFirestore.instance));
-  // Testing data
-  List<IconData> icons = [
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard,
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard
-  ];
-  List<String> names = [
-    "Sofia: estoy muy emocionada por empezar ",
-    "Nayeri: les voy a ganar a todos",
-    "Jeremy: me voy a poner lolchi",
-    "Leonel: el chat me quedó lindo",
-    "Sofia: estoy muy emocionada por empezar ",
-    "Nayeri: les voy a ganar a todos",
-    "Jeremy: me voy a poner lolchi",
-    "Leonel: el chat me quedó lindo"
-  ];
 
   return IconButton(
     iconSize: getIconSize(),
@@ -55,8 +34,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                     flex: 4,
                     child: Row(
                       children: [
-                        const Text(""),
-                        OnChatUpdate(),
+                        chatUseCase.onChatUpdate(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -81,7 +59,8 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with input text and send button
-Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase, context) {
+Row getMessageBar(
+    Color secondaryColor, ChatUseCase chatUseCase, BuildContext context) {
   final textController = TextEditingController();
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -102,9 +81,10 @@ Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase, context) {
               icon: const Icon(Icons.send),
               onPressed: () {
                 chatUseCase.sendMessage(
-                    Message(textController.text,
-                        DateTime.now().microsecondsSinceEpoch),
-                    " jTKFlTMyk0Rw24pdPcmv");
+                  Message(textController.text,
+                      DateTime.now().microsecondsSinceEpoch, "soap"),
+                  " jTKFlTMyk0Rw24pdPcmv",
+                );
                 textController.clear();
               },
             )),
@@ -116,7 +96,7 @@ Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase, context) {
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with close button aligned to right
-Row getCloseButton(Color secondaryColor, context) {
+Row getCloseButton(Color secondaryColor, BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
@@ -151,7 +131,6 @@ Widget getVerticalList(List<String> messages, List<IconData> icons) {
           (index) => Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                     width: SizeConfig.blockSizeHorizontal * 5,
@@ -161,7 +140,7 @@ Widget getVerticalList(List<String> messages, List<IconData> icons) {
                             Random().nextInt(Colors.primaries.length)],
                         shape: BoxShape.circle),
                     child: Icon(
-                      Icons.soap,
+                      icons[index],
                       size: SizeConfig.blockSizeVertical * 5,
                     )),
                 const Text("   "),

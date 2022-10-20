@@ -38,26 +38,31 @@ class _OnChatUpdateState extends State<OnChatUpdate> {
         }
 
         List<Message> messages = [];
-
         final list = ListView(
           children: snapshot.data!.docs
               .map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                messages.add(Message(data['message'], data["time"]));
+                messages
+                    .add(Message(data['message'], data["time"], data["icon"]));
               })
               .toList()
               .cast(),
         );
 
-        List<IconData> icons = [
-          Icons.soap,
-        ];
+        Map<String, IconData> roomIcons = {
+          'soap': Icons.add_shopping_cart,
+          'calendar_view_week_rounded': Icons.calendar_view_day_rounded,
+          'call_end_outlined': Icons.call_end_outlined,
+          'call_made': Icons.call_made,
+        };
 
+        List<IconData> icons = [];
         messages.sort((a, b) => a.time.compareTo(b.time));
         List<String> sorted = [];
         for (var element in messages.reversed) {
           sorted.add(element.message);
+          icons.add(roomIcons[element.icon]!);
         }
 
         return getVerticalList(sorted, icons);
