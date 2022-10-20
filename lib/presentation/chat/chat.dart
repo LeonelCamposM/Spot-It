@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/chat/rooms_use_case.dart';
 import 'package:spot_it_game/domain/chat/message.dart';
@@ -55,10 +56,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                     child: Row(
                       children: [
                         const Text(""),
-                        SizedBox(
-                            height: SizeConfig.blockSizeVertical * 85,
-                            width: SizeConfig.blockSizeHorizontal * 50,
-                            child: OnChatUpdate()),
+                        OnChatUpdate(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -141,35 +139,42 @@ Row getCloseButton(Color secondaryColor, context) {
 // @param messages: Player messages in order
 // @param icons: Player images in order
 // @return Container with vertical list chat view
-ListView getVerticalList(List<String> messages, List<IconData> icons) {
-  return ListView(
-      scrollDirection: Axis.vertical,
-      children: List.generate(
-        messages.length,
-        (index) => Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                  width: SizeConfig.blockSizeHorizontal * 5,
-                  height: SizeConfig.blockSizeVertical * 10,
-                  decoration: BoxDecoration(
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)],
-                      shape: BoxShape.circle),
-                  child: Icon(
-                    Icons.soap,
-                    size: SizeConfig.blockSizeVertical * 5,
-                  )),
-              const Text("   "),
-              getFocusBox(
-                  getText(messages[index], SizeConfig.blockSizeHorizontal * 1.5,
-                      Alignment.centerLeft),
-                  SizeConfig.blockSizeVertical * 10,
-                  SizeConfig.blockSizeHorizontal * 43),
-            ],
+Widget getVerticalList(List<String> messages, List<IconData> icons) {
+  return SizedBox(
+    height: SizeConfig.blockSizeVertical * 85,
+    width: SizeConfig.blockSizeHorizontal * 50,
+    child: ListView(
+        reverse: true,
+        scrollDirection: Axis.vertical,
+        children: List.generate(
+          messages.length,
+          (index) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    width: SizeConfig.blockSizeHorizontal * 5,
+                    height: SizeConfig.blockSizeVertical * 10,
+                    decoration: BoxDecoration(
+                        color: Colors.primaries[
+                            Random().nextInt(Colors.primaries.length)],
+                        shape: BoxShape.circle),
+                    child: Icon(
+                      Icons.soap,
+                      size: SizeConfig.blockSizeVertical * 5,
+                    )),
+                const Text("   "),
+                getFocusBox(
+                    getText(
+                        messages[index],
+                        SizeConfig.blockSizeHorizontal * 1.5,
+                        Alignment.centerLeft),
+                    SizeConfig.blockSizeVertical * 10,
+                    SizeConfig.blockSizeHorizontal * 43),
+              ],
+            ),
           ),
-        ),
-      ));
+        )),
+  );
 }

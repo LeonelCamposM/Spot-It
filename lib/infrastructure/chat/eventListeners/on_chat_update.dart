@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/chat/message.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/core/size_config.dart';
 
 class OnChatUpdate extends StatefulWidget {
   List<String> messages = [];
@@ -28,7 +29,12 @@ class _OnChatUpdateState extends State<OnChatUpdate> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingWidget();
+          return SizedBox(
+              height: SizeConfig.blockSizeVertical * 30,
+              width: SizeConfig.blockSizeHorizontal * 30,
+              child: getLoagingWidget(
+                const Color.fromARGB(140, 0, 0, 0),
+              ));
         }
 
         List<Message> messages = [];
@@ -50,9 +56,10 @@ class _OnChatUpdateState extends State<OnChatUpdate> {
 
         messages.sort((a, b) => a.time.compareTo(b.time));
         List<String> sorted = [];
-        for (var element in messages) {
+        for (var element in messages.reversed) {
           sorted.add(element.message);
         }
+
         return getVerticalList(sorted, icons);
       },
     );

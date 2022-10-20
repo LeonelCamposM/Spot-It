@@ -10,3 +10,7 @@ class LoadingWidget extends StatelessWidget {
     return const CircularProgressIndicator();
   }
 }
+
+Widget getLoagingWidget(Color secondaryColor) {
+  return CircularProgressIndicator(color: secondaryColor);
+}
