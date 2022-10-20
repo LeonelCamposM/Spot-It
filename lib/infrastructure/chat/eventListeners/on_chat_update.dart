@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/domain/chat/message.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 
@@ -30,17 +31,14 @@ class _OnChatUpdateState extends State<OnChatUpdate> {
           return const LoadingWidget();
         }
 
-        List<String> messages = [];
+        List<Message> messages = [];
+
         final list = ListView(
           children: snapshot.data!.docs
               .map((DocumentSnapshot document) {
-                print(document.data());
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-                messages.add(data['message']);
-                return ListTile(
-                  title: Text(data['message']),
-                );
+                messages.add(Message(data['message'], data["time"]));
               })
               .toList()
               .cast(),
@@ -48,16 +46,14 @@ class _OnChatUpdateState extends State<OnChatUpdate> {
 
         List<IconData> icons = [
           Icons.soap,
-          Icons.nearby_error,
-          Icons.join_left,
-          Icons.leaderboard,
-          Icons.soap,
-          Icons.nearby_error,
-          Icons.join_left,
-          Icons.leaderboard
         ];
 
-        return getVerticalList(messages, icons);
+        messages.sort((a, b) => a.time.compareTo(b.time));
+        List<String> sorted = [];
+        for (var element in messages) {
+          sorted.add(element.message);
+        }
+        return getVerticalList(sorted, icons);
       },
     );
   }

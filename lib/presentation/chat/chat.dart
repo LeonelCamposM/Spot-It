@@ -104,7 +104,9 @@ Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase, context) {
               icon: const Icon(Icons.send),
               onPressed: () {
                 chatUseCase.sendMessage(
-                    Message(textController.text), " jTKFlTMyk0Rw24pdPcmv");
+                    Message(textController.text,
+                        DateTime.now().microsecondsSinceEpoch),
+                    " jTKFlTMyk0Rw24pdPcmv");
                 textController.clear();
               },
             )),
@@ -157,7 +159,7 @@ ListView getVerticalList(List<String> messages, List<IconData> icons) {
                           .primaries[Random().nextInt(Colors.primaries.length)],
                       shape: BoxShape.circle),
                   child: Icon(
-                    icons[0],
+                    Icons.soap,
                     size: SizeConfig.blockSizeVertical * 5,
                   )),
               const Text("   "),
