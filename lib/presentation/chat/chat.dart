@@ -1,5 +1,9 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/chat/rooms_use_case.dart';
+import 'package:spot_it_game/domain/chat/message.dart';
+import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
 import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
@@ -8,6 +12,7 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 
 IconButton openChat(context, Color secondaryColor, Color primaryColor) {
+  final chatUseCase = ChatUseCase(ChatRepository(FirebaseFirestore.instance));
   // Testing data
   List<IconData> icons = [
     Icons.soap,
@@ -65,7 +70,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                   ),
 
                   // user input
-                  getMessageBar(secondaryColor, context),
+                  getMessageBar(secondaryColor, context, chatUseCase),
                 ],
               ),
             );
@@ -78,7 +83,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with input text and send button
-Row getMessageBar(Color secondaryColor, context) {
+Row getMessageBar(Color secondaryColor, context, ChatUseCase chatUseCase) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
@@ -97,7 +102,8 @@ Row getMessageBar(Color secondaryColor, context) {
               iconSize: getIconSize(),
               icon: const Icon(Icons.send),
               onPressed: () {
-                Navigator.pop(context);
+                chatUseCase.sendMessage(
+                    Message("Hola"), " jTKFlTMyk0Rw24pdPcmv");
               },
             )),
       ),
