@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
@@ -59,7 +58,6 @@ class _CreditsWidget extends StatefulWidget {
 }
 
 class _CreditsWidgetState extends State<_CreditsWidget> {
-  final ClientService clientService = ClientService();
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
   List<String> links = [
     "Creador: Angie Sofia Castillo Campos",
