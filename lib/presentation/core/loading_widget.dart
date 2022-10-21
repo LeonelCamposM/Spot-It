@@ -10,3 +10,10 @@ class LoadingWidget extends StatelessWidget {
     return const CircularProgressIndicator();
   }
 }
+
+Widget getLoadingWidget(Color secondaryColor, double width, double heigth) {
+  return SizedBox(
+      width: width,
+      height: heigth,
+      child: CircularProgressIndicator(color: secondaryColor));
+}

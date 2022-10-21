@@ -1,33 +1,20 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/chat/rooms_use_case.dart';
+import 'package:spot_it_game/domain/chat/message.dart';
+import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
-IconButton openChat(context, Color secondaryColor, Color primaryColor) {
-  // Testing data
-  List<IconData> icons = [
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard,
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard
-  ];
-  List<String> names = [
-    "Sofia: estoy muy emocionada por empezar ",
-    "Nayeri: les voy a ganar a todos",
-    "Jeremy: me voy a poner lolchi",
-    "Leonel: el chat me quedó lindo",
-    "Sofia: estoy muy emocionada por empezar ",
-    "Nayeri: les voy a ganar a todos",
-    "Jeremy: me voy a poner lolchi",
-    "Leonel: el chat me quedó lindo"
-  ];
+IconButton openChat(
+    BuildContext context, Color secondaryColor, Color primaryColor) {
+  // Abstract Interface that provides database services
+  final chatUseCase = ChatUseCase(ChatRepository(FirebaseFirestore.instance));
 
   return IconButton(
     iconSize: getIconSize(),
@@ -48,11 +35,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                     flex: 4,
                     child: Row(
                       children: [
-                        const Text(""),
-                        SizedBox(
-                            height: SizeConfig.blockSizeVertical * 85,
-                            width: SizeConfig.blockSizeHorizontal * 50,
-                            child: getVerticalList(names, icons)),
+                        chatUseCase.onChatUpdate(),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -64,7 +47,7 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
                   ),
 
                   // user input
-                  getMessageBar(secondaryColor, context),
+                  getMessageBar(secondaryColor, chatUseCase, context),
                 ],
               ),
             );
@@ -77,7 +60,9 @@ IconButton openChat(context, Color secondaryColor, Color primaryColor) {
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with input text and send button
-Row getMessageBar(Color secondaryColor, context) {
+Row getMessageBar(
+    Color secondaryColor, ChatUseCase chatUseCase, BuildContext context) {
+  final textController = TextEditingController();
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
@@ -85,7 +70,7 @@ Row getMessageBar(Color secondaryColor, context) {
         flex: 8,
         child: Padding(
           padding: const EdgeInsets.only(),
-          child: getInputField(" Ingrese un mensaje", context),
+          child: getInputField(" Ingrese un mensaje", textController, context),
         ),
       ),
       Padding(
@@ -96,7 +81,12 @@ Row getMessageBar(Color secondaryColor, context) {
               iconSize: getIconSize(),
               icon: const Icon(Icons.send),
               onPressed: () {
-                Navigator.pop(context);
+                chatUseCase.sendMessage(
+                  Message(textController.text,
+                      DateTime.now().microsecondsSinceEpoch, "soap"),
+                  " jTKFlTMyk0Rw24pdPcmv",
+                );
+                textController.clear();
               },
             )),
       ),
@@ -107,7 +97,7 @@ Row getMessageBar(Color secondaryColor, context) {
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with close button aligned to right
-Row getCloseButton(Color secondaryColor, context) {
+Row getCloseButton(Color secondaryColor, BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
@@ -130,35 +120,41 @@ Row getCloseButton(Color secondaryColor, context) {
 // @param messages: Player messages in order
 // @param icons: Player images in order
 // @return Container with vertical list chat view
-ListView getVerticalList(List<String> messages, List<IconData> icons) {
-  return ListView(
-      scrollDirection: Axis.vertical,
-      children: List.generate(
-        messages.length,
-        (index) => Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                  width: SizeConfig.blockSizeHorizontal * 5,
-                  height: SizeConfig.blockSizeVertical * 10,
-                  decoration: BoxDecoration(
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)],
-                      shape: BoxShape.circle),
-                  child: Icon(
-                    icons[index],
-                    size: SizeConfig.blockSizeVertical * 5,
-                  )),
-              const Text("   "),
-              getFocusBox(
-                  getText(messages[index], SizeConfig.blockSizeHorizontal * 1.5,
-                      Alignment.centerLeft),
-                  SizeConfig.blockSizeVertical * 10,
-                  SizeConfig.blockSizeHorizontal * 43),
-            ],
+Widget getVerticalList(List<Message> messages) {
+  return SizedBox(
+    height: SizeConfig.blockSizeVertical * 85,
+    width: SizeConfig.blockSizeHorizontal * 50,
+    child: ListView(
+        reverse: true,
+        scrollDirection: Axis.vertical,
+        children: List.generate(
+          messages.length,
+          (index) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: [
+                Container(
+                    width: SizeConfig.blockSizeHorizontal * 5,
+                    height: SizeConfig.blockSizeVertical * 10,
+                    decoration: BoxDecoration(
+                        color: Colors.primaries[
+                            Random().nextInt(Colors.primaries.length)],
+                        shape: BoxShape.circle),
+                    child: Icon(
+                      getRoomIcon(messages[index].icon),
+                      size: SizeConfig.blockSizeVertical * 5,
+                    )),
+                const Text("   "),
+                getFocusBox(
+                    getText(
+                        messages[index].message,
+                        SizeConfig.blockSizeHorizontal * 1.5,
+                        Alignment.centerLeft),
+                    SizeConfig.blockSizeVertical * 10,
+                    SizeConfig.blockSizeHorizontal * 43),
+              ],
+            ),
           ),
-        ),
-      ));
+        )),
+  );
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spot_it_game/domain/clients/client_service.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
@@ -63,7 +62,6 @@ class _RegisterRoomWidget extends StatefulWidget {
 }
 
 class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
-  final ClientService clientService = ClientService();
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
 
   @override
@@ -133,14 +131,16 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                             SizedBox(
                               height: SizeConfig.safeBlockVertical * 10,
                               width: SizeConfig.blockSizeHorizontal * 30,
-                              child: getInputField("Nombre", context),
+                              child: getInputField(
+                                  "Nombre", TextEditingController(), context),
                             ),
 
                             args.isHost == false
                                 ? SizedBox(
                                     width: SizeConfig.safeBlockHorizontal * 30,
                                     height: SizeConfig.safeBlockVertical * 10,
-                                    child: getInputField("ID de sala", context),
+                                    child: getInputField("ID de sala",
+                                        TextEditingController(), context),
                                   )
                                 : const SizedBox(),
                             // Create Room Button
