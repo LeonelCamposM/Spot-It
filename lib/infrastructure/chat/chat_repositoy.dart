@@ -25,6 +25,6 @@ class ChatRepository implements IChatRepository {
 
   @override
   Widget onChatUpdate() {
-    return OnChatUpdate();
+    return const OnChatUpdate();
   }
 }

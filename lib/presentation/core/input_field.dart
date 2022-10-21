@@ -17,7 +17,9 @@ Card getInputField(
     child: SizedBox(
       child: TextField(
         controller: textController,
-        style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+        style: TextStyle(
+            color: const Color.fromARGB(255, 0, 0, 0),
+            fontSize: SizeConfig.safeBlockVertical * 4),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
             border: InputBorder.none,

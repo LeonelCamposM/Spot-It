@@ -9,6 +9,7 @@ import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 IconButton openChat(
     BuildContext context, Color secondaryColor, Color primaryColor) {
@@ -119,7 +120,7 @@ Row getCloseButton(Color secondaryColor, BuildContext context) {
 // @param messages: Player messages in order
 // @param icons: Player images in order
 // @return Container with vertical list chat view
-Widget getVerticalList(List<String> messages, List<IconData> icons) {
+Widget getVerticalList(List<Message> messages) {
   return SizedBox(
     height: SizeConfig.blockSizeVertical * 85,
     width: SizeConfig.blockSizeHorizontal * 50,
@@ -140,13 +141,13 @@ Widget getVerticalList(List<String> messages, List<IconData> icons) {
                             Random().nextInt(Colors.primaries.length)],
                         shape: BoxShape.circle),
                     child: Icon(
-                      icons[index],
+                      getRoomIcon(messages[index].icon),
                       size: SizeConfig.blockSizeVertical * 5,
                     )),
                 const Text("   "),
                 getFocusBox(
                     getText(
-                        messages[index],
+                        messages[index].message,
                         SizeConfig.blockSizeHorizontal * 1.5,
                         Alignment.centerLeft),
                     SizeConfig.blockSizeVertical * 10,

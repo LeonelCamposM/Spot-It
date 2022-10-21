@@ -11,6 +11,9 @@ class LoadingWidget extends StatelessWidget {
   }
 }
 
-Widget getLoagingWidget(Color secondaryColor) {
-  return CircularProgressIndicator(color: secondaryColor);
+Widget getLoadingWidget(Color secondaryColor, double width, double heigth) {
+  return SizedBox(
+      width: width,
+      height: heigth,
+      child: CircularProgressIndicator(color: secondaryColor));
 }
