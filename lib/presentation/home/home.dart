@@ -64,7 +64,7 @@ class _RoomPageState extends State<HomePage> {
                         getTextButton(
                             "ANFITRIÓN",
                             SizeConfig.safeBlockHorizontal * 30,
-                            SizeConfig.safeBlockVertical * 12,
+                            SizeConfig.safeBlockVertical * 10,
                             SizeConfig.safeBlockHorizontal * 2,
                             getSecondaryColor(),
                             RegisterRoomPage.routeName,
@@ -74,7 +74,7 @@ class _RoomPageState extends State<HomePage> {
                         getTextButton(
                             "INVITADO",
                             SizeConfig.safeBlockHorizontal * 30,
-                            SizeConfig.safeBlockVertical * 12,
+                            SizeConfig.safeBlockVertical * 10,
                             SizeConfig.safeBlockHorizontal * 2,
                             getSecondaryColor(),
                             RegisterRoomPage.routeName,
