@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/rooms/i_room_repository.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
-import 'package:spot_it_game/infrastructure/rooms/eventListeners/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 
 class RoomRepository implements IRoomRepository {
@@ -21,7 +20,13 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Widget onJoinableUpdate(BuildContext buildContext) {
-    return OnJoinableUpdate(context: buildContext);
+  void onJoinableUpdate(BuildContext context) {
+    FirebaseFirestore.instance.collection("/Room").snapshots().listen((event) {
+      for (var change in event.docChanges) {
+        if (change.doc['joinable'] == true) {
+          Navigator.pushNamed(context, GamePage.routeName);
+        }
+      }
+    });
   }
 }
