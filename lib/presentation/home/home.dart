@@ -66,20 +66,22 @@ class _RoomPageState extends State<HomePage> {
                             SizeConfig.safeBlockHorizontal * 30,
                             SizeConfig.safeBlockVertical * 10,
                             SizeConfig.safeBlockHorizontal * 2,
-                            getSecondaryColor(),
-                            RegisterRoomPage.routeName,
-                            RegisterRoomArgs(true),
-                            context),
+                            getSecondaryColor(), () {
+                          Navigator.pushNamed(
+                              context, RegisterRoomPage.routeName,
+                              arguments: RegisterRoomArgs(true));
+                        }),
                         const Text(""),
                         getTextButton(
                             "INVITADO",
                             SizeConfig.safeBlockHorizontal * 30,
                             SizeConfig.safeBlockVertical * 10,
                             SizeConfig.safeBlockHorizontal * 2,
-                            getSecondaryColor(),
-                            RegisterRoomPage.routeName,
-                            RegisterRoomArgs(false),
-                            context),
+                            getSecondaryColor(), () {
+                          Navigator.pushNamed(
+                              context, RegisterRoomPage.routeName,
+                              arguments: RegisterRoomArgs(false));
+                        }),
                       ],
                     ),
                   ],

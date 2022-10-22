@@ -1,7 +1,7 @@
 class Room {
   final int round;
   final bool joinable;
-  // todo players
+
   Room(this.round, this.joinable);
 
   factory Room.fromJson(Map<String, dynamic> json) =>

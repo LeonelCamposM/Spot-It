@@ -150,19 +150,21 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 30,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(),
-                                    WaitingRoomPage.routeName,
-                                    WaitingRoomArgs(true),
-                                    context)
+                                    getSecondaryColor(), () {
+                                    Navigator.pushNamed(
+                                        context, WaitingRoomPage.routeName,
+                                        arguments: WaitingRoomArgs(true));
+                                  })
                                 : getTextButton(
                                     "UNIRSE",
                                     SizeConfig.safeBlockHorizontal * 30,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(),
-                                    WaitingRoomPage.routeName,
-                                    WaitingRoomArgs(false),
-                                    context),
+                                    getSecondaryColor(), () {
+                                    Navigator.pushNamed(
+                                        context, WaitingRoomPage.routeName,
+                                        arguments: WaitingRoomArgs(false));
+                                  }),
                           ],
                         ),
                       ),

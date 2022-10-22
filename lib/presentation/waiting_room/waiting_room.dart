@@ -90,10 +90,10 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockHorizontal * 20,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(),
-                                    GamePage.routeName,
-                                    null,
-                                    context)
+                                    getSecondaryColor(), () {
+                                    roomUseCase
+                                        .updateJoinable('jTKFlTMyk0Rw24pdPcmv');
+                                  })
                                 : getText(
                                     "Esperando al host para comenzar ...",
                                     SizeConfig.safeBlockHorizontal * 1.5,

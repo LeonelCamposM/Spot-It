@@ -9,11 +9,15 @@ class RoomUseCase {
 
   RoomUseCase(this.roomRepository);
 
-  Future<String> createRoom(Room room) {
+  Future<String> createRoom(Room room) async {
     return roomRepository.createRoom(room);
   }
 
-  void onChatUpdate(BuildContext context) {
+  void onChatUpdate(BuildContext context) async {
     return roomRepository.onJoinableUpdate(context);
+  }
+
+  Future<void> updateJoinable(roomID) async {
+    return roomRepository.updateJoinable(roomID);
   }
 }
