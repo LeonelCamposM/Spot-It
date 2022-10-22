@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/domain/sockets/socketServices.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -38,10 +39,12 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
 
   RoomUseCase roomUseCase =
       RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+  final SocketService socketService = SocketService();
 
   @override
   void initState() {
     super.initState();
+    socketService.recieveOnJoinableUpdate(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -81,7 +84,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         SizedBox(
                             width: 100,
                             height: 100,
-                            child: roomUseCase.onChatUpdate()),
+                            child: roomUseCase.onChatUpdate(context)),
 
                         // Players list view
                         getPlayersList(names, icons),

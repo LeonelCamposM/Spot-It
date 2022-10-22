@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/rooms/i_room_repository.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/rooms/eventListeners/eventListeners/on_joinable_update.dart';
+import 'package:spot_it_game/presentation/game/game.dart';
 
 class RoomRepository implements IRoomRepository {
   final CollectionReference<Room> _roomsCollection;
@@ -20,7 +21,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Widget onJoinableUpdate() {
-    return const OnJoinableUpdate();
+  Widget onJoinableUpdate(BuildContext buildContext) {
+    return OnJoinableUpdate(context: buildContext);
   }
 }

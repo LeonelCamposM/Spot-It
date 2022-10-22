@@ -11,7 +11,7 @@ class RoomUseCase {
     return roomRepository.createRoom(room);
   }
 
-  Widget onChatUpdate() {
-    return roomRepository.onJoinableUpdate();
+  Widget onChatUpdate(BuildContext context) {
+    return roomRepository.onJoinableUpdate(context);
   }
 }
