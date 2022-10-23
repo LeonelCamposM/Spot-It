@@ -7,19 +7,13 @@ import 'button_style.dart';
 // @param height: size fot the button's height
 // @return the sixed box with the choosen size and text for the button
 SizedBox getTextButton(String text, double width, double height,
-    double fontSize, Color color, route, args, context) {
+    double fontSize, Color color, Function()? onPressed) {
   return SizedBox(
     height: height,
     width: width,
     child: ElevatedButton(
       style: getButtonStyle(200, 60, 20.0, color),
-      onPressed: () {
-        Navigator.pushNamed(
-          context,
-          route,
-          arguments: args,
-        );
-      },
+      onPressed: onPressed,
       child: getText(text, fontSize, Alignment.center),
     ),
   );
