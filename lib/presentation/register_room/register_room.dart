@@ -70,6 +70,11 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
+  late String roomIDGuest;
+
+  final textNameController = TextEditingController();
+  final textRoomIDController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as RegisterRoomArgs;
@@ -138,7 +143,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                               height: SizeConfig.safeBlockVertical * 10,
                               width: SizeConfig.blockSizeHorizontal * 30,
                               child: getInputField(
-                                  "Nombre", TextEditingController(), context),
+                                  "Nombre", textNameController, context),
                             ),
 
                             args.isHost == false
@@ -146,7 +151,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     width: SizeConfig.safeBlockHorizontal * 30,
                                     height: SizeConfig.safeBlockVertical * 10,
                                     child: getInputField("ID de sala",
-                                        TextEditingController(), context),
+                                        textRoomIDController, context),
                                   )
                                 : const SizedBox(),
                             // Create Room Button
@@ -160,7 +165,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     String roomID = await roomUseCase
                                         .createRoom(Room(1, true));
                                     playerUseCase.addPlayer(
-                                        Player("ny", "face", "", 1, 2), roomID);
+                                        Player(textNameController.text, "face",
+                                            "", 1, 2),
+                                        roomID);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(true));
@@ -171,6 +178,10 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () {
+                                    playerUseCase.addPlayer(
+                                        Player(textNameController.text, "face",
+                                            "", 1, 2),
+                                        textRoomIDController.text);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(false));
