@@ -10,7 +10,6 @@ import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
-import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
@@ -163,8 +162,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
                                     String roomID = await roomUseCase
-                                        .createRoom(Room(1, true));
-                                    playerUseCase.addPlayer(
+                                        .createRoom(Room(0, true));
+
+                                    await playerUseCase.addPlayer(
                                         Player(textNameController.text, "face",
                                             "", 1, 2),
                                         roomID);
@@ -177,8 +177,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 30,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () {
-                                    playerUseCase.addPlayer(
+                                    getSecondaryColor(), () async {
+                                    await playerUseCase.addPlayer(
                                         Player(textNameController.text, "face",
                                             "", 1, 2),
                                         textRoomIDController.text);
