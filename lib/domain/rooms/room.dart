@@ -1,11 +1,11 @@
 class Room {
-  final String owner;
+  final int round;
   final bool joinable;
-  // todo players
-  Room(this.owner, this.joinable);
+
+  Room(this.round, this.joinable);
 
   factory Room.fromJson(Map<String, dynamic> json) =>
-      Room(json['owner'] as String, json['joinable'] as bool);
+      Room(json['round'] as int, json['joinable'] as bool);
 
-  Map<String, dynamic> toJson() => {'owner': owner, 'joinable': joinable};
+  Map<String, dynamic> toJson() => {'round': round, 'joinable': joinable};
 }

@@ -1,6 +1,9 @@
 // ignore_for_file: unnecessary_new
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
@@ -33,9 +36,13 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
   String roomID = "gMIPh2BsGpaZqIx6EHPj";
 
+  RoomUseCase roomUseCase =
+      RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+
   @override
   void initState() {
     super.initState();
+    roomUseCase.onChatUpdate(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -83,10 +90,10 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockHorizontal * 20,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(),
-                                    GamePage.routeName,
-                                    null,
-                                    context)
+                                    getSecondaryColor(), () {
+                                    roomUseCase
+                                        .updateJoinable('jTKFlTMyk0Rw24pdPcmv');
+                                  })
                                 : getText(
                                     "Esperando al host para comenzar ...",
                                     SizeConfig.safeBlockHorizontal * 1.5,
