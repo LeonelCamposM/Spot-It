@@ -44,11 +44,10 @@ class _RegisterRoomPageState extends State<RegisterRoomPage> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
+      body: const Padding(
+        padding: EdgeInsets.all(10.0),
         child: Center(
-          child:
-              isLoading ? const LoadingWidget() : const _RegisterRoomWidget(),
+          child: _RegisterRoomWidget(),
         ),
       ),
     );
