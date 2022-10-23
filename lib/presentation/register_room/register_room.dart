@@ -1,16 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
+import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/domain/rooms/room.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
+import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
+import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-
-import '../core/text_button_style.dart';
 
 class RegisterRoomPage extends StatefulWidget {
   static String routeName = '/register_room';
@@ -26,16 +32,11 @@ class _RegisterRoomPageState extends State<RegisterRoomPage> {
   @override
   void initState() {
     super.initState();
-    addRoom();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-  }
-
-  Future<void> addRoom() async {
-    isLoading = false;
   }
 
   @override
@@ -63,6 +64,12 @@ class _RegisterRoomWidget extends StatefulWidget {
 
 class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
+
+  RoomUseCase roomUseCase =
+      RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +157,11 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 30,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () {
+                                    getSecondaryColor(), () async {
+                                    String roomID = await roomUseCase
+                                        .createRoom(Room(1, true));
+                                    playerUseCase.addPlayer(
+                                        Player("ny", "face", "", 1, 2), roomID);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(true));
