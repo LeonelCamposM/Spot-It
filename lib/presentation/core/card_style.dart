@@ -9,7 +9,6 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 SizedBox getCardStyle(CardModel card, int width, int height) {
   var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
   var cardBorderColor = Colors.black;
-
   return SizedBox(
       width: SizeConfig.safeBlockHorizontal * width,
       height: SizeConfig.safeBlockHorizontal * height,
