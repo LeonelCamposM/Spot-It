@@ -24,14 +24,10 @@ class OnPlayersUpdate extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox(
-              height: SizeConfig.blockSizeVertical * 85,
-              width: SizeConfig.blockSizeHorizontal * 50,
-              child: const Text(''));
+          return const SizedBox(child: Text(''));
         }
 
         List<Player> messages = getAllPlayers(snapshot);
-        //return Text(messages.first.icon);
         return getPlayersList(messages);
       },
     );
