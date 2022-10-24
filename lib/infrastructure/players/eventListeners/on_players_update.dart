@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/domain/chat/message.dart';
 import 'package:spot_it_game/domain/players/player.dart';
-import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
@@ -32,7 +30,7 @@ class OnPlayersUpdate extends StatelessWidget {
               child: const Text(''));
         }
 
-        List<Player> messages = getAllMessages(snapshot);
+        List<Player> messages = getAllPlayers(snapshot);
         //return Text(messages.first.icon);
         return getPlayersList(messages);
       },
@@ -41,8 +39,8 @@ class OnPlayersUpdate extends StatelessWidget {
 }
 
 // @param snapshot: enventListener on database
-// @return updated palyer on db
-List<Player> getAllMessages(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+// @return updated player on db
+List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
   // Get all chat messages from snapshot
   List<Player> messages = [];
   ListView(

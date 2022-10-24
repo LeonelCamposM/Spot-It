@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/eventListeners/on_players_update.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -26,16 +28,10 @@ class WaitingRoomPage extends StatefulWidget {
 }
 
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
-  // Testing data
-  List<IconData> icons = [
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard
-  ];
-  List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
   RoomUseCase roomUseCase =
       RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
   @override
   void initState() {
@@ -77,8 +73,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         getIDBanner(args.roomID),
 
                         // Players list view
-                        OnPlayersUpdate(roomID: args.roomID),
-                        // getPlayersList(names, icons),
+                        playerUseCase.onPlayersUpdate(args.roomID),
 
                         // Start button
                         Center(
