@@ -13,4 +13,10 @@ reference: https://www.sciencedirect.com/science/article/abs/pii/S09205489163011
 
 ## Map site
 This is a map that describes navigation through the screens of our game.
+
 ![mapsite](/design/mapsite.svg)
+
+## Message Protocol
+This is the protocol of messages between the client and the database.
+
+![message_protocol](/design/message_protocol.svg)
