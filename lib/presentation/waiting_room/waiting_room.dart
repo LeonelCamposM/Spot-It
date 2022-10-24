@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -51,8 +52,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
-    roomUseCase.onJoinableUpdate(
-        context, GameRoomArgs(args.isHost, args.roomID));
+    // roomUseCase.onJoinableUpdate(
+    //     context, GameRoomArgs(args.isHost, args.roomID));
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
@@ -78,7 +79,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       children: [
                         // Room ID
                         getIDBanner(args.roomID),
-
+                        OnJoinableUpdate(roomID: args.roomID),
                         // Players list view
                         getPlayersList(names, icons),
 
