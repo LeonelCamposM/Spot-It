@@ -14,8 +14,7 @@ class PlayerRepository implements IPlayerRepository {
 
   @override
   Future<String> addPlayer(Player player, String roomID) async {
-    final reference =
-        await _playersCollection.doc(roomID).collection("players");
+    final reference = _playersCollection.doc(roomID).collection("players");
     final newPlayer = await reference.add(player.toJson());
     return newPlayer.id;
   }
