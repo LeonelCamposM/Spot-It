@@ -51,7 +51,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
-    roomUseCase.onJoinableUpdate(context, args.roomID);
+    roomUseCase.onJoinableUpdate(
+        context, GameRoomArgs(args.isHost, args.roomID));
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
@@ -194,4 +195,10 @@ Column getPlayersList(List<String> names, List<IconData> icons) {
           )),
     ],
   );
+}
+
+class GameRoomArgs {
+  final bool isHost;
+  final String roomID;
+  GameRoomArgs(this.isHost, this.roomID);
 }

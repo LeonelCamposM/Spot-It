@@ -14,6 +14,7 @@ import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
+import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
@@ -117,6 +118,7 @@ Column getLeaderboard() {
 }
 
 Row getFirstIcons(context) {
+  final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return (Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -138,10 +140,11 @@ Row getFirstIcons(context) {
             getSecondaryColor(),
             openRules(context, getSecondaryColor(), getPrimaryColor()),
           ),
-          // getIconButtonStyle(
-          //   getSecondaryColor(),
-          //   openChat(context, getSecondaryColor(), getPrimaryColor(), ""),
-          // )
+          getIconButtonStyle(
+            getSecondaryColor(),
+            openChat(
+                context, getSecondaryColor(), getPrimaryColor(), args.roomID),
+          )
         ],
       ),
     ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/rooms/i_room_repository.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 class RoomRepository implements IRoomRepository {
   final CollectionReference<Room> _roomsCollection;
@@ -25,15 +26,15 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Future<void> onJoinableUpdate(BuildContext context, String roomID) async {
+  Future<void> onJoinableUpdate(BuildContext context, GameRoomArgs args) async {
     FirebaseFirestore.instance
         .collection("Room")
-        .doc(roomID)
+        .doc(args.roomID)
         .snapshots()
         .listen((event) {
       Map<String, dynamic> data = event.data()!;
       if (data["joinable"] == false) {
-        Navigator.pushNamed(context, GamePage.routeName);
+        Navigator.pushNamed(context, GamePage.routeName, arguments: args);
       }
     });
   }
