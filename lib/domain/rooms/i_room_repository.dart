@@ -9,5 +9,5 @@ abstract class IRoomRepository {
 
   // @brief: enventListener waiting for changes on joinable property of a Room
   // it redirects the user to game page
-  void onJoinableUpdate(BuildContext context);
+  Widget onJoinableUpdate(String roomID);
 }

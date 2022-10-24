@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_new
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
@@ -10,7 +8,7 @@ import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -33,15 +31,12 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
     Icons.leaderboard
   ];
   List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
-  String roomID = "gMIPh2BsGpaZqIx6EHPj";
-
   RoomUseCase roomUseCase =
       RoomUseCase(RoomRepository(FirebaseFirestore.instance));
 
   @override
   void initState() {
     super.initState();
-    roomUseCase.onChatUpdate(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -76,7 +71,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         // Room ID
-                        getIDBanner(roomID),
+                        getIDBanner(args.roomID),
 
                         // Players list view
                         getPlayersList(names, icons),
@@ -90,22 +85,24 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () {
-                                    roomUseCase
-                                        .updateJoinable('jTKFlTMyk0Rw24pdPcmv');
+                                    roomUseCase.updateJoinable(args.roomID);
+                                    Navigator.pushNamed(
+                                        context, GamePage.routeName,
+                                        arguments: GameRoomArgs(
+                                            args.isHost, args.roomID));
                                   })
-                                : getText(
-                                    "Esperando al host para comenzar ...",
-                                    SizeConfig.safeBlockHorizontal * 1.5,
-                                    Alignment.topCenter)),
+                                : roomUseCase.onJoinableUpdate(args.roomID)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,
                     SizeConfig.safeBlockHorizontal * 50),
               ),
 
-              // Chat icon
-              getIconButtonStyle(getSecondaryColor(),
-                  openChat(context, getSecondaryColor(), getPrimaryColor())),
+              //Chat icon
+              getIconButtonStyle(
+                  getSecondaryColor(),
+                  openChat(context, getSecondaryColor(), getPrimaryColor(),
+                      args.roomID)),
             ],
           )),
     );
@@ -193,4 +190,10 @@ Column getPlayersList(List<String> names, List<IconData> icons) {
           )),
     ],
   );
+}
+
+class GameRoomArgs {
+  final bool isHost;
+  final String roomID;
+  GameRoomArgs(this.isHost, this.roomID);
 }
