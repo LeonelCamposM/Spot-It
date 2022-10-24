@@ -7,7 +7,7 @@ class PlayerRepository implements IPlayerRepository {
 
   PlayerRepository(FirebaseFirestore firestore)
       : _playersCollection =
-            firestore.collection('Room_Players').withConverter<Player>(
+            firestore.collection('Room_Player').withConverter<Player>(
                   fromFirestore: (doc, options) => Player.fromJson(doc.data()!),
                   toFirestore: (employee, options) => employee.toJson(),
                 );

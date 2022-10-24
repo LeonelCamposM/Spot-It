@@ -162,28 +162,31 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
                                     String roomID = await roomUseCase
-                                        .createRoom(Room(1, true));
-                                    playerUseCase.addPlayer(
+                                        .createRoom(Room(0, true));
+
+                                    await playerUseCase.addPlayer(
                                         Player(textNameController.text, "face",
                                             "", 1, 2),
                                         roomID);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
-                                        arguments: WaitingRoomArgs(true));
+                                        arguments:
+                                            WaitingRoomArgs(true, roomID));
                                   })
                                 : getTextButton(
                                     "UNIRSE",
                                     SizeConfig.safeBlockHorizontal * 30,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () {
-                                    playerUseCase.addPlayer(
+                                    getSecondaryColor(), () async {
+                                    await playerUseCase.addPlayer(
                                         Player(textNameController.text, "face",
                                             "", 1, 2),
                                         textRoomIDController.text);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
-                                        arguments: WaitingRoomArgs(false));
+                                        arguments: WaitingRoomArgs(
+                                            false, textRoomIDController.text));
                                   }),
                           ],
                         ),
@@ -229,5 +232,6 @@ SizedBox getButtonWithIcon(
 
 class WaitingRoomArgs {
   final bool isHost;
-  WaitingRoomArgs(this.isHost);
+  final String roomID;
+  WaitingRoomArgs(this.isHost, this.roomID);
 }
