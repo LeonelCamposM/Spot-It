@@ -33,15 +33,13 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
     Icons.leaderboard
   ];
   List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
-  String roomID = "gMIPh2BsGpaZqIx6EHPj";
-
   RoomUseCase roomUseCase =
       RoomUseCase(RoomRepository(FirebaseFirestore.instance));
 
   @override
   void initState() {
     super.initState();
-    roomUseCase.onChatUpdate(context);
+    //roomUseCase.onJoinableUpdate(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -76,7 +74,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         // Room ID
-                        getIDBanner(roomID),
+                        getIDBanner(args.roomID),
 
                         // Players list view
                         getPlayersList(names, icons),
@@ -90,8 +88,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () {
-                                    roomUseCase
-                                        .updateJoinable('jTKFlTMyk0Rw24pdPcmv');
+                                    roomUseCase.updateJoinable(args.roomID);
                                   })
                                 : getText(
                                     "Esperando al host para comenzar ...",
@@ -103,9 +100,11 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                     SizeConfig.safeBlockHorizontal * 50),
               ),
 
-              // Chat icon
-              getIconButtonStyle(getSecondaryColor(),
-                  openChat(context, getSecondaryColor(), getPrimaryColor())),
+              //Chat icon
+              getIconButtonStyle(
+                  getSecondaryColor(),
+                  openChat(context, getSecondaryColor(), getPrimaryColor(),
+                      args.roomID)),
             ],
           )),
     );
