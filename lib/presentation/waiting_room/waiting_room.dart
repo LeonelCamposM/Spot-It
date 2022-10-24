@@ -1,9 +1,6 @@
-// ignore_for_file: unnecessary_new
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
-import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -11,7 +8,7 @@ import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +24,6 @@ class WaitingRoomPage extends StatefulWidget {
 
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
   // Testing data
-
   List<IconData> icons = [
     Icons.soap,
     Icons.nearby_error,
@@ -41,7 +37,6 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   void initState() {
     super.initState();
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -52,8 +47,6 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
-    // roomUseCase.onJoinableUpdate(
-    //     context, GameRoomArgs(args.isHost, args.roomID));
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
@@ -79,7 +72,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       children: [
                         // Room ID
                         getIDBanner(args.roomID),
-                        OnJoinableUpdate(roomID: args.roomID),
+
                         // Players list view
                         getPlayersList(names, icons),
 
@@ -93,11 +86,12 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () {
                                     roomUseCase.updateJoinable(args.roomID);
+                                    Navigator.pushNamed(
+                                        context, GamePage.routeName,
+                                        arguments: GameRoomArgs(
+                                            args.isHost, args.roomID));
                                   })
-                                : getText(
-                                    "Esperando al host para comenzar ...",
-                                    SizeConfig.safeBlockHorizontal * 1.5,
-                                    Alignment.topCenter)),
+                                : roomUseCase.onJoinableUpdate(args.roomID)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,
