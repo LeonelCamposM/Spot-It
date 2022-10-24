@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
+import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
@@ -14,6 +16,9 @@ import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
+
+import '../../domain/scoreboard/scoreboard.dart';
+import '../core/focus_box.dart';
 
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
@@ -87,28 +92,24 @@ class _GameWidgetState extends State<_GameWidget> {
 }
 
 Column getLeaderboard() {
+  final scoreboardUseCase =
+      ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         width: SizeConfig.blockSizeHorizontal * 12,
-        height: SizeConfig.blockSizeHorizontal * 18,
+        height: SizeConfig.blockSizeVertical * 40,
         decoration: const BoxDecoration(
           color: Color.fromARGB(100, 109, 31, 138),
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             getText("Posición", SizeConfig.blockSizeHorizontal * 1.2,
                 Alignment.topCenter),
-            getText("1. Leo", SizeConfig.blockSizeHorizontal * 1,
-                Alignment.topLeft),
-            getText("2. Jere", SizeConfig.blockSizeHorizontal * 1,
-                Alignment.topLeft),
-            getText("3. Naye", SizeConfig.blockSizeHorizontal * 1,
-                Alignment.topLeft),
+            scoreboardUseCase.onScoreboardUpdate(),
           ],
         ),
       ),
@@ -213,4 +214,32 @@ List<Widget> getGameScreenWidget(
       ),
     ),
   ]);
+}
+
+// @param scoreboard: Scoreboard to be draw
+// @return Sized box with a vertical list of the scoreboard
+Widget getScoreboardList(List<Scoreboard> scoreboard) {
+  return SizedBox(
+    width: SizeConfig.blockSizeHorizontal * 12,
+    height: SizeConfig.blockSizeVertical * 30,
+    child: ListView(
+        reverse: true,
+        scrollDirection: Axis.vertical,
+        children: List.generate(
+          scoreboard.length,
+          (index) => Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Row(
+              children: [
+                getText(
+                    scoreboard[index].nickname +
+                        " " +
+                        scoreboard[index].score.toString(),
+                    SizeConfig.blockSizeHorizontal * 1.2,
+                    Alignment.centerLeft),
+              ],
+            ),
+          ),
+        )),
+  );
 }

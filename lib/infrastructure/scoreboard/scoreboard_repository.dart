@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/scoreboard/i_scoreboard_repository.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/eventListeners/on_scoreboard_update.dart';
 
 class ScoreboardRepository implements IScoreboardRepository {
   final CollectionReference<Scoreboard> _scoreboardCollection;
@@ -15,11 +17,6 @@ class ScoreboardRepository implements IScoreboardRepository {
 
   @override
   Future<String> createScoreboard(String roomID, Scoreboard scoreboard) async {
-    /*
-    Si se hace para crear el scoreboard por primera vez
-      _scoreboardCollection.add(scoreboard);
-    */
-
     final reference =
         _scoreboardCollection.doc(roomID).collection("scoreboard");
     final newScoreboard = await reference.add(scoreboard.toJson());
@@ -27,9 +24,15 @@ class ScoreboardRepository implements IScoreboardRepository {
   }
 
   @override
-  Future<void> updateScore(String roomID, String nickname, int score) async {
-    await _scoreboardCollection
-        .doc(roomID)
-        .update(Scoreboard(nickname, score).toJson());
+  Future<void> updateScore(
+      String roomID, String scoreID, Scoreboard scoreboard) async {
+    final reference =
+        _scoreboardCollection.doc(roomID).collection("scoreboard").doc(scoreID);
+    reference.update(scoreboard.toJson());
+  }
+
+  @override
+  Widget onScoreboardUpdate() {
+    return const OnScoreboardUpdate();
   }
 }
