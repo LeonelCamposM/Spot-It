@@ -37,8 +37,7 @@ IconButton openChat(BuildContext context, Color secondaryColor,
                     flex: 4,
                     child: Row(
                       children: [
-                        //onChatUpdateState(roomID, context),
-                        chatUseCase.onChatUpdate(),
+                        OnChatUpdate(roomID: roomID),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -86,7 +85,7 @@ Row getMessageBar(
               onPressed: () {
                 chatUseCase.sendMessage(
                   Message(textController.text,
-                      DateTime.now().microsecondsSinceEpoch, "soap"),
+                      DateTime.now().microsecondsSinceEpoch, "Face"),
                 );
                 textController.clear();
               },
