@@ -165,7 +165,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         .createRoom(Room(0, true));
 
                                     await playerUseCase.addPlayer(
-                                        Player(textNameController.text, "face",
+                                        Player(textNameController.text, "Face",
                                             "", 1, 2),
                                         roomID);
                                     Navigator.pushNamed(
