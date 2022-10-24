@@ -11,8 +11,8 @@ class RoomUseCase {
     return roomRepository.createRoom(room);
   }
 
-  void onJoinableUpdate(BuildContext context) async {
-    return roomRepository.onJoinableUpdate(context);
+  void onJoinableUpdate(BuildContext context, String roomID) async {
+    return roomRepository.onJoinableUpdate(context, roomID);
   }
 
   Future<void> updateJoinable(roomID) async {

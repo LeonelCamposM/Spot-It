@@ -138,10 +138,10 @@ Row getFirstIcons(context) {
             getSecondaryColor(),
             openRules(context, getSecondaryColor(), getPrimaryColor()),
           ),
-          getIconButtonStyle(
-            getSecondaryColor(),
-            openChat(context, getSecondaryColor(), getPrimaryColor(), ""),
-          )
+          // getIconButtonStyle(
+          //   getSecondaryColor(),
+          //   openChat(context, getSecondaryColor(), getPrimaryColor(), ""),
+          // )
         ],
       ),
     ],

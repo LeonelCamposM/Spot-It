@@ -26,6 +26,7 @@ class WaitingRoomPage extends StatefulWidget {
 
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
   // Testing data
+
   List<IconData> icons = [
     Icons.soap,
     Icons.nearby_error,
@@ -39,7 +40,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   void initState() {
     super.initState();
-    //roomUseCase.onJoinableUpdate(context);
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -50,6 +51,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
+    roomUseCase.onJoinableUpdate(context, args.roomID);
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
