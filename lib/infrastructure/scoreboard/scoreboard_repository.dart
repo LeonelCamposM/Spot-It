@@ -12,13 +12,13 @@ class ScoreboardRepository implements IScoreboardRepository {
             .collection('Room_Scoreboard')
             .withConverter<Scoreboard>(
               fromFirestore: (doc, options) => Scoreboard.fromJson(doc.data()!),
-              toFirestore: (employee, options) => employee.toJson(),
+              toFirestore: (scoreboard, options) => scoreboard.toJson(),
             );
 
   @override
   Future<String> createScoreboard(String roomID, Scoreboard scoreboard) async {
     final reference =
-        _scoreboardCollection.doc(roomID).collection("scoreboard");
+        _scoreboardCollection.doc(roomID).collection("Scoreboard");
     final newScoreboard = await reference.add(scoreboard.toJson());
     return newScoreboard.id;
   }
@@ -27,8 +27,27 @@ class ScoreboardRepository implements IScoreboardRepository {
   Future<void> updateScore(
       String roomID, String scoreID, Scoreboard scoreboard) async {
     final reference =
-        _scoreboardCollection.doc(roomID).collection("scoreboard").doc(scoreID);
+        _scoreboardCollection.doc(roomID).collection("Scoreboard").doc(scoreID);
     reference.update(scoreboard.toJson());
+  }
+
+  @override
+  Future<Iterable<Scoreboard>> getFinalScoreboard(String roomID) async {
+    /*final result =
+        await _scoreboardCollection.doc(roomID).collection("Scoreboard").get();
+    return result.docs.map((snapshot) => snapshot.data().);*/
+    Iterable<Scoreboard> result = [];
+    result = FirebaseFirestore.instance
+        .collection("Room_Scoreboard")
+        .doc(roomID)
+        .collection("Scoreboard")
+        .get()
+        .then(
+          (value) => print(value.docs.first.data()),
+          onError: (e) => print("Error completing: $e"),
+        ) as Iterable<Scoreboard>;
+
+    return result;
   }
 
   @override

@@ -12,6 +12,10 @@ abstract class IScoreboardRepository {
   Future<void> updateScore(
       String roomID, String scoreID, Scoreboard scoreboard);
 
+  // @param roomID: the ID of the current room
+  // @brief: Returns the final scoreboard of the game
+  Future<Iterable<Scoreboard>> getFinalScoreboard(String roomID);
+
   // @brief: EventListener waiting for updates on the scoreboard
   // @return Widget: to be defined
   Widget onScoreboardUpdate();

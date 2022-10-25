@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
+import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/scoreboard/scorelist.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
-import 'package:flutter/services.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/scoreboard/colors.dart';
-
-import '../core/icon_button_style.dart';
+import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 
 class ScoreboardPage extends StatefulWidget {
   static String routeName = '/scoreboard';
@@ -64,19 +67,31 @@ class _ScoreboardWidget extends StatefulWidget {
 class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
 
-  late List<_ChartData> data;
+  late List<Scoreboard> data = [];
   late TooltipBehavior _tooltip;
+  final scoreboardUseCase =
+      ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
 
   @override
   void initState() {
     // Data for demostration
-    data = [
-      _ChartData('Sofia', 20),
-      _ChartData('Leonel', 30),
-      _ChartData('Nayeri', 10)
-    ];
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
+    getScoreLeaders();
+  }
+
+  Future<void> getScoreLeaders() async {
+    final scoreboard =
+        await scoreboardUseCase.getFinalScoreboard("jTKFlTMyk0Rw24pdPcmv");
+    List<Scoreboard> scoreLeadersList = [];
+    for (var element in scoreboard) {
+      scoreLeadersList.add(element);
+      print(element);
+    }
+
+    setState(() {
+      data = scoreLeadersList;
+    });
   }
 
   @override
@@ -156,28 +171,21 @@ Flexible getHeader(context) {
 // @param _tooltip: Component used in Syncfunctions charts
 // @param data: Data to be displayed on the chart
 // @return SizedBox with Column Chart of the data
-SizedBox getBarChart(TooltipBehavior _tooltip, List<_ChartData> data) {
+SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> data) {
   return SizedBox(
     child: SfCartesianChart(
         primaryXAxis: CategoryAxis(),
         primaryYAxis: NumericAxis(minimum: 0, maximum: 30, interval: 10),
         tooltipBehavior: _tooltip,
-        series: <ChartSeries<_ChartData, String>>[
-          ColumnSeries<_ChartData, String>(
+        series: <ChartSeries<Scoreboard, String>>[
+          ColumnSeries<Scoreboard, String>(
               dataSource: data,
-              xValueMapper: (_ChartData data, _) => data.x,
-              yValueMapper: (_ChartData data, _) => data.y,
+              xValueMapper: (Scoreboard data, _) => data.nickname,
+              yValueMapper: (Scoreboard data, _) => data.score,
               name: 'Puntos',
               color: getColumnColor())
         ]),
     height: SizeConfig.safeBlockVertical * 50,
     width: SizeConfig.safeBlockHorizontal * 50,
   );
-}
-
-class _ChartData {
-  _ChartData(this.x, this.y);
-
-  final String x;
-  final double y;
 }

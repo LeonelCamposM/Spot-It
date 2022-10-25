@@ -16,9 +16,7 @@ import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
-
-import '../../domain/scoreboard/scoreboard.dart';
-import '../core/focus_box.dart';
+import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
 class GamePage extends StatefulWidget {
   static String routeName = '/game';

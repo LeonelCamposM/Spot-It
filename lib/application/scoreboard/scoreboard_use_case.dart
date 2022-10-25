@@ -16,6 +16,10 @@ class ScoreboardUseCase {
     return scoreboardRepository.updateScore(roomID, scoreID, scoreboard);
   }
 
+  Future<Iterable<Scoreboard>> getFinalScoreboard(String roomID) {
+    return scoreboardRepository.getFinalScoreboard(roomID);
+  }
+
   Widget onScoreboardUpdate() {
     return scoreboardRepository.onScoreboardUpdate();
   }

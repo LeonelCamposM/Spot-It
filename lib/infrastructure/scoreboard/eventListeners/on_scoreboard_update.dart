@@ -33,7 +33,7 @@ class _OnScoreboardUpdateState extends State<OnScoreboardUpdate> {
               child: const Text(''));
         }
 
-        List<Scoreboard> scoreboardList = getAllMessages(snapshot);
+        List<Scoreboard> scoreboardList = getAllScores(snapshot);
         return getScoreboardList(scoreboardList);
       },
     );
@@ -42,8 +42,7 @@ class _OnScoreboardUpdateState extends State<OnScoreboardUpdate> {
 
 // @param snapshot: EventListener on database
 // @return list of the scoreboard sorted by score of the players
-List<Scoreboard> getAllMessages(
-    AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+List<Scoreboard> getAllScores(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
   // Get all the scores from players
   List<Scoreboard> scoreboard = [];
   ListView(
