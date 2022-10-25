@@ -11,6 +11,7 @@ import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
@@ -74,6 +75,32 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final textNameController = TextEditingController();
   final textRoomIDController = TextEditingController();
 
+  int iconListCount = 1;
+
+  void add() {
+    if (iconListCount >= 16) {
+      reset();
+    } else {
+      setState(() => iconListCount++);
+    }
+  }
+
+  void substract() {
+    if (iconListCount <= 1) {
+      reverse();
+    } else {
+      setState(() => iconListCount--);
+    }
+  }
+
+  void reset() {
+    setState(() => iconListCount = 1);
+  }
+
+  void reverse() {
+    setState(() => iconListCount = 16);
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as RegisterRoomArgs;
@@ -112,14 +139,16 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                   const Icon(Icons.keyboard_double_arrow_left),
                                   8.0,
                                   14.0,
-                                  4.0),
+                                  4.0, () {
+                                substract();
+                              }),
                             ),
                             Flexible(
-                              flex: 3,
-                              //Icon for the user
-                              child: getButtonWithIcon(
-                                  const Icon(Icons.face), 12.0, 18.0, 6.0),
-                            ),
+                                flex: 3,
+                                // player's icon
+                                child: Icon(
+                                    getRoomIcon(iconListCount.toString()),
+                                    size: 87)),
                             Flexible(
                               flex: 3,
                               // Double arrow back to get the next icon
@@ -127,7 +156,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                   const Icon(Icons.keyboard_double_arrow_right),
                                   8,
                                   14.0,
-                                  4.0),
+                                  4.0, () {
+                                add();
+                              }),
                             ),
                           ],
                         )),
@@ -165,12 +196,12 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         .createRoom(Room(0, true));
 
                                     await playerUseCase.addPlayer(
-                                        Player(textNameController.text, "Face",
-                                            "", 1, 2),
+                                        Player(textNameController.text,
+                                            iconListCount.toString(), "", 1, 2),
                                         roomID);
 
                                     await playerUseCase.addPlayer(
-                                        Player('Bot', "Bot", "", 1, 2), roomID);
+                                        Player('Bot', "0", "", 1, 2), roomID);
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
@@ -184,8 +215,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
                                     await playerUseCase.addPlayer(
-                                        Player(textNameController.text, "face",
-                                            "", 1, 2),
+                                        Player(textNameController.text,
+                                            iconListCount.toString(), "", 1, 2),
                                         textRoomIDController.text);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
@@ -212,8 +243,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 // @param boxHeight: size fot the box's height
 // @param sizeIcon: icon's size
 // @return the button with the icon
-SizedBox getButtonWithIcon(
-    Icon newIcon, double boxWidth, double boxHeight, double sizeIcon) {
+SizedBox getButtonWithIcon(Icon newIcon, double boxWidth, double boxHeight,
+    double sizeIcon, Function()? onPressed) {
   return SizedBox(
     width: SizeConfig.safeBlockHorizontal * boxWidth,
     height: SizeConfig.safeBlockVertical * boxHeight,
@@ -224,12 +255,9 @@ SizedBox getButtonWithIcon(
         borderRadius: BorderRadius.circular(35.0),
       ),
       child: IconButton(
-        iconSize: SizeConfig.safeBlockHorizontal * sizeIcon,
-        icon: newIcon,
-        onPressed: () {
-          //
-        },
-      ),
+          iconSize: SizeConfig.safeBlockHorizontal * sizeIcon,
+          icon: newIcon,
+          onPressed: onPressed),
     ),
   );
 }
