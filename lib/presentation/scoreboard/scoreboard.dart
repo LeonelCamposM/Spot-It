@@ -86,9 +86,10 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
         await scoreboardUseCase.getFinalScoreboard("jTKFlTMyk0Rw24pdPcmv");
     List<Scoreboard> scoreboardList = scoreboard.toList();
     scoreboardList.sort((a, b) => a.score.compareTo(b.score));
+    scoreboardList = scoreboardList.reversed.toList();
     var counter = 0;
     List<Scoreboard> scoreLeadersList = [];
-    for (var element in scoreboardList.reversed) {
+    for (var element in scoreboardList) {
       if (counter < 3) {
         scoreLeadersList.add(element);
         counter += 1;
@@ -122,7 +123,7 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
                       Column(
                         children: [
                           // Title and button of the main screen
-                          getHeader(context),
+                          getHeader(context, dataForList),
                           const Text("", style: TextStyle(fontSize: 40.0)),
                           // Graph of Columns
                           getBarChart(_tooltip, dataForGraph)
@@ -156,8 +157,9 @@ Row getNavigationButtons(context) {
 }
 
 // @param context: Build context
+// @param dataForList: Scoreboard data in list
 // @return Flexible with tittle and navigation list icon
-Flexible getHeader(context) {
+Flexible getHeader(context, List<Scoreboard> dataForList) {
   return Flexible(
     flex: 2,
     child: Row(
@@ -169,8 +171,10 @@ Flexible getHeader(context) {
         Padding(
           padding: const EdgeInsets.only(right: 15, top: 5),
           // Open the list of scores as a popup
-          child: getIconButtonStyle(getSecondaryColor(),
-              openList(context, getSecondaryColor(), getPrimaryColor())),
+          child: getIconButtonStyle(
+              getSecondaryColor(),
+              openList(context, dataForList, getSecondaryColor(),
+                  getPrimaryColor())),
         ),
       ],
     ),
@@ -178,7 +182,7 @@ Flexible getHeader(context) {
 }
 
 // @param _tooltip: Component used in Syncfunctions charts
-// @param data: Data to be displayed on the chart
+// @param dataForGraph: Data to be displayed on the chart
 // @return SizedBox with Column Chart of the data
 SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph) {
   return SizedBox(

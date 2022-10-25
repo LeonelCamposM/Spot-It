@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
-IconButton openList(context, Color secondaryColor, Color primaryColor) {
+IconButton openList(context, List<Scoreboard> scoreboard, Color secondaryColor,
+    Color primaryColor) {
   // Testing data
   List<IconData> icons = [
     Icons.emoji_events,
@@ -16,17 +18,6 @@ IconButton openList(context, Color secondaryColor, Color primaryColor) {
     Icons.join_left,
     Icons.leaderboard
   ];
-  List<String> names = [
-    "Leonel",
-    "Sofia",
-    "Nayeri",
-    "Jeremy",
-    "Alicia",
-    "Mauricio",
-    "Xime",
-    "Olman"
-  ];
-  List<int> score = [30, 20, 10, 9, 7, 5, 3, 2, 0];
 
   return IconButton(
     iconSize: getIconSize(),
@@ -65,7 +56,7 @@ IconButton openList(context, Color secondaryColor, Color primaryColor) {
                   SizedBox(
                       height: SizeConfig.blockSizeVertical * 70,
                       width: SizeConfig.blockSizeHorizontal * 50,
-                      child: getVerticalScoreList(names, icons, score)),
+                      child: getVerticalScoreList(scoreboard, icons)),
                 ],
               ),
             );
@@ -98,16 +89,15 @@ Row getCloseButton(Color secondaryColor, context) {
   );
 }
 
-// @param names: Player names in order
+// @param scoreboard: scoreboard of the players
 // @param icons: Player images in order
-// @param score: Player score in order
 // @return Container with vertical list of scores
 ListView getVerticalScoreList(
-    List<String> names, List<IconData> icons, List<int> score) {
+    List<Scoreboard> scoreboard, List<IconData> icons) {
   return ListView(
       scrollDirection: Axis.vertical,
       children: List.generate(
-        names.length,
+        scoreboard.length,
         (index) => Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: Row(
@@ -116,24 +106,36 @@ ListView getVerticalScoreList(
               Container(
                   width: SizeConfig.blockSizeHorizontal * 5,
                   height: SizeConfig.blockSizeVertical * 10,
-                  decoration: BoxDecoration(
-                      color: index != 0
-                          ? Colors.primaries[
-                              Random().nextInt(Colors.primaries.length)]
-                          : Colors.amber,
-                      shape: BoxShape.circle),
-                  child: Icon(
-                    icons[index],
-                    size: index != 0
-                        ? SizeConfig.blockSizeVertical * 5
-                        : SizeConfig.blockSizeVertical * 8,
-                  )),
-              getText(names[index], SizeConfig.blockSizeHorizontal * 1.5,
-                  Alignment.centerLeft),
-              getText(score[index].toString(),
+                  decoration: index != 0
+                      ? const BoxDecoration()
+                      : BoxDecoration(
+                          color: index != 0
+                              ? Colors.primaries[
+                                  Random().nextInt(Colors.primaries.length)]
+                              : Colors.amber,
+                          shape: BoxShape.circle),
+                  child: index != 0
+                      ? const Text("")
+                      : Icon(
+                          icons[index],
+                          size: SizeConfig.blockSizeVertical * 8,
+                        )),
+              getText(scoreboard[index].nickname,
+                  SizeConfig.blockSizeHorizontal * 1.5, Alignment.centerLeft),
+              getText(scoreboard[index].score.toString(),
                   SizeConfig.blockSizeHorizontal * 1.5, Alignment.centerLeft),
             ],
           ),
         ),
       ));
+}
+
+List<Icons> getPlayersIcons(List<Scoreboard> scoreboard) {
+  List<Icons> playersIcons = [];
+  List<String> nicknames = [];
+  for (var element in scoreboard) {
+    nicknames.add(element.nickname);
+  }
+
+  return playersIcons;
 }
