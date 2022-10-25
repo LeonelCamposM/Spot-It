@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/presentation/game/card_location.dart';
-import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 // ignore: must_be_immutable
 class OnTableUpdate extends StatelessWidget {
