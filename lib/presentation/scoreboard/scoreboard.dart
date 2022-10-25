@@ -67,7 +67,8 @@ class _ScoreboardWidget extends StatefulWidget {
 class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
 
-  late List<Scoreboard> data = [];
+  late List<Scoreboard> dataForGraph = [];
+  late List<Scoreboard> dataForList = [];
   late TooltipBehavior _tooltip;
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
@@ -83,14 +84,22 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   Future<void> getScoreLeaders() async {
     final scoreboard =
         await scoreboardUseCase.getFinalScoreboard("jTKFlTMyk0Rw24pdPcmv");
+    List<Scoreboard> scoreboardList = scoreboard.toList();
+    scoreboardList.sort((a, b) => a.score.compareTo(b.score));
+    var counter = 0;
     List<Scoreboard> scoreLeadersList = [];
-    for (var element in scoreboard) {
-      scoreLeadersList.add(element);
-      print(element);
+    for (var element in scoreboardList.reversed) {
+      if (counter < 3) {
+        scoreLeadersList.add(element);
+        counter += 1;
+      } else {
+        break;
+      }
     }
-
+    scoreLeadersList.shuffle();
     setState(() {
-      data = scoreLeadersList;
+      dataForGraph = scoreLeadersList;
+      dataForList = scoreboardList;
     });
   }
 
@@ -116,7 +125,7 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
                           getHeader(context),
                           const Text("", style: TextStyle(fontSize: 40.0)),
                           // Graph of Columns
-                          getBarChart(_tooltip, data)
+                          getBarChart(_tooltip, dataForGraph)
                         ],
                       ),
                       SizeConfig.safeBlockVertical * 85,
@@ -171,7 +180,7 @@ Flexible getHeader(context) {
 // @param _tooltip: Component used in Syncfunctions charts
 // @param data: Data to be displayed on the chart
 // @return SizedBox with Column Chart of the data
-SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> data) {
+SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph) {
   return SizedBox(
     child: SfCartesianChart(
         primaryXAxis: CategoryAxis(),
@@ -179,9 +188,10 @@ SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> data) {
         tooltipBehavior: _tooltip,
         series: <ChartSeries<Scoreboard, String>>[
           ColumnSeries<Scoreboard, String>(
-              dataSource: data,
-              xValueMapper: (Scoreboard data, _) => data.nickname,
-              yValueMapper: (Scoreboard data, _) => data.score,
+              dataSource: dataForGraph,
+              xValueMapper: (Scoreboard dataForGraph, _) =>
+                  dataForGraph.nickname,
+              yValueMapper: (Scoreboard dataForGraph, _) => dataForGraph.score,
               name: 'Puntos',
               color: getColumnColor())
         ]),

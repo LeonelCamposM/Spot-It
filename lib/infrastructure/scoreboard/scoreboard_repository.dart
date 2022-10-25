@@ -33,20 +33,10 @@ class ScoreboardRepository implements IScoreboardRepository {
 
   @override
   Future<Iterable<Scoreboard>> getFinalScoreboard(String roomID) async {
-    /*final result =
+    final QuerySnapshot doc =
         await _scoreboardCollection.doc(roomID).collection("Scoreboard").get();
-    return result.docs.map((snapshot) => snapshot.data().);*/
-    Iterable<Scoreboard> result = [];
-    result = FirebaseFirestore.instance
-        .collection("Room_Scoreboard")
-        .doc(roomID)
-        .collection("Scoreboard")
-        .get()
-        .then(
-          (value) => print(value.docs.first.data()),
-          onError: (e) => print("Error completing: $e"),
-        ) as Iterable<Scoreboard>;
-
+    final result = doc.docs.map((snapshot) =>
+        Scoreboard.fromJson(snapshot.data() as Map<String, dynamic>));
     return result;
   }
 
