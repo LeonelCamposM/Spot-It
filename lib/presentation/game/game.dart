@@ -65,7 +65,6 @@ class _GamePagePageState extends State<GamePage> {
 class _GameWidget extends StatefulWidget {
   final Iterable<CardModel> deckData;
   const _GameWidget({Key? key, required this.deckData}) : super(key: key);
-
   @override
   // ignore: no_logic_in_create_state
   State<_GameWidget> createState() => _GameWidgetState(deckData);
@@ -76,7 +75,7 @@ class _GameWidgetState extends State<_GameWidget> {
   _GameWidgetState(this.deckData);
   Color secondaryColor = getPrimaryColor();
   Color primaryColor = getSecondaryColor();
-  int amountOfPlayers = 8;
+  int amountOfPlayers = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +90,7 @@ class _GameWidgetState extends State<_GameWidget> {
 
 List<Widget> getGameScreenWidget(
     BuildContext context, Iterable<CardModel> deckData, int amountOfPlayers) {
+      Iterable<String> userNames = ["Leo", "Naye", "Jere"];
   return ([
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +113,7 @@ List<Widget> getGameScreenWidget(
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:
-                    getAmountOfCardsMenu(context, deckData, amountOfPlayers)),
+                    getAmountOfCardsMenu(context, deckData, userNames, amountOfPlayers)),
           ],
         ),
         Row(

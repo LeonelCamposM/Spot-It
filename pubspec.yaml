@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^1.16.0
   socket_io_client: ^1.0.2
   syncfusion_flutter_charts: ^20.3.48
+  events_emitter: ^0.5.2
 
 dev_dependencies:
   flutter_launcher_icons: "^0.10.0"

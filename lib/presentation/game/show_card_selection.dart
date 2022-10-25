@@ -1,75 +1,234 @@
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/domain/cards/card_model.dart';
+import 'package:spot_it_game/presentation/core/button_style.dart';
+import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'dart:convert';
+import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/game/colors.dart';
 
-Future showCardSelection(
-    context, Color secondaryColor, Color primaryColor, cardOne, cardTwo) {
+List<String> cardSelection = [];
+
+Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
+  List<String> cardOneInformation = cardOne.key
+      .toString()
+      .replaceAll("[<", "")
+      .replaceAll(">]", "")
+      .replaceAll("'", "")
+      .split("%%");
+  List<String> cardTwoInformation = cardTwo.key
+      .toString()
+      .replaceAll("[<", "")
+      .replaceAll(">]", "")
+      .replaceAll("'", "")
+      .split("%%");
+
+  String userNameCardOne = cardOneInformation[0];
+  String userNameCardTwo = cardTwoInformation[0];
+  CardModel currentUserCard =
+      CardModel.fromJson(jsonDecode(cardOneInformation[1]));
+
+  CardModel otherUserCard =
+      CardModel.fromJson(jsonDecode(cardTwoInformation[1]));
+
   return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.zero,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32.0))),
-          backgroundColor: primaryColor,
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // close button
-              Flexible(
-                flex: 4,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(""),
-                        getCloseButton(secondaryColor, context),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 10),
-                      child: Row(children: [
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 25,
-                          height: SizeConfig.blockSizeHorizontal * 25,
-                          child: cardOne,
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            backgroundColor: getPrimaryColor(),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     getCloseButton(context),
+                //   ],
+                // ),
+                Column(children: [
+                  Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            userNameCardOne,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 25,
+                            height: SizeConfig.blockSizeHorizontal * 25,
+                            child: getCardStylePopUp(setState, userNameCardOne,
+                                currentUserCard, 10, 10),
+                          ),
+                        ],
+                      ),
+                      const Text("  "),
+                      Column(
+                        children: [
+                          Text(
+                            userNameCardTwo,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 25,
+                            height: SizeConfig.blockSizeHorizontal * 25,
+                            child: getCardStylePopUp(setState, userNameCardTwo,
+                                otherUserCard, 10, 10),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 5,
+                        height: SizeConfig.blockSizeHorizontal * 5,
+                        child: cardSelection.isNotEmpty
+                            ? getSingleCardIconPopUp(setState, userNameCardOne,
+                                cardSelection[0].split(" ")[1])
+                            : const Text(" "),
+                      ),
+                      const Text("  "),
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 5,
+                        height: SizeConfig.blockSizeHorizontal * 5,
+                        child: cardSelection.length == 2
+                            ? getSingleCardIconPopUp(setState, userNameCardTwo,
+                                cardSelection[1].split(" ")[1])
+                            : const Text(" "),
+                      )
+                    ],
+                  ),
+                  const Text("  "),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: SizeConfig.safeBlockVertical * 7,
+                        width: SizeConfig.safeBlockHorizontal * 12,
+                        child: ElevatedButton(
+                          style: getButtonStyle(4, 4, 1.0, getSecondaryColor()),
+                          onPressed: () {},
+                          child: getText("SPOT IT!",
+                              SizeConfig.safeBlockHorizontal * 2, Alignment.center),
                         ),
-                        SizedBox(
-                          width: SizeConfig.blockSizeHorizontal * 25,
-                          height: SizeConfig.blockSizeHorizontal * 25,
-                          child: cardOne,
+                      ),
+                      const Text("  "),
+                      SizedBox(
+                        height: SizeConfig.safeBlockVertical * 7,
+                        width: SizeConfig.safeBlockHorizontal * 14,
+                        child: ElevatedButton(
+                          style: getButtonStyle(4, 4, 1.0, getSecondaryColor()),
+                          onPressed: () { Navigator.pop(context); },
+                          child: getText("CANCELAR",
+                              SizeConfig.safeBlockHorizontal * 2, Alignment.center),
                         ),
-                      ]),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      });
+                      ),
+                    ],
+                  ),
+                ]),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }
 
-// @param secondaryColor: Current page secondary color
-// @param context: build context
-// @return Row with close button aligned to right
-Row getCloseButton(Color secondaryColor, context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(right: 10),
-        child: getIconButtonStyle(
-            secondaryColor,
-            IconButton(
-              iconSize: getIconSize(),
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )),
+
+SizedBox getCardStylePopUp(Function(void Function()) setState, String userName,
+    CardModel card, int width, int height) {
+  var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
+  var cardBorderColor = Colors.black;
+  return SizedBox(
+      width: SizeConfig.safeBlockHorizontal * width,
+      height: SizeConfig.safeBlockHorizontal * height,
+      child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: cardBorderColor,
+                width: 3,
+              ),
+              color: cardBackgroundColor,
+              shape: BoxShape.circle),
+          child: Column(
+            children: [
+              getSingleCardIconPopUp(setState, userName, card.iconOne),
+              getDoubleCardIconPopUp(
+                  setState, userName, card.iconTwo, card.iconThree),
+              getDoubleCardIconPopUp(
+                  setState, userName, card.iconFour, card.iconFive),
+              getDoubleCardIconPopUp(
+                  setState, userName, card.iconSix, card.iconSeven),
+              getSingleCardIconPopUp(setState, userName, card.iconEight)
+            ],
+          )));
+}
+
+// @return returns a Flexible with 2 rendered icons
+// @param card: CardData with all cards icons
+// @param iconOne: name of icon to be rendered
+// @param showButtonCard: whether to show icons as buttons or no
+Flexible getDoubleCardIconPopUp(Function(void Function()) setState,
+    String userName, String iconNameOne, String iconNameTwo) {
+  return Flexible(
+      flex: 4,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          getSingleCardIconPopUp(setState, userName, iconNameOne),
+          getSingleCardIconPopUp(setState, userName, iconNameTwo)
+        ],
+      ));
+}
+
+// @return returns a Flexible with rendered icon
+// @param card: CardData with all cards icons
+// @param iconName: name of icon to be rendered
+// @param showButtonCard: whether to show icons as buttons or no
+SizedBox getSingleCardIconPopUp(
+    Function(void Function()) setState, userName, String iconName) {
+  // double rotation = Random().nextInt(360) / 360;
+
+  Color color = Colors.white;
+
+  return SizedBox(
+    height: SizeConfig.blockSizeHorizontal * 7,
+    width: SizeConfig.blockSizeHorizontal * 7,
+    child: ElevatedButton(
+      child: Container(
+        child: getIcon(iconName),
       ),
-    ],
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        primary: color,
+      ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+      onPressed: () => setState(() => {
+            if (cardSelection.isEmpty)
+              {
+                cardSelection.add(userName + " " + iconName),
+              }
+            else if (cardSelection.length < 2)
+              {
+                if (cardSelection[0] != userName + " " + iconName)
+                  cardSelection.add(userName + " " + iconName),
+              }
+            else if (cardSelection.length >= 2)
+              {
+                cardSelection.clear(),
+                cardSelection.add(userName + " " + iconName),
+              },
+            print(cardSelection)
+          }),
+    ),
   );
 }
