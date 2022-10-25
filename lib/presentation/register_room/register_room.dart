@@ -11,11 +11,13 @@ import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 class RegisterRoomPage extends StatefulWidget {
   static String routeName = '/register_room';
@@ -74,6 +76,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final textNameController = TextEditingController();
   final textRoomIDController = TextEditingController();
 
+  int iconListCount = 1;
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as RegisterRoomArgs;
@@ -110,21 +114,22 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                               // Double arrow back to get the previous icon
                               child: getButtonWithIcon(
                                   const Icon(Icons.keyboard_double_arrow_left),
+                                  iconListCount,
                                   8.0,
                                   14.0,
                                   4.0),
                             ),
                             Flexible(
-                              flex: 3,
-                              //Icon for the user
-                              child: getButtonWithIcon(
-                                  const Icon(Icons.face), 12.0, 18.0, 6.0),
-                            ),
+                                flex: 3,
+                                // player's icon
+                                child: Icon(getRoomIcon2(iconListCount),
+                                    size: 87)),
                             Flexible(
                               flex: 3,
                               // Double arrow back to get the next icon
                               child: getButtonWithIcon(
                                   const Icon(Icons.keyboard_double_arrow_right),
+                                  iconListCount,
                                   8,
                                   14.0,
                                   4.0),
@@ -208,8 +213,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 // @param boxHeight: size fot the box's height
 // @param sizeIcon: icon's size
 // @return the button with the icon
-SizedBox getButtonWithIcon(
-    Icon newIcon, double boxWidth, double boxHeight, double sizeIcon) {
+SizedBox getButtonWithIcon(Icon newIcon, int iconListCount, double boxWidth,
+    double boxHeight, double sizeIcon) {
   return SizedBox(
     width: SizeConfig.safeBlockHorizontal * boxWidth,
     height: SizeConfig.safeBlockVertical * boxHeight,
@@ -223,7 +228,11 @@ SizedBox getButtonWithIcon(
         iconSize: SizeConfig.safeBlockHorizontal * sizeIcon,
         icon: newIcon,
         onPressed: () {
-          //
+          if (newIcon.icon == Icons.keyboard_double_arrow_left) {
+            iconListCount--;
+          } else {
+            iconListCount++;
+          }
         },
       ),
     ),

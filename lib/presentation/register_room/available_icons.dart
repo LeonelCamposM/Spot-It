@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 Map<String, IconData> roomIcons = {
-  'Face': Icons.face,
-  'Heart': Icons.favorite,
-  'Skyrocket': Icons.rocket_launch,
+  "Face": Icons.face,
+  "Heart": Icons.favorite,
+  "Skyrocket": Icons.rocket_launch,
   "Moon": Icons.nightlight_round_sharp,
   "Soccer": Icons.sports_soccer,
   "Ladybug": Icons.emoji_nature,
@@ -21,4 +21,8 @@ Map<String, IconData> roomIcons = {
 
 IconData getRoomIcon(String icon) {
   return roomIcons[icon]!;
+}
+
+IconData getRoomIcon2(int position) {
+  return roomIcons[position]!;
 }
