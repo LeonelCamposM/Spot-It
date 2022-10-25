@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
-import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
-import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'dart:convert';
-import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 
 List<String> cardSelection = [];
@@ -111,27 +109,21 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 7,
-                        width: SizeConfig.safeBlockHorizontal * 12,
-                        child: ElevatedButton(
-                          style: getButtonStyle(4, 4, 1.0, getSecondaryColor()),
-                          onPressed: () {},
-                          child: getText("SPOT IT!",
-                              SizeConfig.safeBlockHorizontal * 2, Alignment.center),
-                        ),
-                      ),
+                      getTextButton(
+                          "SPOT IT!",
+                          SizeConfig.safeBlockHorizontal * 20,
+                          SizeConfig.safeBlockVertical * 10,
+                          SizeConfig.safeBlockHorizontal * 2,
+                          getSecondaryColor(),
+                          () => {}),
                       const Text("  "),
-                      SizedBox(
-                        height: SizeConfig.safeBlockVertical * 7,
-                        width: SizeConfig.safeBlockHorizontal * 14,
-                        child: ElevatedButton(
-                          style: getButtonStyle(4, 4, 1.0, getSecondaryColor()),
-                          onPressed: () { Navigator.pop(context); },
-                          child: getText("CANCELAR",
-                              SizeConfig.safeBlockHorizontal * 2, Alignment.center),
-                        ),
-                      ),
+                      getTextButton(
+                          "CANCELAR",
+                          SizeConfig.safeBlockHorizontal * 20,
+                          SizeConfig.safeBlockVertical * 10,
+                          SizeConfig.safeBlockHorizontal * 2,
+                          getSecondaryColor(),
+                          () => {Navigator.pop(context)})
                     ],
                   ),
                 ]),
@@ -143,7 +135,6 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
     },
   );
 }
-
 
 SizedBox getCardStylePopUp(Function(void Function()) setState, String userName,
     CardModel card, int width, int height) {
@@ -227,7 +218,6 @@ SizedBox getSingleCardIconPopUp(
                 cardSelection.clear(),
                 cardSelection.add(userName + " " + iconName),
               },
-            print(cardSelection)
           }),
     ),
   );

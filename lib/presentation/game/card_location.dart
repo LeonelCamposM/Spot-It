@@ -203,24 +203,30 @@ List<Widget> getFirstCardsRowInfo(
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
-        onTap: stateCardOne? () {
-          showCardSelection(context, currentUserCard, cardOne);
-        } : null),
+        onTap: stateCardOne
+            ? () {
+                showCardSelection(context, currentUserCard, cardOne);
+              }
+            : null),
     const Text("  "),
     InkWell(
         child: Padding(
           padding: EdgeInsets.only(bottom: SizeConfig.blockSizeHorizontal * 3),
           child: getVisibilityCard(stateCardTwo, cardTwo),
         ),
-        onTap: stateCardTwo ? () {
-          showCardSelection(context, currentUserCard, cardTwo);
-        } : null),
+        onTap: stateCardTwo
+            ? () {
+                showCardSelection(context, currentUserCard, cardTwo);
+              }
+            : null),
     const Text("  "),
     InkWell(
         child: getVisibilityCard(stateCardThree, cardThree),
-        onTap: stateCardThree? () {
-          showCardSelection(context, currentUserCard, cardThree);
-        } : null),
+        onTap: stateCardThree
+            ? () {
+                showCardSelection(context, currentUserCard, cardThree);
+              }
+            : null),
   ]);
 }
 
@@ -234,9 +240,11 @@ List<Widget> getSecondCardsRowInfo(
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
-        onTap: stateCardOne? () {
-          showCardSelection(context, currentUserCard, cardOne);
-        } : null),
+        onTap: stateCardOne
+            ? () {
+                showCardSelection(context, currentUserCard, cardOne);
+              }
+            : null),
     const Text("          "),
     SizedBox(
       width: SizeConfig.blockSizeHorizontal * 10,
@@ -248,9 +256,11 @@ List<Widget> getSecondCardsRowInfo(
     const Text("           "),
     InkWell(
         child: getVisibilityCard(stateCardThree, cardThree),
-        onTap: stateCardThree? () {
-          showCardSelection(context, currentUserCard, cardThree);
-        } : null),
+        onTap: stateCardThree
+            ? () {
+                showCardSelection(context, currentUserCard, cardThree);
+              }
+            : null),
   ]);
 }
 

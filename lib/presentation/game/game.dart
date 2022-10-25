@@ -12,7 +12,6 @@ import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/card_location.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
-import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
