@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
+import 'package:spot_it_game/infrastructure/players/eventListeners/on_table_update.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
-import 'package:spot_it_game/presentation/game/card_location.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
@@ -88,7 +88,6 @@ class _GameWidgetState extends State<_GameWidget> {
 
 List<Widget> getGameScreenWidget(
     BuildContext context, Iterable<CardModel> deckData, int amountOfPlayers) {
-      Iterable<String> userNames = ["Leo", "Naye", "Jere"];
   final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return ([
     Row(
@@ -109,10 +108,10 @@ List<Widget> getGameScreenWidget(
         ]),
         Row(
           children: [
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:
-                    getAmountOfCardsMenu(context, deckData, userNames, amountOfPlayers)),
+            OnTableUpdate(
+              roomID: args.roomID,
+              deckData: deckData,
+            )
           ],
         ),
         Row(
