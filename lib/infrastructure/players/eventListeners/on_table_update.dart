@@ -33,7 +33,7 @@ class OnTableUpdate extends StatelessWidget {
 
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: getAmountOfCardsMenu(context, deckData, players.length));
+            children: getAmountOfCardsMenu(context, players));
       },
     );
   }

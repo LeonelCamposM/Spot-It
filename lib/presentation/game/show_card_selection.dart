@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'dart:convert';
 import 'package:spot_it_game/presentation/game/colors.dart';
 
 List<String> cardSelection = [];
@@ -24,11 +22,9 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
 
   String userNameCardOne = cardOneInformation[0];
   String userNameCardTwo = cardTwoInformation[0];
-  CardModel currentUserCard =
-      CardModel.fromJson(jsonDecode(cardOneInformation[1]));
+  List<String> currentUserCard = cardOneInformation[1].split(",");
 
-  CardModel otherUserCard =
-      CardModel.fromJson(jsonDecode(cardTwoInformation[1]));
+  List<String> otherUserCard = cardTwoInformation[1].split(",");
 
   return showDialog(
     context: context,
@@ -43,12 +39,6 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
             content: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     getCloseButton(context),
-                //   ],
-                // ),
                 Column(children: [
                   Row(
                     children: [
@@ -137,7 +127,7 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
 }
 
 SizedBox getCardStylePopUp(Function(void Function()) setState, String userName,
-    CardModel card, int width, int height) {
+    List<String> card, int width, int height) {
   var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
   var cardBorderColor = Colors.black;
   return SizedBox(
@@ -153,14 +143,11 @@ SizedBox getCardStylePopUp(Function(void Function()) setState, String userName,
               shape: BoxShape.circle),
           child: Column(
             children: [
-              getSingleCardIconPopUp(setState, userName, card.iconOne),
-              getDoubleCardIconPopUp(
-                  setState, userName, card.iconTwo, card.iconThree),
-              getDoubleCardIconPopUp(
-                  setState, userName, card.iconFour, card.iconFive),
-              getDoubleCardIconPopUp(
-                  setState, userName, card.iconSix, card.iconSeven),
-              getSingleCardIconPopUp(setState, userName, card.iconEight)
+              getSingleCardIconPopUp(setState, userName, card[0]),
+              getDoubleCardIconPopUp(setState, userName, card[1], card[2]),
+              getDoubleCardIconPopUp(setState, userName, card[3], card[4]),
+              getDoubleCardIconPopUp(setState, userName, card[5], card[6]),
+              getSingleCardIconPopUp(setState, userName, card[7])
             ],
           )));
 }
@@ -188,9 +175,6 @@ Flexible getDoubleCardIconPopUp(Function(void Function()) setState,
 // @param showButtonCard: whether to show icons as buttons or no
 SizedBox getSingleCardIconPopUp(
     Function(void Function()) setState, userName, String iconName) {
-  // double rotation = Random().nextInt(360) / 360;
-
-  Color color = Colors.white;
 
   return SizedBox(
     height: SizeConfig.blockSizeHorizontal * 7,
@@ -201,7 +185,8 @@ SizedBox getSingleCardIconPopUp(
       ),
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
-        primary: color,
+        
+        primary: Colors.white,
       ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
       onPressed: () => setState(() => {
             if (cardSelection.isEmpty)

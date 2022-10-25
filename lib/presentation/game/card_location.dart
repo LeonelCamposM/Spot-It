@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
+import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/game/show_card_selection.dart';
@@ -9,42 +10,49 @@ import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 //3 means there are 3 more players besides the current user.
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
-List<Widget> getAmountOfCardsMenu(context, Iterable<CardModel> deckData,
-    Iterable<String> userNames, int amountOfPlayers) {
+List<Widget> getAmountOfCardsMenu(
+    context, List<Player> playerList) {
+  Player currentUser =
+      playerList.firstWhere(((element) => element.nickname != "Bot"));
+  Player userBot =
+      playerList.firstWhere(((element) => element.nickname == "Bot"));
+  int amountOfPlayers = playerList.length;
+
   SizedBox currentUserCard =
-      getCardStyle(userNames.elementAt(0), deckData.elementAt(0), 15, 15);
+      getCardStyle(currentUser.nickname, currentUser.displayedCard, 15, 15);
+
   return ([
     SizedBox(
         width: SizeConfig.blockSizeHorizontal * 2,
         height: SizeConfig.blockSizeHorizontal * 2),
     if (amountOfPlayers == 8) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 3),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 3),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 3),
+      getFirstCardsRow(context, currentUserCard, userBot, 3),
+      getSecondCardsRow(context, currentUserCard, userBot, 3),
+      getThirdCardsRow(context, currentUserCard, userBot, 3),
     ] else if (amountOfPlayers == 7) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 2),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 2),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 3),
+      getFirstCardsRow(context, currentUserCard, userBot,  2),
+      getSecondCardsRow(context, currentUserCard, userBot,  2),
+      getThirdCardsRow(context, currentUserCard, userBot,  3),
     ] else if (amountOfPlayers == 6) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 3),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 1),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 3),
+      getFirstCardsRow(context, currentUserCard, userBot,  3),
+      getSecondCardsRow(context, currentUserCard, userBot,  1),
+      getThirdCardsRow(context, currentUserCard, userBot,  3),
     ] else if (amountOfPlayers == 5) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 2),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 1),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 2),
+      getFirstCardsRow(context, currentUserCard, userBot,  2),
+      getSecondCardsRow(context, currentUserCard, userBot,  1),
+      getThirdCardsRow(context, currentUserCard, userBot,  2),
     ] else if (amountOfPlayers == 4) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 3),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 1),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 1),
+      getFirstCardsRow(context, currentUserCard, userBot,  3),
+      getSecondCardsRow(context, currentUserCard, userBot,  1),
+      getThirdCardsRow(context, currentUserCard, userBot,  1),
     ] else if (amountOfPlayers == 3) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 2),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 1),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 1),
+      getFirstCardsRow(context, currentUserCard, userBot,  2),
+      getSecondCardsRow(context, currentUserCard, userBot,  1),
+      getThirdCardsRow(context, currentUserCard, userBot,  1),
     ] else if (amountOfPlayers == 2) ...[
-      getFirstCardsRow(context, currentUserCard, deckData, userNames, 1),
-      getSecondCardsRow(context, currentUserCard, deckData, userNames, 1),
-      getThirdCardsRow(context, currentUserCard, deckData, userNames, 1),
+      getFirstCardsRow(context, currentUserCard, userBot,  1),
+      getSecondCardsRow(context, currentUserCard, userBot,  1),
+      getThirdCardsRow(context, currentUserCard, userBot,  1),
     ]
   ]);
 }
@@ -54,11 +62,7 @@ List<Widget> getAmountOfCardsMenu(context, Iterable<CardModel> deckData,
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
 Row getFirstCardsRow(
-    context,
-    SizedBox currentUserCard,
-    Iterable<CardModel> deckData,
-    Iterable<String> userNames,
-    int amountOfPlayers) {
+    context, SizedBox currentUserCard, Player player, int amountOfPlayers) {
   return (Row(children: [
     if (amountOfPlayers == 1) ...[
       ...getFirstCardsRowInfo(
@@ -67,9 +71,9 @@ Row getFirstCardsRow(
           true,
           false,
           currentUserCard,
-          getCardStyle(userNames.first, deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.elementAt(1), deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.first, deckData.elementAt(0), 10, 10)),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10)),
     ] else if (amountOfPlayers == 2) ...[
       ...getFirstCardsRowInfo(
           context,
@@ -77,9 +81,9 @@ Row getFirstCardsRow(
           false,
           true,
           currentUserCard,
-          getCardStyle(userNames.elementAt(1), deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.first, deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.elementAt(2), deckData.elementAt(0), 10, 10)),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10)),
     ] else ...[
       ...getFirstCardsRowInfo(
           context,
@@ -87,9 +91,9 @@ Row getFirstCardsRow(
           true,
           true,
           currentUserCard,
-          getCardStyle(userNames.elementAt(1), deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.elementAt(2), deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.elementAt(3), deckData.elementAt(0), 10, 10)),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10)),
     ],
   ]));
 }
@@ -100,8 +104,7 @@ Row getFirstCardsRow(
 Row getSecondCardsRow(
     context,
     SizedBox currentUserCard,
-    Iterable<CardModel> deckData,
-    Iterable<String> userNames,
+    Player player,
     int amountOfPlayers) {
   return (Row(children: [
     if (amountOfPlayers == 1) ...[
@@ -110,24 +113,24 @@ Row getSecondCardsRow(
           false,
           false,
           currentUserCard,
-          getCardStyle(userNames.first, deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.first, deckData.elementAt(0), 10, 10)),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10)),
     ] else if (amountOfPlayers == 2) ...[
       ...getSecondCardsRowInfo(
           context,
           true,
           true,
           currentUserCard,
-          getCardStyle(userNames.elementAt(5), deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.elementAt(6), deckData.elementAt(0), 10, 10)),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10)),
     ] else if (amountOfPlayers == 3) ...[
       ...getSecondCardsRowInfo(
           context,
           true,
           true,
           currentUserCard,
-          getCardStyle(userNames.elementAt(6), deckData.elementAt(0), 10, 10),
-          getCardStyle(userNames.elementAt(7), deckData.elementAt(0), 10, 10)),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10),
+          getCardStyle(player.nickname, player.displayedCard, 10, 10)),
     ]
   ]));
 }
@@ -138,8 +141,7 @@ Row getSecondCardsRow(
 Row getThirdCardsRow(
     context,
     SizedBox currentUserCard,
-    Iterable<CardModel> deckData,
-    Iterable<String> userNames,
+    Player player,
     int amountOfPlayers) {
   return (Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -151,9 +153,9 @@ Row getThirdCardsRow(
               false,
               true,
               false,
-              getCardStyle(userNames.first, deckData.elementAt(0), 10, 10),
+              getCardStyle(player.nickname, player.displayedCard, 10, 10),
               currentUserCard,
-              getCardStyle(userNames.first, deckData.elementAt(0), 10, 10)),
+              getCardStyle(player.nickname, player.displayedCard, 10, 10)),
         ] else if (amountOfPlayers == 2) ...[
           ...getThirdCardsRowInfo(
               context,
@@ -161,10 +163,10 @@ Row getThirdCardsRow(
               true,
               true,
               getCardStyle(
-                  userNames.elementAt(3), deckData.elementAt(0), 10, 10),
+                  player.nickname, player.displayedCard, 10, 10),
               currentUserCard,
               getCardStyle(
-                  userNames.elementAt(4), deckData.elementAt(0), 10, 10)),
+                  player.nickname, player.displayedCard, 10, 10)),
         ] else if (amountOfPlayers == 3) ...[
           ...getThirdCardsRowInfo(
               context,
@@ -172,10 +174,10 @@ Row getThirdCardsRow(
               true,
               true,
               getCardStyle(
-                  userNames.elementAt(4), deckData.elementAt(0), 10, 10),
+                  player.nickname, player.displayedCard, 10, 10),
               currentUserCard,
               getCardStyle(
-                  userNames.elementAt(5), deckData.elementAt(0), 10, 10)),
+                  player.nickname, player.displayedCard, 10, 10)),
         ]
       ]));
 }

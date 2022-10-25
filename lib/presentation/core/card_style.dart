@@ -8,12 +8,12 @@ import 'package:spot_it_game/presentation/game/colors.dart';
 // @return returns a container with rendered card
 // @param card: CardData with all cards icons
 // @param size: te size will be assigned to width and height
-SizedBox getCardStyle(String userName,
-    CardModel card, int width, int height) {
+SizedBox getCardStyle(String userName, String card, int width, int height) {
   var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
   var cardBorderColor = Colors.black;
+  List<String> iconsCard = card.split(",");
   return SizedBox(
-      key: Key(userName + "%%" + jsonEncode(card)),
+      key: Key(userName + "%%" + card),
       width: SizeConfig.safeBlockHorizontal * width,
       height: SizeConfig.safeBlockHorizontal * height,
       child: Container(
@@ -26,11 +26,11 @@ SizedBox getCardStyle(String userName,
               shape: BoxShape.circle),
           child: Column(
             children: [
-              getSingleCardIcon(card.iconOne),
-              getDoubleCardIcon(card.iconTwo, card.iconThree),
-              getDoubleCardIcon(card.iconFour, card.iconFive),
-              getDoubleCardIcon(card.iconSix, card.iconSeven),
-              getSingleCardIcon(card.iconEight)
+              getSingleCardIcon(iconsCard[0]),
+              getDoubleCardIcon(iconsCard[1], iconsCard[2]),
+              getDoubleCardIcon(iconsCard[3], iconsCard[4]),
+              getDoubleCardIcon(iconsCard[5], iconsCard[6]),
+              getSingleCardIcon(iconsCard[7])
             ],
           )));
 }
@@ -38,8 +38,7 @@ SizedBox getCardStyle(String userName,
 // @return returns a Flexible with 2 rendered icons
 // @param card: CardData with all cards icons
 // @param iconOne: name of icon to be rendered
-Flexible getDoubleCardIcon(
-    String iconNameOne, String iconNameTwo) {
+Flexible getDoubleCardIcon(String iconNameOne, String iconNameTwo) {
   return Flexible(
       flex: 1,
       child: Row(

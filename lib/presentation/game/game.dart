@@ -73,7 +73,7 @@ class _GameWidgetState extends State<_GameWidget> {
   _GameWidgetState(this.deckData);
   Color secondaryColor = getPrimaryColor();
   Color primaryColor = getSecondaryColor();
-  int amountOfPlayers = 3;
+  int amountOfPlayers = 2;
 
   @override
   Widget build(BuildContext context) {
