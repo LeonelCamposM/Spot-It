@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 Map<String, IconData> roomIcons = {
+  'Bot': Icons.adb,
   'Face': Icons.face,
   'Heart': Icons.favorite,
   'Skyrocket': Icons.rocket_launch,

@@ -18,7 +18,7 @@ class Player {
   Map<String, dynamic> toJson() => {
         'nickname': nickname,
         'icon': icon,
-        "displayedCart": displayedCard,
+        "displayedCard": displayedCard,
         "cardCount": cardCount,
         "stackCardsCount": stackCardsCount
       };
