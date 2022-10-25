@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/chat/rooms_use_case.dart';
 import 'package:spot_it_game/domain/chat/message.dart';
 import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
+import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
@@ -11,10 +12,11 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
-IconButton openChat(
-    BuildContext context, Color secondaryColor, Color primaryColor) {
+IconButton openChat(BuildContext context, Color secondaryColor,
+    Color primaryColor, String roomID) {
   // Abstract Interface that provides database services
-  final chatUseCase = ChatUseCase(ChatRepository(FirebaseFirestore.instance));
+  final chatUseCase =
+      ChatUseCase(ChatRepository(FirebaseFirestore.instance, roomID));
 
   return IconButton(
     iconSize: getIconSize(),
@@ -35,7 +37,7 @@ IconButton openChat(
                     flex: 4,
                     child: Row(
                       children: [
-                        chatUseCase.onChatUpdate(),
+                        OnChatUpdate(roomID: roomID),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -46,7 +48,7 @@ IconButton openChat(
                     ),
                   ),
 
-                  // user input
+                  //user input
                   getMessageBar(secondaryColor, chatUseCase, context),
                 ],
               ),
@@ -83,8 +85,7 @@ Row getMessageBar(
               onPressed: () {
                 chatUseCase.sendMessage(
                   Message(textController.text,
-                      DateTime.now().microsecondsSinceEpoch, "soap"),
-                  " jTKFlTMyk0Rw24pdPcmv",
+                      DateTime.now().microsecondsSinceEpoch, "Face"),
                 );
                 textController.clear();
               },

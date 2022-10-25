@@ -4,19 +4,16 @@ import 'package:spot_it_game/domain/chat/message.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 
-class OnChatUpdate extends StatefulWidget {
-  const OnChatUpdate({Key? key}) : super(key: key);
-  @override
-  State<OnChatUpdate> createState() => _OnChatUpdateState();
-}
-
-// @brief eventListener waiting for changes on chat collection
-// @return sorted by timestamp list of messages
-class _OnChatUpdateState extends State<OnChatUpdate> {
-  List<String> messages = [];
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-      .collection("/Room_Message/ jTKFlTMyk0Rw24pdPcmv/Chat")
-      .snapshots();
+// ignore: must_be_immutable
+class OnChatUpdate extends StatelessWidget {
+  String roomID;
+  late Stream<QuerySnapshot> _usersStream;
+  OnChatUpdate({Key? key, required this.roomID}) : super(key: key) {
+    _usersStream = FirebaseFirestore.instance
+        .collection('/Room_Message/' + roomID + '/Chat')
+        .snapshots();
+  }
+  final List<String> messages = [];
 
   @override
   Widget build(BuildContext context) {

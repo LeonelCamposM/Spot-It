@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 
 Map<String, IconData> roomIcons = {
-  'soap': Icons.add_shopping_cart,
-  'calendar_view_week_rounded': Icons.calendar_view_day_rounded,
-  'call_end_outlined': Icons.call_end_outlined,
-  'call_made': Icons.call_made,
+  'Bot': Icons.adb,
+  'Face': Icons.face,
+  'Heart': Icons.favorite,
+  'Skyrocket': Icons.rocket_launch,
+  "Moon": Icons.nightlight_round_sharp,
+  "Soccer": Icons.sports_soccer,
+  "Ladybug": Icons.emoji_nature,
+  "Cookie": Icons.cookie,
+  "Rabbit": Icons.cruelty_free,
+  "Piano": Icons.piano,
+  "Stars": Icons.auto_awesome,
+  "Paint": Icons.palette,
+  "Sun": Icons.wb_sunny,
+  "Music": Icons.music_note,
+  "Book": Icons.auto_stories,
+  "Flower": Icons.filter_vintage,
+  "Diamond": Icons.diamond,
 };
 
 IconData getRoomIcon(String icon) {
