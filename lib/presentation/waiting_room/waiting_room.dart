@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/infrastructure/players/eventListeners/on_players_update.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -9,6 +13,7 @@ import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -23,16 +28,10 @@ class WaitingRoomPage extends StatefulWidget {
 }
 
 class _WaitingRoomPageState extends State<WaitingRoomPage> {
-  // Testing data
-  List<IconData> icons = [
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard
-  ];
-  List<String> names = ["Sofia", "Nayeri", "Jeremy", "Leonel"];
   RoomUseCase roomUseCase =
       RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
   @override
   void initState() {
@@ -74,7 +73,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         getIDBanner(args.roomID),
 
                         // Players list view
-                        getPlayersList(names, icons),
+                        playerUseCase.onPlayersUpdate(args.roomID),
 
                         // Start button
                         Center(
@@ -132,16 +131,15 @@ Row getIDBanner(String roomID) {
   );
 }
 
-// @param names: Player names in order
-// @param icons: Player images in order
+// @param Players: Players to draw
 // @return Container with horizontal list view
-Container getHorizontalList(List<String> names, List<IconData> icons) {
+Container getHorizontalList(List<Player> players) {
   return Container(
       alignment: Alignment.center,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: List.generate(
-          names.length,
+          players.length,
           (index) => Padding(
             padding: const EdgeInsets.only(right: 15),
             child:
@@ -157,10 +155,10 @@ Container getHorizontalList(List<String> names, List<IconData> icons) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        icons[index],
+                        getRoomIcon(players[index].icon),
                         size: SizeConfig.blockSizeVertical * 10,
                       ),
-                      Text(names[index],
+                      Text(players[index].nickname,
                           style: TextStyle(
                               fontSize: SizeConfig.blockSizeHorizontal))
                     ],
@@ -171,22 +169,35 @@ Container getHorizontalList(List<String> names, List<IconData> icons) {
       ));
 }
 
-// @param names: Player names in order
-// @param icons: Player images in order
+// @param Players: Players to draw
 // @return Column with 2 horizontal lists
-Column getPlayersList(List<String> names, List<IconData> icons) {
+Column getPlayersList(
+  List<Player> players,
+) {
+  List<Player> firstRowPlayers = [];
+  List<Player> secondRowPlayers = [];
+
+  int counter = 0;
+  for (var element in players) {
+    if (counter < 4) {
+      firstRowPlayers.add(element);
+    } else {
+      secondRowPlayers.add(element);
+    }
+    counter += 1;
+  }
+
   return Column(
     children: [
       SizedBox(
           height: SizeConfig.safeBlockVertical * 20,
           width: SizeConfig.safeBlockHorizontal * 40,
-          child: getHorizontalList(names, icons)),
+          child: getHorizontalList(firstRowPlayers)),
       SizedBox(
           height: SizeConfig.safeBlockVertical * 20,
           width: SizeConfig.safeBlockHorizontal * 40,
           child: getHorizontalList(
-            names,
-            icons,
+            secondRowPlayers,
           )),
     ],
   );
