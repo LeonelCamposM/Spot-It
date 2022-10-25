@@ -75,7 +75,31 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final textNameController = TextEditingController();
   final textRoomIDController = TextEditingController();
 
-  int iconListCount = 0;
+  int iconListCount = 1;
+
+  void add() {
+    if (iconListCount >= 16) {
+      reset();
+    } else {
+      setState(() => iconListCount++);
+    }
+  }
+
+  void substract() {
+    if (iconListCount <= 1) {
+      reverse();
+    } else {
+      setState(() => iconListCount--);
+    }
+  }
+
+  void reset() {
+    setState(() => iconListCount = 1);
+  }
+
+  void reverse() {
+    setState(() => iconListCount = 16);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +137,10 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                               // Double arrow back to get the previous icon
                               child: getButtonWithIcon(
                                   const Icon(Icons.keyboard_double_arrow_left),
-                                  iconListCount,
                                   8.0,
                                   14.0,
                                   4.0, () {
-                                iconListCount - 1;
+                                substract();
                               }),
                             ),
                             Flexible(
@@ -131,11 +154,10 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                               // Double arrow back to get the next icon
                               child: getButtonWithIcon(
                                   const Icon(Icons.keyboard_double_arrow_right),
-                                  iconListCount,
                                   8,
                                   14.0,
                                   4.0, () {
-                                iconListCount + 1;
+                                add();
                               }),
                             ),
                           ],
@@ -221,8 +243,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 // @param boxHeight: size fot the box's height
 // @param sizeIcon: icon's size
 // @return the button with the icon
-SizedBox getButtonWithIcon(Icon newIcon, int iconListCount, double boxWidth,
-    double boxHeight, double sizeIcon, Function()? onPressed) {
+SizedBox getButtonWithIcon(Icon newIcon, double boxWidth, double boxHeight,
+    double sizeIcon, Function()? onPressed) {
   return SizedBox(
     width: SizeConfig.safeBlockHorizontal * boxWidth,
     height: SizeConfig.safeBlockVertical * boxHeight,
