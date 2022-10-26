@@ -8,4 +8,8 @@ class PlayerUseCase {
   Future<String> addPlayer(Player player, String roomID) {
     return playerRepository.addPlayer(player, roomID);
   }
+
+  Future<List<Player>> getPlayers(String roomID) {
+    return playerRepository.getPlayers(roomID);
+  }
 }

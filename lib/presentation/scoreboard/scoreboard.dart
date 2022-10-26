@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
+import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
@@ -69,12 +72,13 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
 
   late List<Scoreboard> dataForGraph = [];
   late List<Scoreboard> dataForList = [];
+  late List<IconData> playerIcons = [];
   late TooltipBehavior _tooltip;
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
 
   @override
-  void initState() {
+  initState() {
     // Data for demostration
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
@@ -98,9 +102,36 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
       }
     }
     scoreLeadersList.shuffle();
+    await getPlayersIcons(scoreboardList);
     setState(() {
       dataForGraph = scoreLeadersList;
       dataForList = scoreboardList;
+    });
+  }
+
+  Future<void> getPlayersIcons(List<Scoreboard> scoreboard) async {
+    final playerUseCase =
+        PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+    List<IconData> playersIcons = [];
+    List<Player> nicknames = [];
+    List<IconData> icons = [];
+    List<Player> players = await playerUseCase.getPlayers("Jere");
+    for (var element in scoreboard) {
+      nicknames.add(Player(
+          element.nickname,
+          players
+              .firstWhere((player) => player.nickname == element.nickname)
+              .icon,
+          "",
+          0,
+          0));
+    } /*
+    for (var element in nicknames) {
+      final icon = element.icon;
+      icons.add(IconData(Icons.icon));
+    }*/
+    setState(() {
+      playerIcons = playersIcons;
     });
   }
 
@@ -123,7 +154,7 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
                       Column(
                         children: [
                           // Title and button of the main screen
-                          getHeader(context, dataForList),
+                          getHeader(context, dataForList, playerIcons),
                           const Text("", style: TextStyle(fontSize: 40.0)),
                           // Graph of Columns
                           getBarChart(_tooltip, dataForGraph)
@@ -159,7 +190,8 @@ Row getNavigationButtons(context) {
 // @param context: Build context
 // @param dataForList: Scoreboard data in list
 // @return Flexible with tittle and navigation list icon
-Flexible getHeader(context, List<Scoreboard> dataForList) {
+Flexible getHeader(
+    context, List<Scoreboard> dataForList, List<IconData> icons) {
   return Flexible(
     flex: 2,
     child: Row(
@@ -173,7 +205,7 @@ Flexible getHeader(context, List<Scoreboard> dataForList) {
           // Open the list of scores as a popup
           child: getIconButtonStyle(
               getSecondaryColor(),
-              openList(context, dataForList, getSecondaryColor(),
+              openList(context, dataForList, icons, getSecondaryColor(),
                   getPrimaryColor())),
         ),
       ],

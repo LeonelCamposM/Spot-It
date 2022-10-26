@@ -7,7 +7,7 @@ class PlayerRepository implements IPlayerRepository {
 
   PlayerRepository(FirebaseFirestore firestore)
       : _playersCollection =
-            firestore.collection('Room_Players').withConverter<Player>(
+            firestore.collection('Room_Player').withConverter<Player>(
                   fromFirestore: (doc, options) => Player.fromJson(doc.data()!),
                   toFirestore: (employee, options) => employee.toJson(),
                 );
@@ -18,5 +18,25 @@ class PlayerRepository implements IPlayerRepository {
         await _playersCollection.doc(roomID).collection("players");
     final newPlayer = await reference.add(player.toJson());
     return newPlayer.id;
+  }
+
+  @override
+  Future<List<Player>> getPlayers(String roomID) async {
+    final collection =
+        await _playersCollection.doc(roomID).collection("players").get();
+    List<Player> result = [];
+    collection.docs
+        .map((DocumentSnapshot doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          result.add(Player(
+              data['nickname'],
+              data['icon'],
+              data['displayedCard'],
+              data['cardCount'],
+              data['stackCardsCount']));
+        })
+        .toList()
+        .cast();
+    return result;
   }
 }

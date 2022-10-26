@@ -5,20 +5,8 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
-IconButton openList(context, List<Scoreboard> scoreboard, Color secondaryColor,
-    Color primaryColor) {
-  // Testing data
-  List<IconData> icons = [
-    Icons.emoji_events,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard,
-    Icons.soap,
-    Icons.nearby_error,
-    Icons.join_left,
-    Icons.leaderboard
-  ];
-
+IconButton openList(context, List<Scoreboard> scoreboard, List<IconData> icons,
+    Color secondaryColor, Color primaryColor) {
   return IconButton(
     iconSize: getIconSize(),
     onPressed: () {
@@ -128,14 +116,4 @@ ListView getVerticalScoreList(
           ),
         ),
       ));
-}
-
-List<Icons> getPlayersIcons(List<Scoreboard> scoreboard) {
-  List<Icons> playersIcons = [];
-  List<String> nicknames = [];
-  for (var element in scoreboard) {
-    nicknames.add(element.nickname);
-  }
-
-  return playersIcons;
 }
