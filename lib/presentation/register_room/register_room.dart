@@ -166,11 +166,11 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
                                     await playerUseCase.addPlayer(
                                         Player(textNameController.text, "Face",
-                                            "", 1, 2),
+                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight", 1, 2),
                                         roomID);
 
                                     await playerUseCase.addPlayer(
-                                        Player('Bot', "Bot", "", 1, 2), roomID);
+                                        Player('Bot', "Bot", "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight", 1, 2), roomID);
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
