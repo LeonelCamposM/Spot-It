@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/cards/i_card_repository.dart';
+import 'package:spot_it_game/domain/players/player.dart';
 
 class CardRepository implements ICardRepository {
   final CollectionReference<CardModel> _deckCollection;
@@ -28,6 +29,66 @@ class CardRepository implements ICardRepository {
           .doc(roomID)
           .collection('Deck')
           .add(element.toJson());
+    }
+  }
+
+  @override
+  Future<void> dealCards(String roomID) async {
+    print("prendió");
+    // Get players collection
+    var collection = FirebaseFirestore.instance
+        .collection('Room_Player')
+        .doc(roomID)
+        .collection('players');
+    var snapshots = await collection.get();
+
+    // Get deck collection
+    final roomDeckReference = FirebaseFirestore.instance
+        .collection('Room_Deck')
+        .doc(roomID)
+        .collection('Deck')
+        .limit(snapshots.docs.length);
+
+    // Get new cards
+    final newCardsReference =
+        await roomDeckReference.limit(snapshots.docs.length).get();
+    Iterable<CardModel> cards = newCardsReference.docs
+        .map((snapshot) => CardModel.fromJson(snapshot.data()));
+    print("cartas obtenidas" + cards.toString());
+    int counter = 0;
+    for (var doc in snapshots.docs) {
+      // Get current player
+      final query = await doc.reference.get();
+      Player currentPlayer = Player.fromJson(query.data()!);
+      print(currentPlayer.nickname + " jugador actual");
+      // Give card to user
+      CardModel newCard = cards.elementAt(counter);
+      counter += 1;
+      print(newCard.toJson().toString() + "player carta actual");
+      // Update new player card
+      Player newPlayer = Player(
+          currentPlayer.nickname,
+          currentPlayer.icon,
+          newCard.iconOne +
+              ',' +
+              newCard.iconTwo +
+              ',' +
+              newCard.iconThree +
+              ',' +
+              newCard.iconFour +
+              ',' +
+              newCard.iconFive +
+              ',' +
+              newCard.iconSix +
+              ',' +
+              newCard.iconSeven +
+              ',' +
+              newCard.iconEight +
+              ',',
+          currentPlayer.cardCount + 1,
+          currentPlayer.stackCardsCount + 1);
+      print(newCard.toJson().toString() + " asignada a " + newPlayer.nickname);
+      await doc.reference.update(newPlayer.toJson());
     }
   }
 }
