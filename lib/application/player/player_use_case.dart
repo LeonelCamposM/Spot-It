@@ -13,4 +13,10 @@ class PlayerUseCase {
   Widget onPlayersUpdate(String roomID) {
     return playerRepository.onPlayersUpdate(roomID);
   }
+
+  Future<bool> spotIt(
+      String roomID, String playerOneNickname, String playerTwoNickname) {
+    return playerRepository.spotIt(
+        roomID, playerOneNickname, playerTwoNickname);
+  }
 }

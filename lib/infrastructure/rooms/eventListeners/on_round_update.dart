@@ -37,7 +37,6 @@ class OnRoundUpdate extends StatelessWidget {
         Room room = getUpdateRoom(snapshot, roomID);
         if (room.round > localRound && isHost) {
           localRound += 1;
-          print('Soy un wumpus y repartí cartas');
           dealCards(roomID);
           return const Text('puede obtener carta');
         } else {
@@ -69,7 +68,6 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
 }
 
 Future<void> dealCards(String roomID) async {
-  print("prendió");
   // Get players collection
   var collection = FirebaseFirestore.instance
       .collection('Room_Player')
@@ -79,8 +77,6 @@ Future<void> dealCards(String roomID) async {
 
   // Get deck collection
   final roomDeckReference = FirebaseFirestore.instance
-      .collection('Room_Deck')
-      .doc(roomID)
       .collection('Deck')
       .limit(snapshots.docs.length);
 
@@ -89,24 +85,20 @@ Future<void> dealCards(String roomID) async {
       await roomDeckReference.limit(snapshots.docs.length).get();
   Iterable<CardModel> cards = newCardsReference.docs
       .map((snapshot) => CardModel.fromJson(snapshot.data()));
-  print("cartas obtenidas" + cards.toString());
 
   // en adelante
   int counter = 0;
   for (var doc in snapshots.docs) {
     // Get current player
     final query = await doc.reference.get();
-    print(query.data()!);
     // Final
     Map<String, dynamic> data = query.data()!;
     final currentPlayer = Player(data['nickname'], data["icon"],
         data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
 
-    print(currentPlayer.nickname + " jugador actual");
     // Give card to user
     CardModel newCard = cards.elementAt(counter);
     counter += 1;
-    print(newCard.toJson().toString() + "player carta actual");
 
     // Update new player card
     Player newPlayer = Player(
@@ -130,7 +122,6 @@ Future<void> dealCards(String roomID) async {
             ',',
         currentPlayer.cardCount + 1,
         currentPlayer.stackCardsCount + 1);
-    print(newCard.toJson().toString() + " asignada a " + newPlayer.nickname);
     await doc.reference.update(newPlayer.toJson());
   }
 }

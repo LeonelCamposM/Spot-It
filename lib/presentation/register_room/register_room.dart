@@ -199,7 +199,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     getSecondaryColor(), () async {
                                     String roomID = await roomUseCase
                                         .createRoom(Room(0, true));
-                                    await cardUseCase.createRoomDeck(roomID);
+                                    //await cardUseCase.createRoomDeck(roomID);
                                     await playerUseCase.addPlayer(
                                         Player(
                                             textNameController.text,

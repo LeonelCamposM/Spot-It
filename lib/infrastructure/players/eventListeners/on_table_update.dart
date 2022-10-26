@@ -33,7 +33,7 @@ class OnTableUpdate extends StatelessWidget {
 
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: getAmountOfCardsMenu(context, players));
+            children: getAmountOfCardsMenu(context, players, roomID));
       },
     );
   }
