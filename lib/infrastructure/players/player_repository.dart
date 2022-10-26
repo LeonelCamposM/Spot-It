@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/players/i_player_repository.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/eventListeners/on_players_update.dart';

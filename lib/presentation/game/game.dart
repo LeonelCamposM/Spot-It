@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
-import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
-import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
+import 'package:spot_it_game/infrastructure/players/eventListeners/on_table_update.dart';
+import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_round_update.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
-import 'package:spot_it_game/presentation/game/card_location.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
@@ -66,7 +65,6 @@ class _GamePagePageState extends State<GamePage> {
 class _GameWidget extends StatefulWidget {
   final Iterable<CardModel> deckData;
   const _GameWidget({Key? key, required this.deckData}) : super(key: key);
-
   @override
   // ignore: no_logic_in_create_state
   State<_GameWidget> createState() => _GameWidgetState(deckData);
@@ -77,7 +75,7 @@ class _GameWidgetState extends State<_GameWidget> {
   _GameWidgetState(this.deckData);
   Color secondaryColor = getPrimaryColor();
   Color primaryColor = getSecondaryColor();
-  int amountOfPlayers = 8;
+  int amountOfPlayers = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +110,11 @@ List<Widget> getGameScreenWidget(
         ]),
         Row(
           children: [
-            Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:
-                    getAmountOfCardsMenu(context, deckData, amountOfPlayers)),
+            OnRoundUpdate(roomID: args.roomID),
+            OnTableUpdate(
+              roomID: args.roomID,
+              deckData: deckData,
+            )
           ],
         ),
         Row(
