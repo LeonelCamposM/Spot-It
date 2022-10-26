@@ -30,66 +30,58 @@ class PlayerRepository implements IPlayerRepository {
   @override
   Future<bool> spotIt(
       String roomID, String playerOneNickname, String playerTwoNickname) async {
-    
+   
     final db = FirebaseFirestore.instance;
-    var roomReference = db.collection('Room_Player').doc(roomID);
-    var scoreboardReference =
-        db.collection('Room_Scoreboard').doc('jTKFlTMyk0Rw24pdPcmv');
+    var playersReference =
+        db.collection('Room_Player').doc(roomID).collection('players');
+    var scoreboardReference = db
+        .collection('Room_Scoreboard')
+        .doc('jTKFlTMyk0Rw24pdPcmv')
+        .collection('Scoreboard');
 
-    var playersReference = roomReference.collection('players');
-    var playerScoreboardReference = scoreboardReference.collection('Scoreboard');
+    Player playerUpdated = Player("", "", "", 0, 0);
+    Scoreboard scoreboardUpdated = Scoreboard("", 0);
 
-    Player winnerPlayer = Player("", "", "", 0, 0);
-    var snapshots = await playersReference.get();
-    var snapshotsScoreboard = await playerScoreboardReference.get();
+    var players = await playersReference.get();
+    var scoreboard = await scoreboardReference.get();
 
-    for (var doc in snapshots.docs) {
-      final query = await doc.reference.get();
-      Map<String, dynamic> data = query.data()!;
+    var winnerPlayerData = players.docs
+        .where((element) => element.data()['nickname'] == playerOneNickname)
+        .first;
+    var scoreboardWinnerData = scoreboard.docs
+        .where((element) => element.data()['nickname'] == playerOneNickname)
+        .first;
 
-      if (data['nickname'] == playerOneNickname) {
-        winnerPlayer = Player(data['nickname'], data["icon"],
-            data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
-        Player newPlayer = Player(
-            winnerPlayer.nickname,
-            winnerPlayer.icon,
-            "QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark",
-            0,
-            0);
-        await doc.reference.update(newPlayer.toJson());
+    var loserPlayerData = players.docs
+        .where((element) => element.data()['nickname'] == playerTwoNickname)
+        .first;
 
-        for (var docScoreboard in snapshotsScoreboard.docs) {
-          final queryScoreboard = await docScoreboard.reference.get();
-          Map<String, dynamic> queryData = queryScoreboard.data()!;
-          if (queryData['nickname'] == playerOneNickname) {
-            Scoreboard winnerScoreboard =
-                Scoreboard(queryData['nickname'], queryData['score']);
-            Scoreboard newScoreboard =
-                Scoreboard(winnerScoreboard.nickname, winnerScoreboard.score + 1);
-            await docScoreboard.reference.update(newScoreboard.toJson());
-            break;
-          }
-        }
-        break;
-      }
-    }
+    Player winnerPlayer = Player(winnerPlayerData['nickname'], winnerPlayerData["icon"],
+            winnerPlayerData["displayedCard"], winnerPlayerData["cardCount"], winnerPlayerData["stackCardsCount"]);
 
-    for (var doc in snapshots.docs) {
-      final query = await doc.reference.get();
-      Map<String, dynamic> data = query.data()!;
+    //Updated winner player and score for winner
+    playerUpdated = Player(
+       winnerPlayer.nickname,
+        winnerPlayer.icon,
+        "QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark",
+        0,
+        0);
+    await winnerPlayerData.reference.update(playerUpdated.toJson());
 
-      if (data['nickname'] == playerTwoNickname) {
-        Player loserPlayer = Player(data['nickname'], data["icon"],
-            data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
-        Player newPlayer = Player(
-            loserPlayer.nickname,
-            loserPlayer.icon,
-            winnerPlayer.displayedCard,
-            loserPlayer.cardCount + winnerPlayer.cardCount,
-            loserPlayer.stackCardsCount + winnerPlayer.stackCardsCount);
-        await doc.reference.update(newPlayer.toJson());
-      }
-    }
+    scoreboardUpdated = Scoreboard(scoreboardWinnerData.data()['nickname'],
+        scoreboardWinnerData.data()['score'] + 1);
+    await scoreboardWinnerData.reference.update(scoreboardUpdated.toJson());
+
+    //Updated loser player 
+    playerUpdated = Player(
+        loserPlayerData.data()['nickname'],
+        loserPlayerData.data()['icon'],
+        winnerPlayer.displayedCard,
+        loserPlayerData.data()['cardCount'] + winnerPlayer.cardCount,
+        loserPlayerData.data()['cardCount'] + winnerPlayer.stackCardsCount);
+
+    await loserPlayerData.reference.update(playerUpdated.toJson());
+
     return false;
   }
 
