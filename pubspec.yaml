@@ -119,6 +119,7 @@ flutter:
     - assets/icons/Dog.png 
     - assets/icons/Yinandyang.png 
     - assets/icons/Zebra.png 
+    - assets/icons/logo.png 
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
