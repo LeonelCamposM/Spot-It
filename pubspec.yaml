@@ -83,16 +83,42 @@ flutter:
     - assets/icons/Carrot.png
     - assets/icons/Cheese.png
     - assets/icons/Chessknight.png
-    - assets/icons/NoEntrySign.png
+    - assets/icons/Noentrysign.png
     - assets/icons/Pencil.png
-    - assets/icons/PurpleBird.png
-    - assets/icons/PurpleCat.png
-    - assets/icons/QuestionMark.png
-    - assets/icons/ScarecrowMan.png
+    - assets/icons/Purplebird.png
+    - assets/icons/Purplecat.png
+    - assets/icons/Questionmark.png
+    - assets/icons/Scarecrowman.png
     - assets/icons/Scissors.png
-    - assets/icons/SkullAndCrossbones.png
+    - assets/icons/Skullandcrossbones.png
     - assets/icons/Snowflake.png
     - assets/icons/Snowman.png
+    - assets/icons/Clock.png 
+    - assets/icons/Clown.png 
+    - assets/icons/Daisyflower.png 
+    - assets/icons/Dinosaur.png 
+    - assets/icons/Dolphin.png 
+    - assets/icons/Dragon.png 
+    - assets/icons/Exclamationmark.png 
+    - assets/icons/Eye.png 
+    - assets/icons/Fire.png 
+    - assets/icons/Fourleafclover.png 
+    - assets/icons/Ghost.png 
+    - assets/icons/Greensplats.png 
+    - assets/icons/Redlips.png 
+    - assets/icons/Spider.png 
+    - assets/icons/Spidersweb.png 
+    - assets/icons/Sun.png 
+    - assets/icons/Sunglasses.png 
+    - assets/icons/Target.png 
+    - assets/icons/Taxi.png 
+    - assets/icons/Tortoise.png 
+    - assets/icons/Trebleclef.png
+    - assets/icons/Tree.png 
+    - assets/icons/Waterdrop.png 
+    - assets/icons/Dog.png 
+    - assets/icons/Yinandyang.png 
+    - assets/icons/Zebra.png 
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
