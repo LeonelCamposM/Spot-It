@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/cards/deck_use_case.dart';
+import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/infrastructure/players/eventListeners/on_table_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_round_update.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
@@ -149,28 +151,24 @@ List<Widget> getGameScreenWidget(
 }
 
 Column getLeaderboard() {
+  final scoreboardUseCase =
+      ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         width: SizeConfig.blockSizeHorizontal * 12,
-        height: SizeConfig.blockSizeHorizontal * 18,
+        height: SizeConfig.blockSizeVertical * 40,
         decoration: const BoxDecoration(
           color: Color.fromARGB(100, 109, 31, 138),
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             getText("Posición", SizeConfig.blockSizeHorizontal * 1.2,
                 Alignment.topCenter),
-            getText("1. Leo", SizeConfig.blockSizeHorizontal * 1,
-                Alignment.topLeft),
-            getText("2. Jere", SizeConfig.blockSizeHorizontal * 1,
-                Alignment.topLeft),
-            getText("3. Naye", SizeConfig.blockSizeHorizontal * 1,
-                Alignment.topLeft),
+            scoreboardUseCase.onScoreboardUpdate(),
           ],
         ),
       ),
