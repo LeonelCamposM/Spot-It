@@ -16,4 +16,18 @@ class CardRepository implements ICardRepository {
     final result = await _deckCollection.get();
     return result.docs.map((snapshot) => snapshot.data());
   }
+
+  @override
+  Future<void> createRoomDeck(String roomID) async {
+    final result = await _deckCollection.get();
+    Iterable<CardModel> baseDeck =
+        result.docs.map((snapshot) => snapshot.data());
+    for (var element in baseDeck) {
+      FirebaseFirestore.instance
+          .collection('Room_Deck')
+          .doc(roomID)
+          .collection('Deck')
+          .add(element.toJson());
+    }
+  }
 }

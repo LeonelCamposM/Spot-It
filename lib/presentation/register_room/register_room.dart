@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
+import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
@@ -68,6 +70,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
+  CardUseCase cardUseCase =
+      CardUseCase(CardRepository(FirebaseFirestore.instance));
 
   late String roomIDGuest;
 
@@ -163,7 +168,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     getSecondaryColor(), () async {
                                     String roomID = await roomUseCase
                                         .createRoom(Room(0, true));
-
+                                    await cardUseCase.createRoomDeck(roomID);
                                     await playerUseCase.addPlayer(
                                         Player(
                                             textNameController.text,
