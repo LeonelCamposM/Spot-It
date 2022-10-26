@@ -8,4 +8,5 @@ abstract class IPlayerRepository {
   Widget onPlayersUpdate(String roomID);
   Future<bool> spotIt(
       String roomID, String playerOneNickname, String playerTwoNickname);
+  Future<List<Player>> getPlayers(String roomID);
 }

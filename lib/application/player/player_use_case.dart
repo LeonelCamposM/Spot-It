@@ -19,4 +19,8 @@ class PlayerUseCase {
     return playerRepository.spotIt(
         roomID, playerOneNickname, playerTwoNickname);
   }
+
+  Future<List<Player>> getPlayers(String roomID) {
+    return playerRepository.getPlayers(roomID);
+  }
 }

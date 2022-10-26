@@ -86,4 +86,23 @@ class PlayerRepository implements IPlayerRepository {
     // );
     return false;
   }
+
+  Future<List<Player>> getPlayers(String roomID) async {
+    final collection =
+        await _playersCollection.doc(roomID).collection("players").get();
+    List<Player> result = [];
+    collection.docs
+        .map((DocumentSnapshot doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          result.add(Player(
+              data['nickname'],
+              data['icon'],
+              data['displayedCard'],
+              data['cardCount'],
+              data['stackCardsCount']));
+        })
+        .toList()
+        .cast();
+    return result;
+  }
 }
