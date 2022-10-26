@@ -196,12 +196,22 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         .createRoom(Room(0, true));
 
                                     await playerUseCase.addPlayer(
-                                        Player(textNameController.text, "Face",
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight", 1, 1),
+                                        Player(
+                                            textNameController.text,
+                                            iconListCount.toString(),
+                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            0,
+                                            0),
                                         roomID);
 
                                     await playerUseCase.addPlayer(
-                                        Player('Bot', "Bot", "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight", 1, 1), roomID);
+                                        Player(
+                                            'Bot',
+                                            "0",
+                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            0,
+                                            0),
+                                        roomID);
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
@@ -215,8 +225,12 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
                                     await playerUseCase.addPlayer(
-                                        Player(textNameController.text,
-                                            iconListCount.toString(), "", 1, 2),
+                                        Player(
+                                            textNameController.text,
+                                            iconListCount.toString(),
+                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            0,
+                                            0),
                                         textRoomIDController.text);
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
