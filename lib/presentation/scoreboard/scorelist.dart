@@ -94,18 +94,19 @@ ListView getVerticalScoreList(
               Container(
                   width: SizeConfig.blockSizeHorizontal * 5,
                   height: SizeConfig.blockSizeVertical * 10,
-                  decoration: index != 0
-                      ? const BoxDecoration()
-                      : BoxDecoration(
-                          color: index != 0
-                              ? Colors.primaries[
-                                  Random().nextInt(Colors.primaries.length)]
-                              : Colors.amber,
-                          shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                      color: index != 0
+                          ? Colors.primaries[
+                              Random().nextInt(Colors.primaries.length)]
+                          : Colors.amber,
+                      shape: BoxShape.circle),
                   child: index != 0
-                      ? const Text("")
-                      : Icon(
+                      ? Icon(
                           icons[index],
+                          size: SizeConfig.blockSizeVertical * 5,
+                        )
+                      : Icon(
+                          Icons.emoji_events,
                           size: SizeConfig.blockSizeVertical * 8,
                         )),
               getText(scoreboard[index].nickname,

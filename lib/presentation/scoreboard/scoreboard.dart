@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
@@ -112,7 +113,6 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   Future<void> getPlayersIcons(List<Scoreboard> scoreboard) async {
     final playerUseCase =
         PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
-    List<IconData> playersIcons = [];
     List<Player> nicknames = [];
     List<IconData> icons = [];
     List<Player> players = await playerUseCase.getPlayers("Jere");
@@ -125,13 +125,12 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
           "",
           0,
           0));
-    } /*
+    }
     for (var element in nicknames) {
-      final icon = element.icon;
-      icons.add(IconData(Icons.icon));
-    }*/
+      icons.add(getRoomIcon(element.icon));
+    }
     setState(() {
-      playerIcons = playersIcons;
+      playerIcons = icons;
     });
   }
 
