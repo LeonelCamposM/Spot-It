@@ -4,8 +4,6 @@ import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 
 // ignore: must_be_immutable
 class OnRoundUpdate extends StatelessWidget {
@@ -38,9 +36,9 @@ class OnRoundUpdate extends StatelessWidget {
         if (room.round > localRound && isHost) {
           localRound += 1;
           dealCards(roomID);
-          return const Text('puede obtener carta');
+          return const Text('');
         } else {
-          return const Text('ya obtuvo carta por esta ronda');
+          return const Text('');
         }
       },
     );
@@ -76,22 +74,22 @@ Future<void> dealCards(String roomID) async {
   var snapshots = await collection.get();
 
   // Get deck collection
-  final roomDeckReference = FirebaseFirestore.instance
-      .collection('Deck')
-      .limit(snapshots.docs.length);
+  final roomDeckReference = FirebaseFirestore.instance.collection('Deck');
 
   // Get new cards
-  final newCardsReference =
-      await roomDeckReference.limit(snapshots.docs.length).get();
-  Iterable<CardModel> cards = newCardsReference.docs
-      .map((snapshot) => CardModel.fromJson(snapshot.data()));
+  final newCardsReference = await roomDeckReference.get();
+  List<CardModel> fullDeck = newCardsReference.docs
+      .map((snapshot) => CardModel.fromJson(snapshot.data()))
+      .toList();
 
-  // en adelante
+  // get random cards from deck
+  fullDeck.shuffle();
+  Iterable<CardModel> cards = fullDeck.take(snapshots.docs.length);
+
   int counter = 0;
   for (var doc in snapshots.docs) {
     // Get current player
     final query = await doc.reference.get();
-    // Final
     Map<String, dynamic> data = query.data()!;
     final currentPlayer = Player(data['nickname'], data["icon"],
         data["displayedCard"], data["cardCount"], data["stackCardsCount"]);

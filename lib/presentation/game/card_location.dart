@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/game/show_card_selection.dart';
-import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 //Additional information:
 //8 means there can be 8 players in sesion.
