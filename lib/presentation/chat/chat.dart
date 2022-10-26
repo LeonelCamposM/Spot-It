@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/chat/rooms_use_case.dart';
 import 'package:spot_it_game/domain/chat/message.dart';
+import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
 import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -72,7 +73,7 @@ Row getMessageBar(
         flex: 8,
         child: Padding(
           padding: const EdgeInsets.only(),
-          child: getInputField(" Ingrese un mensaje", textController, context),
+          child: getInputField("Ingrese un mensaje", textController, context),
         ),
       ),
       Padding(
@@ -85,7 +86,7 @@ Row getMessageBar(
               onPressed: () {
                 chatUseCase.sendMessage(
                   Message(textController.text,
-                      DateTime.now().microsecondsSinceEpoch, "Face"),
+                      DateTime.now().microsecondsSinceEpoch, "1"),
                 );
                 textController.clear();
               },
