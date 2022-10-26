@@ -7,9 +7,10 @@ import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.d
 class ChatRepository implements IChatRepository {
   late final CollectionReference<Message> _chatCollection;
   late final FirebaseFirestore db;
-  ChatRepository(FirebaseFirestore firestore) {
+  late String roomID;
+  ChatRepository(FirebaseFirestore firestore, String roomID) {
     _chatCollection = firestore
-        .collection('/Room_Message/ jTKFlTMyk0Rw24pdPcmv/Chat')
+        .collection('/Room_Message/' + roomID + '/Chat')
         .withConverter<Message>(
           fromFirestore: (doc, options) => Message.fromJson(doc.data()!),
           toFirestore: (object, options) => object.toJson(),
@@ -18,13 +19,13 @@ class ChatRepository implements IChatRepository {
   }
 
   @override
-  Future<String> sendMessage(Message message, String roomID) async {
+  Future<String> sendMessage(Message message) async {
     _chatCollection.add(message);
     return "";
   }
 
   @override
   Widget onChatUpdate() {
-    return const OnChatUpdate();
+    return OnChatUpdate(roomID: roomID);
   }
 }

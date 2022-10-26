@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/players/i_player_repository.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 
@@ -7,6 +8,10 @@ class PlayerUseCase {
 
   Future<String> addPlayer(Player player, String roomID) {
     return playerRepository.addPlayer(player, roomID);
+  }
+
+  Widget onPlayersUpdate(String roomID) {
+    return playerRepository.onPlayersUpdate(roomID);
   }
 
   Future<List<Player>> getPlayers(String roomID) {

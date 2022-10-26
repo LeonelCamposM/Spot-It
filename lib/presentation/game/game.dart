@@ -6,16 +6,16 @@ import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
 import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
-import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
+import 'package:spot_it_game/presentation/game/card_location.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
+import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
 class GamePage extends StatefulWidget {
@@ -77,141 +77,106 @@ class _GameWidgetState extends State<_GameWidget> {
   _GameWidgetState(this.deckData);
   Color secondaryColor = getPrimaryColor();
   Color primaryColor = getSecondaryColor();
+  int amountOfPlayers = 8;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        children: getGameScreenWidget(context, deckData),
+        children: getGameScreenWidget(context, deckData, amountOfPlayers),
       ),
     );
   }
 }
 
+List<Widget> getGameScreenWidget(
+    BuildContext context, Iterable<CardModel> deckData, int amountOfPlayers) {
+  final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
+  return ([
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: [
+          getChildrenWithIcon(
+              context,
+              const Icon(Icons.home),
+              getSecondaryColor(),
+              MaterialPageRoute(builder: (context) => const HomePage())),
+          // getChildrenWithIcon(
+          //     context,
+          //     const Icon(Icons.leaderboard),
+          //     getSecondaryColor(),
+          //     MaterialPageRoute(builder: (context) => const ScoreboardPage()))
+        ]),
+        Row(
+          children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children:
+                    getAmountOfCardsMenu(context, deckData, amountOfPlayers)),
+          ],
+        ),
+        Row(
+          children: [
+            Column(
+              children: [
+                Row(
+                  children: [
+                    getIconButtonStyle(
+                      getSecondaryColor(),
+                      openRules(
+                          context, getSecondaryColor(), getPrimaryColor()),
+                    ),
+                    getIconButtonStyle(
+                      getSecondaryColor(),
+                      openChat(context, getSecondaryColor(), getPrimaryColor(),
+                          args.roomID),
+                    )
+                  ],
+                ),
+                SizedBox(
+                    width: SizeConfig.blockSizeHorizontal * 3,
+                    height: SizeConfig.blockSizeHorizontal * 3),
+                getLeaderboard(),
+              ],
+            ),
+          ],
+        ),
+      ],
+    )
+  ]);
+}
+
 Column getLeaderboard() {
-  final scoreboardUseCase =
-      ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         width: SizeConfig.blockSizeHorizontal * 12,
-        height: SizeConfig.blockSizeVertical * 40,
+        height: SizeConfig.blockSizeHorizontal * 18,
         decoration: const BoxDecoration(
           color: Color.fromARGB(100, 109, 31, 138),
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             getText("Posición", SizeConfig.blockSizeHorizontal * 1.2,
                 Alignment.topCenter),
-            scoreboardUseCase.onScoreboardUpdate(),
+            getText("1. Leo", SizeConfig.blockSizeHorizontal * 1,
+                Alignment.topLeft),
+            getText("2. Jere", SizeConfig.blockSizeHorizontal * 1,
+                Alignment.topLeft),
+            getText("3. Naye", SizeConfig.blockSizeHorizontal * 1,
+                Alignment.topLeft),
           ],
         ),
       ),
     ],
   ));
-}
-
-Row getFirstIcons(context) {
-  return (Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Row(children: [
-        getChildrenWithIcon(
-            context,
-            const Icon(Icons.home),
-            getSecondaryColor(),
-            MaterialPageRoute(builder: (context) => const HomePage())),
-        getChildrenWithIcon(
-            context,
-            const Icon(Icons.leaderboard),
-            getSecondaryColor(),
-            MaterialPageRoute(builder: (context) => const ScoreboardPage()))
-      ]),
-      Row(
-        children: [
-          getIconButtonStyle(
-            getSecondaryColor(),
-            openRules(context, getSecondaryColor(), getPrimaryColor()),
-          ),
-          getIconButtonStyle(
-            getSecondaryColor(),
-            openChat(context, getSecondaryColor(), getPrimaryColor()),
-          )
-        ],
-      ),
-    ],
-  ));
-}
-
-List<Widget> getGameScreenWidget(
-    BuildContext context, Iterable<CardModel> deckData) {
-  return ([
-    getFirstIcons(context),
-    Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SizedBox(child: Text("")),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  getCardStyle(deckData.elementAt(0), 10, 10),
-                  const Text("  "),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: SizeConfig.blockSizeHorizontal * 3),
-                    child: getCardStyle(deckData.elementAt(0), 10, 10),
-                  ),
-                  const Text("  "),
-                  getCardStyle(deckData.elementAt(0), 10, 10),
-                ],
-              ),
-              Row(
-                children: [
-                  getCardStyle(deckData.elementAt(0), 10, 10),
-                  const Text("          "),
-                  SizedBox(
-                    width: SizeConfig.blockSizeHorizontal * 10,
-                    height: SizeConfig.blockSizeHorizontal * 10,
-                    child: const Image(
-                      image: AssetImage('assets/logo.png'),
-                    ),
-                  ),
-                  const Text("           "),
-                  getCardStyle(deckData.elementAt(0), 10, 10),
-                ],
-              ),
-              const Text("        "),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("  "),
-                  getCardStyle(deckData.elementAt(0), 10, 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("  "),
-                      getCardStyle(deckData.elementAt(0), 15, 15),
-                    ],
-                  ),
-                  const Text("  "),
-                  getCardStyle(deckData.elementAt(0), 10, 10),
-                ],
-              ),
-            ],
-          ),
-          getLeaderboard(),
-        ],
-      ),
-    ),
-  ]);
 }
 
 // @param scoreboard: Scoreboard to be draw

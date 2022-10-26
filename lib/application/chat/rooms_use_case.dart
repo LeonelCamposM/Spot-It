@@ -6,8 +6,8 @@ class ChatUseCase {
   final IChatRepository chatRepository;
   ChatUseCase(this.chatRepository);
 
-  Future<String> sendMessage(Message message, String roomID) {
-    return chatRepository.sendMessage(message, roomID);
+  Future<String> sendMessage(Message message) {
+    return chatRepository.sendMessage(message);
   }
 
   Widget onChatUpdate() {
