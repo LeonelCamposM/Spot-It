@@ -1,6 +1,6 @@
 class Room {
-  final int round;
-  final bool joinable;
+  int round;
+  bool joinable;
 
   Room(this.round, this.joinable);
 

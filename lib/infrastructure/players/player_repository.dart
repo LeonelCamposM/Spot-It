@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/players/i_player_repository.dart';
 import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/infrastructure/players/eventListeners/on_players_update.dart';
 
@@ -70,6 +71,7 @@ class PlayerRepository implements IPlayerRepository {
             break;
           }
         }
+
         break;
       }
     }
@@ -90,6 +92,14 @@ class PlayerRepository implements IPlayerRepository {
         await doc.reference.update(newPlayer.toJson());
       }
     }
+
+    // Update
+    final roomIDReference =
+        FirebaseFirestore.instance.collection('Room').doc(roomID);
+    final roomCollection = await roomIDReference.get();
+    Room room = Room.fromJson(roomCollection.data()!);
+    room.round = room.round + 1;
+    roomIDReference.update(room.toJson());
     return false;
   }
 
