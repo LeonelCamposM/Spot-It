@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
@@ -37,11 +40,10 @@ class OnRoundUpdate extends StatelessWidget {
         Room room = getUpdateRoom(snapshot, roomID);
         if (room.round > localRound && isHost) {
           localRound += 1;
-          print('Soy un wumpus y repartí cartas');
           dealCards(roomID);
-          return const Text('puede obtener carta');
+          return const Text('');
         } else {
-          return const Text('ya obtuvo carta por esta ronda');
+          return const Text('');
         }
       },
     );
@@ -69,7 +71,6 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
 }
 
 Future<void> dealCards(String roomID) async {
-  print("prendió");
   // Get players collection
   var collection = FirebaseFirestore.instance
       .collection('Room_Player')
@@ -78,35 +79,30 @@ Future<void> dealCards(String roomID) async {
   var snapshots = await collection.get();
 
   // Get deck collection
-  final roomDeckReference = FirebaseFirestore.instance
-      .collection('Room_Deck')
-      .doc(roomID)
-      .collection('Deck')
-      .limit(snapshots.docs.length);
+  final roomDeckReference = FirebaseFirestore.instance.collection('Deck');
 
   // Get new cards
-  final newCardsReference =
-      await roomDeckReference.limit(snapshots.docs.length).get();
-  Iterable<CardModel> cards = newCardsReference.docs
-      .map((snapshot) => CardModel.fromJson(snapshot.data()));
-  print("cartas obtenidas" + cards.toString());
+  final newCardsReference = await roomDeckReference.get();
+  List<CardModel> fullDeck = newCardsReference.docs
+      .map((snapshot) => CardModel.fromJson(snapshot.data()))
+      .toList();
 
-  // en adelante
+  // get random cards from deck
+  fullDeck.shuffle();
+  Iterable<CardModel> cards = fullDeck.take(snapshots.docs.length);
+
   int counter = 0;
   for (var doc in snapshots.docs) {
     // Get current player
     final query = await doc.reference.get();
-    print(query.data()!);
-    // Final
+
     Map<String, dynamic> data = query.data()!;
     final currentPlayer = Player(data['nickname'], data["icon"],
         data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
 
-    print(currentPlayer.nickname + " jugador actual");
     // Give card to user
     CardModel newCard = cards.elementAt(counter);
     counter += 1;
-    print(newCard.toJson().toString() + "player carta actual");
 
     // Update new player card
     Player newPlayer = Player(
@@ -130,7 +126,6 @@ Future<void> dealCards(String roomID) async {
             ',',
         currentPlayer.cardCount + 1,
         currentPlayer.stackCardsCount + 1);
-    print(newCard.toJson().toString() + " asignada a " + newPlayer.nickname);
     await doc.reference.update(newPlayer.toJson());
   }
 }
