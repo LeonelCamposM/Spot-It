@@ -31,7 +31,6 @@ class PlayerRepository implements IPlayerRepository {
   @override
   Future<bool> spotIt(
       String roomID, String playerOneNickname, String playerTwoNickname) async {
-   
     final db = FirebaseFirestore.instance;
     var playersReference =
         db.collection('Room_Player').doc(roomID).collection('players');
@@ -57,12 +56,16 @@ class PlayerRepository implements IPlayerRepository {
         .where((element) => element.data()['nickname'] == playerTwoNickname)
         .first;
 
-    Player winnerPlayer = Player(winnerPlayerData['nickname'], winnerPlayerData["icon"],
-            winnerPlayerData["displayedCard"], winnerPlayerData["cardCount"], winnerPlayerData["stackCardsCount"]);
+    Player winnerPlayer = Player(
+        winnerPlayerData['nickname'],
+        winnerPlayerData["icon"],
+        winnerPlayerData["displayedCard"],
+        winnerPlayerData["cardCount"],
+        winnerPlayerData["stackCardsCount"]);
 
     //Updated winner player and score for winner
     playerUpdated = Player(
-       winnerPlayer.nickname,
+        winnerPlayer.nickname,
         winnerPlayer.icon,
         "QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark",
         0,
@@ -73,7 +76,7 @@ class PlayerRepository implements IPlayerRepository {
         scoreboardWinnerData.data()['score'] + 1);
     await scoreboardWinnerData.reference.update(scoreboardUpdated.toJson());
 
-    //Updated loser player 
+    //Updated loser player
     playerUpdated = Player(
         loserPlayerData.data()['nickname'],
         loserPlayerData.data()['icon'],
@@ -83,6 +86,13 @@ class PlayerRepository implements IPlayerRepository {
 
     await loserPlayerData.reference.update(playerUpdated.toJson());
 
+    // Update
+    final roomIDReference =
+        FirebaseFirestore.instance.collection('Room').doc(roomID);
+    final roomCollection = await roomIDReference.get();
+    Room room = Room.fromJson(roomCollection.data()!);
+    room.round = room.round + 1;
+    roomIDReference.update(room.toJson());
     return false;
   }
 
