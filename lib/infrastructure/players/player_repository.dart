@@ -30,14 +30,14 @@ class PlayerRepository implements IPlayerRepository {
   @override
   Future<bool> spotIt(
       String roomID, String playerOneNickname, String playerTwoNickname) async {
-    
     final db = FirebaseFirestore.instance;
     var roomReference = db.collection('Room_Player').doc(roomID);
     var scoreboardReference =
         db.collection('Room_Scoreboard').doc('jTKFlTMyk0Rw24pdPcmv');
 
     var playersReference = roomReference.collection('players');
-    var playerScoreboardReference = scoreboardReference.collection('Scoreboard');
+    var playerScoreboardReference =
+        scoreboardReference.collection('Scoreboard');
 
     Player winnerPlayer = Player("", "", "", 0, 0);
     var snapshots = await playersReference.get();
@@ -64,8 +64,8 @@ class PlayerRepository implements IPlayerRepository {
           if (queryData['nickname'] == playerOneNickname) {
             Scoreboard winnerScoreboard =
                 Scoreboard(queryData['nickname'], queryData['score']);
-            Scoreboard newScoreboard =
-                Scoreboard(winnerScoreboard.nickname, winnerScoreboard.score + 1);
+            Scoreboard newScoreboard = Scoreboard(
+                winnerScoreboard.nickname, winnerScoreboard.score + 1);
             await docScoreboard.reference.update(newScoreboard.toJson());
             break;
           }
@@ -93,6 +93,7 @@ class PlayerRepository implements IPlayerRepository {
     return false;
   }
 
+  @override
   Future<List<Player>> getPlayers(String roomID) async {
     final collection =
         await _playersCollection.doc(roomID).collection("players").get();

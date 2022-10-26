@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/chat/rooms_use_case.dart';
 import 'package:spot_it_game/domain/chat/message.dart';
-import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
 import 'package:spot_it_game/infrastructure/chat/eventListeners/on_chat_update.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
