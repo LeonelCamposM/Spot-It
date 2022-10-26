@@ -9,4 +9,12 @@ class CardUseCase {
   Future<Iterable<CardModel>> getDeck() {
     return cardRepository.getDeck();
   }
+
+  Future<void> createRoomDeck(String roomID) {
+    return cardRepository.createRoomDeck(roomID);
+  }
+
+  Future<void> dealCards(String roomID) {
+    return cardRepository.dealCards(roomID);
+  }
 }

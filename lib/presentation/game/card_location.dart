@@ -10,8 +10,7 @@ import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 //3 means there are 3 more players besides the current user.
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
-List<Widget> getAmountOfCardsMenu(
-    context, List<Player> playerList) {
+List<Widget> getAmountOfCardsMenu(context, List<Player> playerList) {
   Player currentUser =
       playerList.firstWhere(((element) => element.nickname != "Bot"));
   Player userBot =
@@ -30,29 +29,29 @@ List<Widget> getAmountOfCardsMenu(
       getSecondCardsRow(context, currentUserCard, userBot, 3),
       getThirdCardsRow(context, currentUserCard, userBot, 3),
     ] else if (amountOfPlayers == 7) ...[
-      getFirstCardsRow(context, currentUserCard, userBot,  2),
-      getSecondCardsRow(context, currentUserCard, userBot,  2),
-      getThirdCardsRow(context, currentUserCard, userBot,  3),
+      getFirstCardsRow(context, currentUserCard, userBot, 2),
+      getSecondCardsRow(context, currentUserCard, userBot, 2),
+      getThirdCardsRow(context, currentUserCard, userBot, 3),
     ] else if (amountOfPlayers == 6) ...[
-      getFirstCardsRow(context, currentUserCard, userBot,  3),
-      getSecondCardsRow(context, currentUserCard, userBot,  1),
-      getThirdCardsRow(context, currentUserCard, userBot,  3),
+      getFirstCardsRow(context, currentUserCard, userBot, 3),
+      getSecondCardsRow(context, currentUserCard, userBot, 1),
+      getThirdCardsRow(context, currentUserCard, userBot, 3),
     ] else if (amountOfPlayers == 5) ...[
-      getFirstCardsRow(context, currentUserCard, userBot,  2),
-      getSecondCardsRow(context, currentUserCard, userBot,  1),
-      getThirdCardsRow(context, currentUserCard, userBot,  2),
+      getFirstCardsRow(context, currentUserCard, userBot, 2),
+      getSecondCardsRow(context, currentUserCard, userBot, 1),
+      getThirdCardsRow(context, currentUserCard, userBot, 2),
     ] else if (amountOfPlayers == 4) ...[
-      getFirstCardsRow(context, currentUserCard, userBot,  3),
-      getSecondCardsRow(context, currentUserCard, userBot,  1),
-      getThirdCardsRow(context, currentUserCard, userBot,  1),
+      getFirstCardsRow(context, currentUserCard, userBot, 3),
+      getSecondCardsRow(context, currentUserCard, userBot, 1),
+      getThirdCardsRow(context, currentUserCard, userBot, 1),
     ] else if (amountOfPlayers == 3) ...[
-      getFirstCardsRow(context, currentUserCard, userBot,  2),
-      getSecondCardsRow(context, currentUserCard, userBot,  1),
-      getThirdCardsRow(context, currentUserCard, userBot,  1),
+      getFirstCardsRow(context, currentUserCard, userBot, 2),
+      getSecondCardsRow(context, currentUserCard, userBot, 1),
+      getThirdCardsRow(context, currentUserCard, userBot, 1),
     ] else if (amountOfPlayers == 2) ...[
-      getFirstCardsRow(context, currentUserCard, userBot,  1),
-      getSecondCardsRow(context, currentUserCard, userBot,  1),
-      getThirdCardsRow(context, currentUserCard, userBot,  1),
+      getFirstCardsRow(context, currentUserCard, userBot, 1),
+      getSecondCardsRow(context, currentUserCard, userBot, 1),
+      getThirdCardsRow(context, currentUserCard, userBot, 1),
     ]
   ]);
 }
@@ -102,10 +101,7 @@ Row getFirstCardsRow(
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
 Row getSecondCardsRow(
-    context,
-    SizedBox currentUserCard,
-    Player player,
-    int amountOfPlayers) {
+    context, SizedBox currentUserCard, Player player, int amountOfPlayers) {
   return (Row(children: [
     if (amountOfPlayers == 1) ...[
       ...getSecondCardsRowInfo(
@@ -139,10 +135,7 @@ Row getSecondCardsRow(
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
 Row getThirdCardsRow(
-    context,
-    SizedBox currentUserCard,
-    Player player,
-    int amountOfPlayers) {
+    context, SizedBox currentUserCard, Player player, int amountOfPlayers) {
   return (Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,22 +155,18 @@ Row getThirdCardsRow(
               true,
               true,
               true,
-              getCardStyle(
-                  player.nickname, player.displayedCard, 10, 10),
+              getCardStyle(player.nickname, player.displayedCard, 10, 10),
               currentUserCard,
-              getCardStyle(
-                  player.nickname, player.displayedCard, 10, 10)),
+              getCardStyle(player.nickname, player.displayedCard, 10, 10)),
         ] else if (amountOfPlayers == 3) ...[
           ...getThirdCardsRowInfo(
               context,
               true,
               true,
               true,
-              getCardStyle(
-                  player.nickname, player.displayedCard, 10, 10),
+              getCardStyle(player.nickname, player.displayedCard, 10, 10),
               currentUserCard,
-              getCardStyle(
-                  player.nickname, player.displayedCard, 10, 10)),
+              getCardStyle(player.nickname, player.displayedCard, 10, 10)),
         ]
       ]));
 }

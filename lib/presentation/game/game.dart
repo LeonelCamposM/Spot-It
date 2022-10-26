@@ -4,6 +4,7 @@ import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/infrastructure/players/eventListeners/on_table_update.dart';
+import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_round_update.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
@@ -108,6 +109,7 @@ List<Widget> getGameScreenWidget(
         ]),
         Row(
           children: [
+            OnRoundUpdate(roomID: args.roomID),
             OnTableUpdate(
               roomID: args.roomID,
               deckData: deckData,
