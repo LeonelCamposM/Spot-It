@@ -45,7 +45,9 @@ class OnTableUpdate extends StatelessWidget {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(""),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 50,
+              ),
               getTextButton(
                   "Scoreboard",
                   SizeConfig.safeBlockHorizontal * 20,
@@ -55,7 +57,9 @@ class OnTableUpdate extends StatelessWidget {
                 Navigator.pushNamed(context, ScoreboardPage.routeName,
                     arguments: ScoreboardRoomArgs(true, roomID));
               }),
-              const Text(""),
+              SizedBox(
+                height: 100,
+              ),
             ],
           );
         } else {
