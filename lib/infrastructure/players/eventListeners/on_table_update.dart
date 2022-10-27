@@ -58,7 +58,7 @@ class OnTableUpdate extends StatelessWidget {
                     arguments: ScoreboardRoomArgs(true, roomID));
               }),
               SizedBox(
-                height: 100,
+                height: SizeConfig.blockSizeVertical * 30,
               ),
             ],
           );

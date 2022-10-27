@@ -93,6 +93,7 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
           ],
         ),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             //Chat icon
             getIconButtonStyle(
