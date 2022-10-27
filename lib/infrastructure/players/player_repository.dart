@@ -55,10 +55,8 @@ class PlayerRepository implements IPlayerRepository {
     if (winnerPlayer.displayedCard != cardOneInformation[1]) {
       response = false;
     } else {
-      var scoreboardReference = db
-          .collection('Room_Scoreboard')
-          .doc('jTKFlTMyk0Rw24pdPcmv')
-          .collection('Scoreboard');
+      var scoreboardReference =
+          db.collection('Room_Scoreboard').doc(roomID).collection('Scoreboard');
 
       var scoreboard = await scoreboardReference.get();
 
