@@ -21,7 +21,7 @@ class RoomRepository implements IRoomRepository {
 
   @override
   Future<void> updateJoinable(String roomID) async {
-    await _roomsCollection.doc(roomID).update(Room(1, false).toJson());
+    await _roomsCollection.doc(roomID).update(Room(0, false, false).toJson());
   }
 
   @override
