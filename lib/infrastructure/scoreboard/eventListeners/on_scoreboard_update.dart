@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
-import 'package:spot_it_game/presentation/core/size_config.dart';
 
 // ignore: must_be_immutable
 class OnScoreboardUpdate extends StatelessWidget {

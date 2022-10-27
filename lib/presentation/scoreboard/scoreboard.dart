@@ -191,7 +191,7 @@ Row getNavigationButtons(context) {
           context,
           const Icon(Icons.replay),
           getSecondaryColor(),
-          MaterialPageRoute(builder: (context) => const GamePage())),
+          MaterialPageRoute(builder: (context) => const HomePage())),
     ],
   );
 }
