@@ -12,6 +12,7 @@ List<String> iconSelection = [];
 const double pi = 3.1415926535897932;
 bool changeContent = false;
 String spotItResults = "";
+String feedbackPhrase = "";
 
 Future showCardSelection(
     context, SizedBox cardOne, SizedBox cardTwo, String roomID) {
@@ -32,8 +33,8 @@ Future showCardSelection(
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
-  Future.delayed(const Duration(seconds: 25), () async {
-    playerUseCase.spotIt(roomID, cardOneInformation[0], cardTwoInformation[0]);
+  Future.delayed(const Duration(seconds: 15), () async {
+    playerUseCase.spotIt(roomID, cardOneInformation, cardTwoInformation);
   });
 
   return showDialog(
@@ -47,23 +48,27 @@ Future showCardSelection(
                   borderRadius: BorderRadius.all(Radius.circular(32.0))),
               backgroundColor: getPrimaryColor(),
               content: !changeContent
-                  ? getDisplayedCards(
-                      context, setState, cardOneInformation, cardTwoInformation)
-                  : getFeedback(context, playerUseCase, roomID,
-                      cardOneInformation[0], cardTwoInformation[0]));
+                  ? getDisplayedCards(context, setState, playerUseCase, roomID,
+                      cardOneInformation, cardTwoInformation)
+                  : getFeedback(context));
         },
       );
     },
   );
 }
 
-Column getDisplayedCards(context, Function(void Function()) setState,
-    List<String> cardOneInformation, List<String> cardTwoInformation) {
+Column getDisplayedCards(
+    context,
+    Function(void Function()) setState,
+    PlayerUseCase playerUseCase,
+    String roomID,
+    List<String> cardOneInformation,
+    List<String> cardTwoInformation) {
   String userNameCardOne = cardOneInformation[0];
   String userNameCardTwo = cardTwoInformation[0];
   List<String> currentUserCard = cardOneInformation[1].split(",");
   List<String> otherUserCard = cardTwoInformation[1].split(",");
-
+  bool response;
   return (Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -119,13 +124,32 @@ Column getDisplayedCards(context, Function(void Function()) setState,
                                 if (iconSelection[0].split("%%")[1] ==
                                     iconSelection[1].split("%%")[1])
                                   {
-                                    spotItResults = 'assets/logo.png',
+                                    playerUseCase
+                                        .spotIt(roomID, cardOneInformation,
+                                            cardTwoInformation)
+                                        .then((response) => {
+                                              if (response == true)
+                                                {
+                                                  spotItResults =
+                                                      "assets/logo.png",
+                                                  feedbackPhrase = "Spot it!",
+                                                }
+                                              else
+                                                {
+                                                  spotItResults =
+                                                      "assets/error.png",
+                                                  feedbackPhrase =
+                                                      "Le han hecho Spot It!",
+                                                },
+                                              changeContent = true,
+                                            }),
                                   }
                                 else
                                   {
-                                    spotItResults = 'assets/error.png',
+                                    spotItResults = "assets/error.png",
+                                    feedbackPhrase = "Iconos diferentes!",
+                                    changeContent = true,
                                   },
-                                changeContent = true,
                               })
                         }
                     : null),
@@ -138,6 +162,7 @@ Column getDisplayedCards(context, Function(void Function()) setState,
                 getSecondaryColor(),
                 () => {
                       changeContent = false,
+                      feedbackPhrase = "",
                       iconSelection.clear(),
                       Navigator.pop(context)
                     })
@@ -174,8 +199,7 @@ Row getSelectedIcons(Function(void Function()) setState, String userNameCardOne,
   ));
 }
 
-Column getFeedback(context, PlayerUseCase playerUseCase, String roomID,
-    String playerOneNickname, String playerTwoNickname) {
+Column getFeedback(context) {
   return (Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -184,21 +208,19 @@ Column getFeedback(context, PlayerUseCase playerUseCase, String roomID,
         child: Row(
           children: [
             SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 5,
-                width: SizeConfig.blockSizeHorizontal * 10,
+                height: SizeConfig.blockSizeHorizontal * 2,
+                width: SizeConfig.blockSizeHorizontal * 7,
                 child: const Text('')),
             FunkyFeedback(iconName: spotItResults),
             SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 5,
-                width: SizeConfig.blockSizeHorizontal * 10,
+                height: SizeConfig.blockSizeHorizontal * 2,
+                width: SizeConfig.blockSizeHorizontal * 7,
                 child: const Text('')),
           ],
         ),
       ),
       getText(
-          spotItResults.contains("error") ? "Intentelo de nuevo!" : "Spot It!",
-          SizeConfig.blockSizeHorizontal * 3,
-          Alignment.center),
+          feedbackPhrase, SizeConfig.blockSizeHorizontal * 3, Alignment.center),
       Padding(
         padding: const EdgeInsets.only(top: 20.0),
         child: getTextButton(
@@ -208,10 +230,8 @@ Column getFeedback(context, PlayerUseCase playerUseCase, String roomID,
             SizeConfig.safeBlockHorizontal * 2,
             getSecondaryColor(),
             () => {
-                  playerUseCase.spotIt(
-                      roomID, playerOneNickname, playerTwoNickname),
                   changeContent = false,
-                  iconSelection.clear(),
+                  feedbackPhrase = "",
                   iconSelection.clear(),
                   Navigator.pop(context)
                 }),

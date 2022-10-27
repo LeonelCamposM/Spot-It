@@ -29,29 +29,20 @@ class PlayerRepository implements IPlayerRepository {
   }
 
   @override
-  Future<bool> spotIt(
-      String roomID, String playerOneNickname, String playerTwoNickname) async {
+  Future<bool> spotIt(String roomID, List<String> cardOneInformation,
+      List<String> cardTwoInformation) async {
+    bool response = true;
     final db = FirebaseFirestore.instance;
     var playersReference =
         db.collection('Room_Player').doc(roomID).collection('players');
-    var scoreboardReference =
-        db.collection('Room_Scoreboard').doc(roomID).collection('Scoreboard');
 
     Player playerUpdated = Player("", "", "", 0, 0);
     Scoreboard scoreboardUpdated = Scoreboard("", 0);
 
     var players = await playersReference.get();
-    var scoreboard = await scoreboardReference.get();
 
     var winnerPlayerData = players.docs
-        .where((element) => element.data()['nickname'] == playerOneNickname)
-        .first;
-    var scoreboardWinnerData = scoreboard.docs
-        .where((element) => element.data()['nickname'] == playerOneNickname)
-        .first;
-
-    var loserPlayerData = players.docs
-        .where((element) => element.data()['nickname'] == playerTwoNickname)
+        .where((element) => element.data()['nickname'] == cardOneInformation[0])
         .first;
 
     Player winnerPlayer = Player(
@@ -61,37 +52,59 @@ class PlayerRepository implements IPlayerRepository {
         winnerPlayerData["cardCount"],
         winnerPlayerData["stackCardsCount"]);
 
-    //Updated winner player and score for winner
-    playerUpdated = Player(
-        winnerPlayer.nickname,
-        winnerPlayer.icon,
-        "QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark",
-        0,
-        0);
-    await winnerPlayerData.reference.update(playerUpdated.toJson());
+    if (winnerPlayer.displayedCard != cardOneInformation[1]) {
+      response = false;
+    } else {
+      var scoreboardReference = db
+          .collection('Room_Scoreboard')
+          .doc('jTKFlTMyk0Rw24pdPcmv')
+          .collection('Scoreboard');
 
-    scoreboardUpdated = Scoreboard(scoreboardWinnerData.data()['nickname'],
-        scoreboardWinnerData.data()['score'] + 1);
-    await scoreboardWinnerData.reference.update(scoreboardUpdated.toJson());
+      var scoreboard = await scoreboardReference.get();
 
-    //Updated loser player
-    playerUpdated = Player(
-        loserPlayerData.data()['nickname'],
-        loserPlayerData.data()['icon'],
-        winnerPlayer.displayedCard,
-        loserPlayerData.data()['cardCount'] + winnerPlayer.cardCount,
-        loserPlayerData.data()['cardCount'] + winnerPlayer.stackCardsCount);
+      var scoreboardWinnerData = scoreboard.docs
+          .where(
+              (element) => element.data()['nickname'] == cardOneInformation[0])
+          .first;
 
-    await loserPlayerData.reference.update(playerUpdated.toJson());
+      var loserPlayerData = players.docs
+          .where(
+              (element) => element.data()['nickname'] == cardTwoInformation[0])
+          .first;
 
-    // Update
-    final roomIDReference =
-        FirebaseFirestore.instance.collection('Room').doc(roomID);
-    final roomCollection = await roomIDReference.get();
-    Room room = Room.fromJson(roomCollection.data()!);
-    room.round = room.round + 1;
-    roomIDReference.update(room.toJson());
-    return false;
+      //Updated winner player and score for winner
+      playerUpdated = Player(
+          winnerPlayer.nickname,
+          winnerPlayer.icon,
+          "QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark,QuestionMark",
+          0,
+          0);
+
+      await winnerPlayerData.reference.update(playerUpdated.toJson());
+
+      scoreboardUpdated = Scoreboard(scoreboardWinnerData.data()['nickname'],
+          scoreboardWinnerData.data()['score'] + 1);
+      await scoreboardWinnerData.reference.update(scoreboardUpdated.toJson());
+
+      //Updated loser player
+      playerUpdated = Player(
+          loserPlayerData.data()['nickname'],
+          loserPlayerData.data()['icon'],
+          winnerPlayer.displayedCard,
+          loserPlayerData.data()['cardCount'] + winnerPlayer.cardCount,
+          loserPlayerData.data()['cardCount'] + winnerPlayer.stackCardsCount);
+
+      await loserPlayerData.reference.update(playerUpdated.toJson());
+
+      // Update
+      final roomIDReference =
+          FirebaseFirestore.instance.collection('Room').doc(roomID);
+      final roomCollection = await roomIDReference.get();
+      Room room = Room.fromJson(roomCollection.data()!);
+      room.round = room.round + 1;
+      roomIDReference.update(room.toJson());
+    }
+    return response;
   }
 
   @override

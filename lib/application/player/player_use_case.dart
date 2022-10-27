@@ -15,9 +15,9 @@ class PlayerUseCase {
   }
 
   Future<bool> spotIt(
-      String roomID, String playerOneNickname, String playerTwoNickname) {
+      String roomID, List<String> cardOneInformation, List<String> cardTwoInformation) {
     return playerRepository.spotIt(
-        roomID, playerOneNickname, playerTwoNickname);
+        roomID, cardOneInformation, cardTwoInformation);
   }
 
   Future<List<Player>> getPlayers(String roomID) {
