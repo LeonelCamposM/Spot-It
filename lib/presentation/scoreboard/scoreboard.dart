@@ -81,14 +81,15 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   @override
   initState() {
     // Data for demostration
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ScoreboardRoomArgs;
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
-    getScoreLeaders();
+    getScoreLeaders(args.roomID);
   }
 
-  Future<void> getScoreLeaders() async {
-    final scoreboard =
-        await scoreboardUseCase.getFinalScoreboard("jTKFlTMyk0Rw24pdPcmv");
+  Future<void> getScoreLeaders(String roomID) async {
+    final scoreboard = await scoreboardUseCase.getFinalScoreboard(roomID);
     List<Scoreboard> scoreboardList = scoreboard.toList();
     scoreboardList.sort((a, b) => a.score.compareTo(b.score));
     scoreboardList = scoreboardList.reversed.toList();
@@ -103,19 +104,20 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
       }
     }
     scoreLeadersList.shuffle();
-    await getPlayersIcons(scoreboardList);
+    await getPlayersIcons(scoreboardList, roomID);
     setState(() {
       dataForGraph = scoreLeadersList;
       dataForList = scoreboardList;
     });
   }
 
-  Future<void> getPlayersIcons(List<Scoreboard> scoreboard) async {
+  Future<void> getPlayersIcons(
+      List<Scoreboard> scoreboard, String roomID) async {
     final playerUseCase =
         PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
     List<Player> nicknames = [];
     List<IconData> icons = [];
-    List<Player> players = await playerUseCase.getPlayers("Jere");
+    List<Player> players = await playerUseCase.getPlayers(roomID);
     for (var element in scoreboard) {
       nicknames.add(Player(
           element.nickname,

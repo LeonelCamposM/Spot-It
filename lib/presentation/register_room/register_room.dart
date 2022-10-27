@@ -4,11 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:spot_it_game/application/cards/deck_use_case.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
+import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/infrastructure/cards/card_repository.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
@@ -71,6 +74,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
+  ScoreboardUseCase scoreboardUseCase =
+      ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
 
   CardUseCase cardUseCase =
       CardUseCase(CardRepository(FirebaseFirestore.instance));
@@ -200,6 +206,10 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     String roomID = await roomUseCase
                                         .createRoom(Room(0, true));
                                     // await cardUseCase.createRoomDeck(roomID);
+                                    await scoreboardUseCase.createScoreboard(
+                                        roomID,
+                                        Scoreboard(textNameController.text, 0));
+
                                     await playerUseCase.addPlayer(
                                         Player(
                                             textNameController.text,
@@ -217,6 +227,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0,
                                             0),
                                         roomID);
+                                    await scoreboardUseCase.createScoreboard(
+                                        roomID, Scoreboard('Bot', 0));
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
@@ -237,6 +249,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0,
                                             0),
                                         textRoomIDController.text);
+                                    await scoreboardUseCase.createScoreboard(
+                                        textRoomIDController.text,
+                                        Scoreboard(textNameController.text, 0));
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(

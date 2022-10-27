@@ -12,10 +12,12 @@ import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
+import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
@@ -104,6 +106,15 @@ List<Widget> getGameScreenWidget(
               const Icon(Icons.home),
               getSecondaryColor(),
               MaterialPageRoute(builder: (context) => const HomePage())),
+          getTextButton(
+              "scoreboard",
+              SizeConfig.safeBlockHorizontal * 20,
+              SizeConfig.safeBlockVertical * 10,
+              SizeConfig.safeBlockHorizontal * 2,
+              getSecondaryColor(), () {
+            Navigator.pushNamed(context, ScoreboardPage.routeName,
+                arguments: ScoreboardRoomArgs(args.isHost, args.roomID));
+          }),
           // getChildrenWithIcon(
           //     context,
           //     const Icon(Icons.leaderboard),
@@ -140,7 +151,7 @@ List<Widget> getGameScreenWidget(
                 SizedBox(
                     width: SizeConfig.blockSizeHorizontal * 3,
                     height: SizeConfig.blockSizeHorizontal * 3),
-                getLeaderboard(),
+                getLeaderboard(args.roomID),
               ],
             ),
           ],
@@ -150,7 +161,7 @@ List<Widget> getGameScreenWidget(
   ]);
 }
 
-Column getLeaderboard() {
+Column getLeaderboard(String roomID) {
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
   return (Column(
@@ -168,7 +179,7 @@ Column getLeaderboard() {
           children: [
             getText("Posición", SizeConfig.blockSizeHorizontal * 1.2,
                 Alignment.topCenter),
-            scoreboardUseCase.onScoreboardUpdate(),
+            scoreboardUseCase.onScoreboardUpdate(roomID),
           ],
         ),
       ),
@@ -183,7 +194,7 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
     width: SizeConfig.blockSizeHorizontal * 12,
     height: SizeConfig.blockSizeVertical * 30,
     child: ListView(
-        reverse: true,
+        reverse: false,
         scrollDirection: Axis.vertical,
         children: List.generate(
           scoreboard.length,
@@ -202,4 +213,10 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
           ),
         )),
   );
+}
+
+class ScoreboardRoomArgs {
+  final bool isHost;
+  final String roomID;
+  ScoreboardRoomArgs(this.isHost, this.roomID);
 }

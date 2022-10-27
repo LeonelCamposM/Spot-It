@@ -18,5 +18,5 @@ abstract class IScoreboardRepository {
 
   // @brief: EventListener waiting for updates on the scoreboard
   // @return Widget: to be defined
-  Widget onScoreboardUpdate();
+  Widget onScoreboardUpdate(String roomID);
 }
