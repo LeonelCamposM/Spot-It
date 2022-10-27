@@ -34,10 +34,8 @@ class PlayerRepository implements IPlayerRepository {
     final db = FirebaseFirestore.instance;
     var playersReference =
         db.collection('Room_Player').doc(roomID).collection('players');
-    var scoreboardReference = db
-        .collection('Room_Scoreboard')
-        .doc('jTKFlTMyk0Rw24pdPcmv')
-        .collection('Scoreboard');
+    var scoreboardReference =
+        db.collection('Room_Scoreboard').doc(roomID).collection('Scoreboard');
 
     Player playerUpdated = Player("", "", "", 0, 0);
     Scoreboard scoreboardUpdated = Scoreboard("", 0);
