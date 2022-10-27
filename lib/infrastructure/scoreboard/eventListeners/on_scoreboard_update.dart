@@ -54,7 +54,7 @@ List<Scoreboard> getAllScores(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
   // Sort scoreboard by score of the players
   scoreboard.sort((a, b) => a.score.compareTo(b.score));
   List<Scoreboard> sorted = [];
-  for (var element in scoreboard) {
+  for (var element in scoreboard.reversed) {
     sorted.add(element);
   }
   return sorted;

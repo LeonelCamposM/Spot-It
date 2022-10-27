@@ -14,9 +14,11 @@ abstract class IScoreboardRepository {
 
   // @param roomID: the ID of the current room
   // @brief: Returns the final scoreboard of the game
+  // @return an Iterable of the final scoreboard
   Future<Iterable<Scoreboard>> getFinalScoreboard(String roomID);
 
+  // @param roomID: the ID of the current room
   // @brief: EventListener waiting for updates on the scoreboard
-  // @return Widget: to be defined
+  // @return Widget: Component with the scoreboard status
   Widget onScoreboardUpdate(String roomID);
 }

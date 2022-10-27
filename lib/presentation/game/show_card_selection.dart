@@ -68,7 +68,6 @@ Column getDisplayedCards(
   String userNameCardTwo = cardTwoInformation[0];
   List<String> currentUserCard = cardOneInformation[1].split(",");
   List<String> otherUserCard = cardTwoInformation[1].split(",");
-  bool response;
   return (Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [

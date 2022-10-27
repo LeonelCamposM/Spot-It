@@ -163,6 +163,7 @@ SizedBox getSingleCardIconPopUp(Function(void Function()) setState,
       ),
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
+        // ignore: deprecated_member_use
         primary: Colors.white,
       ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
       onPressed: () => setState(() => {

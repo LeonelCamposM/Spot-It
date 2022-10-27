@@ -115,11 +115,6 @@ List<Widget> getGameScreenWidget(
             Navigator.pushNamed(context, ScoreboardPage.routeName,
                 arguments: ScoreboardRoomArgs(args.isHost, args.roomID));
           }),
-          // getChildrenWithIcon(
-          //     context,
-          //     const Icon(Icons.leaderboard),
-          //     getSecondaryColor(),
-          //     MaterialPageRoute(builder: (context) => const ScoreboardPage()))
         ]),
         Row(
           children: [
@@ -194,7 +189,6 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
     width: SizeConfig.blockSizeHorizontal * 12,
     height: SizeConfig.blockSizeVertical * 30,
     child: ListView(
-        reverse: true,
         scrollDirection: Axis.vertical,
         children: List.generate(
           scoreboard.length,
@@ -215,6 +209,7 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
   );
 }
 
+// arguments for ScoreboardRoom
 class ScoreboardRoomArgs {
   final bool isHost;
   final String roomID;
