@@ -32,6 +32,10 @@ Future showCardSelection(
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
+  Future.delayed(const Duration(seconds: 25), () async {
+    playerUseCase.spotIt(roomID, cardOneInformation[0], cardTwoInformation[0]);
+  });
+
   return showDialog(
     context: context,
     builder: (context) {
