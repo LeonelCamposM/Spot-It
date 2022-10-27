@@ -34,7 +34,6 @@ class CardRepository implements ICardRepository {
 
   @override
   Future<void> dealCards(String roomID) async {
-    print("prendió");
     // Get players collection
     var collection = FirebaseFirestore.instance
         .collection('Room_Player')
@@ -54,17 +53,14 @@ class CardRepository implements ICardRepository {
         await roomDeckReference.limit(snapshots.docs.length).get();
     Iterable<CardModel> cards = newCardsReference.docs
         .map((snapshot) => CardModel.fromJson(snapshot.data()));
-    print("cartas obtenidas" + cards.toString());
     int counter = 0;
     for (var doc in snapshots.docs) {
       // Get current player
       final query = await doc.reference.get();
       Player currentPlayer = Player.fromJson(query.data()!);
-      print(currentPlayer.nickname + " jugador actual");
       // Give card to user
       CardModel newCard = cards.elementAt(counter);
       counter += 1;
-      print(newCard.toJson().toString() + "player carta actual");
       // Update new player card
       Player newPlayer = Player(
           currentPlayer.nickname,
@@ -87,7 +83,6 @@ class CardRepository implements ICardRepository {
               ',',
           currentPlayer.cardCount + 1,
           currentPlayer.stackCardsCount + 1);
-      print(newCard.toJson().toString() + " asignada a " + newPlayer.nickname);
       await doc.reference.update(newPlayer.toJson());
     }
   }

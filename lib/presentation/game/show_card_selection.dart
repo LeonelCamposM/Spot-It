@@ -1,16 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 
 List<String> iconSelection = [];
 const double pi = 3.1415926535897932;
 bool changeContent = false;
 String spotItResults = "";
+String feedbackPhrase = "";
 
-Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
+Future showCardSelection(
+    context, SizedBox cardOne, SizedBox cardTwo, String roomID) {
   //Information (userName and card) about the current user card and the selected card by user
   List<String> cardOneInformation = cardOne.key
       .toString()
@@ -25,6 +30,13 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
       .replaceAll("'", "")
       .split("%%");
 
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
+  Future.delayed(const Duration(seconds: 8), () async {
+    playerUseCase.spotIt(roomID, cardTwoInformation, cardOneInformation);
+  });
+
   return showDialog(
     context: context,
     builder: (context) {
@@ -36,8 +48,8 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
                   borderRadius: BorderRadius.all(Radius.circular(32.0))),
               backgroundColor: getPrimaryColor(),
               content: !changeContent
-                  ? getDisplayedCards(
-                      context, setState, cardOneInformation, cardTwoInformation)
+                  ? getDisplayedCards(context, setState, playerUseCase, roomID,
+                      cardOneInformation, cardTwoInformation)
                   : getFeedback(context));
         },
       );
@@ -45,13 +57,17 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
   );
 }
 
-Column getDisplayedCards(context, Function(void Function()) setState,
-    List<String> cardOneInformation, List<String> cardTwoInformation) {
+Column getDisplayedCards(
+    context,
+    Function(void Function()) setState,
+    PlayerUseCase playerUseCase,
+    String roomID,
+    List<String> cardOneInformation,
+    List<String> cardTwoInformation) {
   String userNameCardOne = cardOneInformation[0];
   String userNameCardTwo = cardTwoInformation[0];
   List<String> currentUserCard = cardOneInformation[1].split(",");
   List<String> otherUserCard = cardTwoInformation[1].split(",");
-
   return (Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -107,13 +123,32 @@ Column getDisplayedCards(context, Function(void Function()) setState,
                                 if (iconSelection[0].split("%%")[1] ==
                                     iconSelection[1].split("%%")[1])
                                   {
-                                    spotItResults = 'assets/logo.png',
+                                    playerUseCase
+                                        .spotIt(roomID, cardOneInformation,
+                                            cardTwoInformation)
+                                        .then((response) => {
+                                              if (response == true)
+                                                {
+                                                  spotItResults =
+                                                      "assets/logo.png",
+                                                  feedbackPhrase = "Spot it!",
+                                                }
+                                              else
+                                                {
+                                                  spotItResults =
+                                                      "assets/error.png",
+                                                  feedbackPhrase =
+                                                      "Le han hecho Spot It!",
+                                                },
+                                              changeContent = true,
+                                            }),
                                   }
                                 else
                                   {
-                                    spotItResults = 'assets/error.png',
+                                    spotItResults = "assets/error.png",
+                                    feedbackPhrase = "Iconos diferentes!",
+                                    changeContent = true,
                                   },
-                                changeContent = true,
                               })
                         }
                     : null),
@@ -126,6 +161,7 @@ Column getDisplayedCards(context, Function(void Function()) setState,
                 getSecondaryColor(),
                 () => {
                       changeContent = false,
+                      feedbackPhrase = "",
                       iconSelection.clear(),
                       Navigator.pop(context)
                     })
@@ -171,21 +207,19 @@ Column getFeedback(context) {
         child: Row(
           children: [
             SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 5,
-                width: SizeConfig.blockSizeHorizontal * 10,
+                height: SizeConfig.blockSizeHorizontal * 2,
+                width: SizeConfig.blockSizeHorizontal * 7,
                 child: const Text('')),
             FunkyFeedback(iconName: spotItResults),
             SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 5,
-                width: SizeConfig.blockSizeHorizontal * 10,
+                height: SizeConfig.blockSizeHorizontal * 2,
+                width: SizeConfig.blockSizeHorizontal * 7,
                 child: const Text('')),
           ],
         ),
       ),
       getText(
-          spotItResults.contains("error") ? "Intentelo de nuevo!" : "Spot It!",
-          SizeConfig.blockSizeHorizontal * 3,
-          Alignment.center),
+          feedbackPhrase, SizeConfig.blockSizeHorizontal * 3, Alignment.center),
       Padding(
         padding: const EdgeInsets.only(top: 20.0),
         child: getTextButton(
@@ -196,7 +230,7 @@ Column getFeedback(context) {
             getSecondaryColor(),
             () => {
                   changeContent = false,
-                  iconSelection.clear(),
+                  feedbackPhrase = "",
                   iconSelection.clear(),
                   Navigator.pop(context)
                 }),

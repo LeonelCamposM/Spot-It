@@ -1,14 +1,9 @@
-import 'dart:html';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 
 // ignore: must_be_immutable
 class OnRoundUpdate extends StatelessWidget {
@@ -38,13 +33,19 @@ class OnRoundUpdate extends StatelessWidget {
         }
 
         Room room = getUpdateRoom(snapshot, roomID);
-        if (room.round > localRound && isHost) {
-          localRound += 1;
-          dealCards(roomID);
-          return const Text('');
-        } else {
-          return const Text('');
+        if (isHost) {
+          if (room.dealedCards == false) {
+            dealCards(roomID);
+          } else {
+            if (room.newRound == true) {
+              dealCards(roomID);
+            }
+          }
         }
+        if (room.round >= 5) {
+          sendEndGame(roomID);
+        }
+        return const Text('');
       },
     );
   }
@@ -60,7 +61,8 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           if (document.id == roomID) {
-            messages.add(Room(data['round'], data["joinable"]));
+            messages.add(Room(data['round'], data["joinable"],
+                data['dealedCards'], data['newRound']));
           }
         })
         .toList()
@@ -95,7 +97,6 @@ Future<void> dealCards(String roomID) async {
   for (var doc in snapshots.docs) {
     // Get current player
     final query = await doc.reference.get();
-
     Map<String, dynamic> data = query.data()!;
     final currentPlayer = Player(data['nickname'], data["icon"],
         data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
@@ -126,6 +127,35 @@ Future<void> dealCards(String roomID) async {
             ',',
         currentPlayer.cardCount + 1,
         currentPlayer.stackCardsCount + 1);
+    await doc.reference.update(newPlayer.toJson());
+  }
+
+  // Get players collection
+  var roomReference = FirebaseFirestore.instance.collection('Room').doc(roomID);
+  var roomquery = await roomReference.get();
+  Map<String, dynamic> data = roomquery.data()!;
+  final newRoom = Room(data["round"], data["joinable"], true, false);
+  roomReference.update(newRoom.toJson());
+}
+
+Future<void> sendEndGame(String roomID) async {
+  // Get players collection
+  var collection = FirebaseFirestore.instance
+      .collection('Room_Player')
+      .doc(roomID)
+      .collection('players');
+  var snapshots = await collection.get();
+
+  for (var doc in snapshots.docs) {
+    // Get current player
+    final query = await doc.reference.get();
+    Map<String, dynamic> data = query.data()!;
+    final currentPlayer = Player(data['nickname'], data["icon"],
+        data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
+
+    // Update new player card
+    Player newPlayer = Player(currentPlayer.nickname, currentPlayer.icon,
+        currentPlayer.displayedCard, -1, currentPlayer.stackCardsCount);
     await doc.reference.update(newPlayer.toJson());
   }
 }

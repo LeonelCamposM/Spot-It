@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 
@@ -165,6 +163,7 @@ SizedBox getSingleCardIconPopUp(Function(void Function()) setState,
       ),
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
+        // ignore: deprecated_member_use
         primary: Colors.white,
       ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
       onPressed: () => setState(() => {
