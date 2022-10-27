@@ -194,7 +194,7 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
     width: SizeConfig.blockSizeHorizontal * 12,
     height: SizeConfig.blockSizeVertical * 30,
     child: ListView(
-        reverse: false,
+        reverse: true,
         scrollDirection: Axis.vertical,
         children: List.generate(
           scoreboard.length,

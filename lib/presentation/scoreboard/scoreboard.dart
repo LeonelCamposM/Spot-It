@@ -73,24 +73,131 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   late TooltipBehavior _tooltip;
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-
+  late ScoreboardRoomArgs args;
+  List<Scoreboard> dataForList = [];
+  List<Scoreboard> dataForGraph = [];
+  List<IconData> playerIcons = [];
   @override
   initState() {
-    // Data for demostration
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    args = ModalRoute.of(context)!.settings.arguments as ScoreboardRoomArgs;
+    super.didChangeDependencies();
+    print(args.roomID);
+    getScoreLeaders(args.roomID);
+  }
+
+  Future<void> getScoreLeaders(String roomID) async {
+    final scoreboard = await scoreboardUseCase.getFinalScoreboard(roomID);
+    List<Scoreboard> scoreboardList = scoreboard.toList();
+    scoreboardList.sort((a, b) => a.score.compareTo(b.score));
+    scoreboardList = scoreboardList.reversed.toList();
+    var counter = 0;
+    List<Scoreboard> scoreLeadersList = [];
+    for (var element in scoreboardList) {
+      if (counter < 3) {
+        scoreLeadersList.add(element);
+        counter += 1;
+      } else {
+        break;
+      }
+    }
+    scoreLeadersList.shuffle();
+    await getPlayersIcons(scoreboardList, roomID);
+    setState(() {
+      dataForGraph = scoreLeadersList;
+      dataForList = scoreboardList;
+    });
+  }
+
+  Future<void> getPlayersIcons(
+      List<Scoreboard> scoreboard, String roomID) async {
+    final playerUseCase =
+        PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+    List<Player> nicknames = [];
+    List<IconData> icons = [];
+    List<Player> players = await playerUseCase.getPlayers(roomID);
+    for (var element in scoreboard) {
+      nicknames.add(Player(
+          element.nickname,
+          players
+              .firstWhere((player) => player.nickname == element.nickname)
+              .icon,
+          "",
+          0,
+          0));
+    }
+    for (var element in nicknames) {
+      icons.add(getRoomIcon(element.icon));
+    }
+    setState(() {
+      playerIcons = icons;
+    });
+  }
+  /* Future<void> getScoreList(String roomID) async {
+    final scoreboardUseCase =
+        ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
+    final scoreboard = await scoreboardUseCase.getFinalScoreboard(roomID);
+    print("Aquí jeje");
+    print(scoreboard.length);
+    List<Scoreboard> scoreboardList = scoreboard.toList();
+    scoreboardList.sort((a, b) => a.score.compareTo(b.score));
+    scoreboardList = scoreboardList.reversed.toList();
+    print("Aquí jejex2");
+    print(scoreboardList.length);
+    setState(() {
+      dataForList = scoreboardList;
+    });
+  }
+
+  Future<void> getScoreLeaders(List<Scoreboard> scoreboard) async {
+    var counter = 0;
+    List<Scoreboard> scoreLeadersList = [];
+    for (var element in scoreboard) {
+      if (counter < 3) {
+        scoreLeadersList.add(element);
+        counter += 1;
+      } else {
+        break;
+      }
+    }
+    scoreLeadersList.shuffle();
+    setState(() {
+      dataForGraph = scoreLeadersList;
+    });
+  }
+
+  Future<void> getPlayersIcons(
+      List<Scoreboard> scoreboard, String roomID) async {
+    final playerUseCase =
+        PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+    List<Player> nicknames = [];
+    List<IconData> icons = [];
+    List<Player> players = await playerUseCase.getPlayers(roomID);
+    for (var element in scoreboard) {
+      nicknames.add(Player(
+          element.nickname,
+          players
+              .firstWhere((player) => player.nickname == element.nickname)
+              .icon,
+          "",
+          0,
+          0));
+    }
+    for (var element in nicknames) {
+      icons.add(getRoomIcon(element.icon));
+    }
+    setState(() {
+      playerIcons = icons;
+    });
+  } */
+
+  @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as ScoreboardRoomArgs;
-    final List<Scoreboard> dataForList =
-        getScoreList(args.roomID) as List<Scoreboard>;
-    final List<Scoreboard> dataForGraph =
-        getScoreLeaders(dataForList) as List<Scoreboard>;
-    final List<IconData> playerIcons =
-        getPlayersIcons(dataForList, args.roomID) as List<IconData>;
     return Column(
       children: [
         Flexible(
@@ -188,52 +295,4 @@ SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph) {
     height: SizeConfig.safeBlockVertical * 50,
     width: SizeConfig.safeBlockHorizontal * 50,
   );
-}
-
-Future<List<Scoreboard>> getScoreList(String roomID) async {
-  final scoreboardUseCase =
-      ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-  final scoreboard = await scoreboardUseCase.getFinalScoreboard(roomID);
-  List<Scoreboard> scoreboardList = scoreboard.toList();
-  scoreboardList.sort((a, b) => a.score.compareTo(b.score));
-  scoreboardList = scoreboardList.reversed.toList();
-  return scoreboardList;
-}
-
-Future<List<Scoreboard>> getScoreLeaders(List<Scoreboard> scoreboard) async {
-  var counter = 0;
-  List<Scoreboard> scoreLeadersList = [];
-  for (var element in scoreboard) {
-    if (counter < 3) {
-      scoreLeadersList.add(element);
-      counter += 1;
-    } else {
-      break;
-    }
-  }
-  scoreLeadersList.shuffle();
-  return scoreLeadersList;
-}
-
-Future<List<IconData>> getPlayersIcons(
-    List<Scoreboard> scoreboard, String roomID) async {
-  final playerUseCase =
-      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
-  List<Player> nicknames = [];
-  List<IconData> icons = [];
-  List<Player> players = await playerUseCase.getPlayers(roomID);
-  for (var element in scoreboard) {
-    nicknames.add(Player(
-        element.nickname,
-        players
-            .firstWhere((player) => player.nickname == element.nickname)
-            .icon,
-        "",
-        0,
-        0));
-  }
-  for (var element in nicknames) {
-    icons.add(getRoomIcon(element.icon));
-  }
-  return icons;
 }
