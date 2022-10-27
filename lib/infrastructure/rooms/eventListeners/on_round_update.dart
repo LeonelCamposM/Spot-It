@@ -37,7 +37,7 @@ class OnRoundUpdate extends StatelessWidget {
           if (room.dealedCards == false) {
             dealCards(roomID);
           } else {
-            if (room.round == 1) {
+            if (room.newRound == true) {
               dealCards(roomID);
             }
           }
@@ -58,8 +58,8 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           if (document.id == roomID) {
-            messages.add(
-                Room(data['round'], data["joinable"], data['dealedCards']));
+            messages.add(Room(data['round'], data["joinable"],
+                data['dealedCards'], data['newRound']));
           }
         })
         .toList()
@@ -131,6 +131,6 @@ Future<void> dealCards(String roomID) async {
   var roomReference = FirebaseFirestore.instance.collection('Room').doc(roomID);
   var roomquery = await roomReference.get();
   Map<String, dynamic> data = roomquery.data()!;
-  final newRoom = Room(0, data["joinable"], true);
+  final newRoom = Room(data["round"], data["joinable"], true, false);
   roomReference.update(newRoom.toJson());
 }
