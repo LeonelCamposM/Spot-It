@@ -214,7 +214,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Player(
                                             textNameController.text,
                                             iconListCount.toString(),
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            "empty,empty,empty,empty,empty,empty,empty,empty",
                                             0,
                                             0),
                                         roomID);
@@ -223,7 +223,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Player(
                                             'Bot',
                                             "0",
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            "empty,empty,empty,empty,empty,empty,empty,empty",
                                             0,
                                             0),
                                         roomID);

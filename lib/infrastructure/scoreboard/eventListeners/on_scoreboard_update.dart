@@ -23,10 +23,7 @@ class OnScoreboardUpdate extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox(
-              height: SizeConfig.blockSizeVertical * 12,
-              width: SizeConfig.blockSizeHorizontal * 18,
-              child: const Text(''));
+          return const Text('');
         }
 
         List<Scoreboard> scoreboardList = getAllScores(snapshot);

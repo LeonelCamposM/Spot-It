@@ -10,13 +10,14 @@ import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 // ignore: must_be_immutable
 class OnTableUpdate extends StatelessWidget {
   String roomID;
-  Iterable<CardModel> deckData;
   late Stream<QuerySnapshot> _usersStream;
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
-  OnTableUpdate({Key? key, required this.roomID, required this.deckData})
-      : super(key: key) {
+  OnTableUpdate({
+    Key? key,
+    required this.roomID,
+  }) : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
         .snapshots();
@@ -32,11 +33,10 @@ class OnTableUpdate extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const SizedBox(child: Text(''));
+          return const Text('cargando');
         }
 
         List<Player> players = getAllPlayers(snapshot);
-
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: getAmountOfCardsMenu(context, players, roomID));
