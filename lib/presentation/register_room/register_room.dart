@@ -209,6 +209,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     await scoreboardUseCase.createScoreboard(
                                         roomID,
                                         Scoreboard(textNameController.text, 0));
+
                                     await playerUseCase.addPlayer(
                                         Player(
                                             textNameController.text,
@@ -227,8 +228,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0),
                                         roomID);
                                     await scoreboardUseCase.createScoreboard(
-                                        textRoomIDController.text,
-                                        Scoreboard('Bot', 0));
+                                        roomID, Scoreboard('Bot', 0));
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
