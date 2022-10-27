@@ -4,19 +4,15 @@ import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 
-class OnScoreboardUpdate extends StatefulWidget {
-  const OnScoreboardUpdate({Key? key}) : super(key: key);
-  @override
-  State<OnScoreboardUpdate> createState() => _OnScoreboardUpdateState();
-}
-
-// @brief EventListener waiting for changes on scoreboard collection
-// @return sorted by timestamp list of messages
-class _OnScoreboardUpdateState extends State<OnScoreboardUpdate> {
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
-      .collection("/Room_Scoreboard/jTKFlTMyk0Rw24pdPcmv/Scoreboard")
-      .snapshots();
-
+// ignore: must_be_immutable
+class OnScoreboardUpdate extends StatelessWidget {
+  String roomID;
+  late Stream<QuerySnapshot> _usersStream;
+  OnScoreboardUpdate({Key? key, required this.roomID}) : super(key: key) {
+    _usersStream = FirebaseFirestore.instance
+        .collection("/Room_Scoreboard/" + roomID + "/Scoreboard")
+        .snapshots();
+  }
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(

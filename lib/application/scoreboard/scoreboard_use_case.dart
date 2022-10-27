@@ -20,7 +20,7 @@ class ScoreboardUseCase {
     return scoreboardRepository.getFinalScoreboard(roomID);
   }
 
-  Widget onScoreboardUpdate() {
-    return scoreboardRepository.onScoreboardUpdate();
+  Widget onScoreboardUpdate(String roomID) {
+    return scoreboardRepository.onScoreboardUpdate(roomID);
   }
 }

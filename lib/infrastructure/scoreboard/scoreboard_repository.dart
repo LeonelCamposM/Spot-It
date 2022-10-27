@@ -41,7 +41,7 @@ class ScoreboardRepository implements IScoreboardRepository {
   }
 
   @override
-  Widget onScoreboardUpdate() {
-    return const OnScoreboardUpdate();
+  Widget onScoreboardUpdate(String roomID) {
+    return OnScoreboardUpdate(roomID: roomID);
   }
 }
