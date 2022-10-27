@@ -75,6 +75,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/error.png
+    - assets/icons/empty.png
     - assets/icons/Apple.png
     - assets/icons/Bomb.png
     - assets/icons/Cactus.png
@@ -132,6 +133,7 @@ flutter:
     - assets/icons/Yinandyang.png 
     - assets/icons/Zebra.png 
     - assets/icons/Anchor.png
+    - assets/icons/Circle.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

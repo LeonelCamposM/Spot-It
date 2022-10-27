@@ -203,8 +203,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
-                                    String roomID = await roomUseCase
-                                        .createRoom(Room(0, true, false));
+                                    String roomID =
+                                        await roomUseCase.createRoom(
+                                            Room(0, true, false, false));
                                     // await cardUseCase.createRoomDeck(roomID);
                                     await scoreboardUseCase.createScoreboard(
                                         roomID,
@@ -214,7 +215,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Player(
                                             textNameController.text,
                                             iconListCount.toString(),
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            "empty,empty,empty,empty,empty,empty,empty,empty",
                                             0,
                                             0),
                                         roomID);
@@ -223,7 +224,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Player(
                                             'Bot',
                                             "0",
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            "empty,empty,empty,empty,empty,empty,empty,empty",
                                             0,
                                             0),
                                         roomID);

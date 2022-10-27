@@ -100,6 +100,7 @@ class PlayerRepository implements IPlayerRepository {
       final roomCollection = await roomIDReference.get();
       Room room = Room.fromJson(roomCollection.data()!);
       room.round = room.round + 1;
+      room.newRound = true;
       roomIDReference.update(room.toJson());
     }
     return response;
