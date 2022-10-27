@@ -14,6 +14,12 @@ class PlayerUseCase {
     return playerRepository.onPlayersUpdate(roomID);
   }
 
+  Future<bool> spotIt(
+      String roomID, String playerOneNickname, String playerTwoNickname) {
+    return playerRepository.spotIt(
+        roomID, playerOneNickname, playerTwoNickname);
+  }
+
   Future<List<Player>> getPlayers(String roomID) {
     return playerRepository.getPlayers(roomID);
   }

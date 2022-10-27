@@ -1,16 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 
 List<String> iconSelection = [];
 const double pi = 3.1415926535897932;
 bool changeContent = false;
 String spotItResults = "";
 
-Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
+Future showCardSelection(
+    context, SizedBox cardOne, SizedBox cardTwo, String roomID) {
   //Information (userName and card) about the current user card and the selected card by user
   List<String> cardOneInformation = cardOne.key
       .toString()
@@ -25,6 +29,13 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
       .replaceAll("'", "")
       .split("%%");
 
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
+  Future.delayed(const Duration(seconds: 25), () async {
+    playerUseCase.spotIt(roomID, cardOneInformation[0], cardTwoInformation[0]);
+  });
+
   return showDialog(
     context: context,
     builder: (context) {
@@ -38,7 +49,8 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo) {
               content: !changeContent
                   ? getDisplayedCards(
                       context, setState, cardOneInformation, cardTwoInformation)
-                  : getFeedback(context));
+                  : getFeedback(context, playerUseCase, roomID,
+                      cardOneInformation[0], cardTwoInformation[0]));
         },
       );
     },
@@ -162,7 +174,8 @@ Row getSelectedIcons(Function(void Function()) setState, String userNameCardOne,
   ));
 }
 
-Column getFeedback(context) {
+Column getFeedback(context, PlayerUseCase playerUseCase, String roomID,
+    String playerOneNickname, String playerTwoNickname) {
   return (Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -195,6 +208,8 @@ Column getFeedback(context) {
             SizeConfig.safeBlockHorizontal * 2,
             getSecondaryColor(),
             () => {
+                  playerUseCase.spotIt(
+                      roomID, playerOneNickname, playerTwoNickname),
                   changeContent = false,
                   iconSelection.clear(),
                   iconSelection.clear(),

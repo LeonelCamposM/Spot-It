@@ -1,14 +1,9 @@
-import 'dart:html';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 
 // ignore: must_be_immutable
 class OnRoundUpdate extends StatelessWidget {
@@ -95,7 +90,6 @@ Future<void> dealCards(String roomID) async {
   for (var doc in snapshots.docs) {
     // Get current player
     final query = await doc.reference.get();
-
     Map<String, dynamic> data = query.data()!;
     final currentPlayer = Player(data['nickname'], data["icon"],
         data["displayedCard"], data["cardCount"], data["stackCardsCount"]);

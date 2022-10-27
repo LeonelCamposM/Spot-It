@@ -1,14 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/presentation/game/card_location.dart';
+import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 
 // ignore: must_be_immutable
 class OnTableUpdate extends StatelessWidget {
   String roomID;
   Iterable<CardModel> deckData;
   late Stream<QuerySnapshot> _usersStream;
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
   OnTableUpdate({Key? key, required this.roomID, required this.deckData})
       : super(key: key) {
     _usersStream = FirebaseFirestore.instance
@@ -33,7 +39,7 @@ class OnTableUpdate extends StatelessWidget {
 
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: getAmountOfCardsMenu(context, players));
+            children: getAmountOfCardsMenu(context, players, roomID));
       },
     );
   }
