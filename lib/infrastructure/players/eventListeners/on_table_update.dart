@@ -36,7 +36,7 @@ class OnTableUpdate extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text('cargando');
+          return const Text('');
         }
 
         List<Player> players = getAllPlayers(snapshot);
