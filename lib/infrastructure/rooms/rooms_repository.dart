@@ -27,7 +27,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
-  Widget onJoinableUpdate(String roomID) {
-    return OnJoinableUpdate(roomID: roomID);
+  Widget onJoinableUpdate(String roomID, String icon) {
+    return OnJoinableUpdate(roomID: roomID, icon: icon);
   }
 }

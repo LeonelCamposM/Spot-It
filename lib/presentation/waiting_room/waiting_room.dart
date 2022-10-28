@@ -89,7 +89,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                         arguments: GameRoomArgs(args.isHost,
                                             args.roomID, args.icon));
                                   })
-                                : roomUseCase.onJoinableUpdate(args.roomID)),
+                                : roomUseCase.onJoinableUpdate(
+                                    args.roomID, args.icon)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,

@@ -11,8 +11,8 @@ class RoomUseCase {
     return roomRepository.createRoom(room);
   }
 
-  Widget onJoinableUpdate(String roomID) {
-    return roomRepository.onJoinableUpdate(roomID);
+  Widget onJoinableUpdate(String roomID, String icon) {
+    return roomRepository.onJoinableUpdate(roomID, icon);
   }
 
   Future<void> updateJoinable(roomID) async {
