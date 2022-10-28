@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
+import 'package:spot_it_game/infrastructure/players/eventListeners/on_spot_it.dart';
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
@@ -47,10 +48,14 @@ Future showCardSelection(
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(32.0))),
               backgroundColor: getPrimaryColor(),
-              content: !changeContent
-                  ? getDisplayedCards(context, setState, playerUseCase, roomID,
-                      cardOneInformation, cardTwoInformation)
-                  : getFeedback(context));
+              content: SizedBox(
+                  child: OnSpotIt(
+                roomID: roomID,
+                setState: setState,
+                playerUseCase: playerUseCase,
+                cardOneInformation: cardOneInformation,
+                cardTwoInformation: cardTwoInformation,
+              )));
         },
       );
     },
@@ -118,38 +123,18 @@ Column getDisplayedCards(
                 getSecondaryColor(),
                 iconSelection.length == 2
                     ? () => {
-                          setState(() => {
-                                //if both user icons are equals
-                                if (iconSelection[0].split("%%")[1] ==
-                                    iconSelection[1].split("%%")[1])
-                                  {
-                                    playerUseCase
-                                        .spotIt(roomID, cardOneInformation,
-                                            cardTwoInformation)
-                                        .then((response) => {
-                                              if (response == true)
-                                                {
-                                                  spotItResults =
-                                                      "assets/logo.png",
-                                                  feedbackPhrase = "Spot it!",
-                                                }
-                                              else
-                                                {
-                                                  spotItResults =
-                                                      "assets/error.png",
-                                                  feedbackPhrase =
-                                                      "Le han hecho Spot It!",
-                                                },
-                                              changeContent = true,
-                                            }),
-                                  }
-                                else
-                                  {
-                                    spotItResults = "assets/error.png",
-                                    feedbackPhrase = "Iconos diferentes!",
-                                    changeContent = true,
-                                  },
-                              })
+                          //if both user icons are equals
+                          if (iconSelection[0].split("%%")[1] ==
+                              iconSelection[1].split("%%")[1])
+                            {
+                              playerUseCase.spotIt(roomID, cardOneInformation,
+                                  cardTwoInformation)
+                            }
+                          else
+                            {
+                              spotItResults = "assets/error.png",
+                              feedbackPhrase = "Iconos diferentes!",
+                            },
                         }
                     : null),
             const Text("  "),
@@ -160,7 +145,6 @@ Column getDisplayedCards(
                 SizeConfig.safeBlockHorizontal * 2,
                 getSecondaryColor(),
                 () => {
-                      changeContent = false,
                       feedbackPhrase = "",
                       iconSelection.clear(),
                       Navigator.pop(context)
