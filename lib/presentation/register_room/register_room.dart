@@ -238,8 +238,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
-                                        arguments:
-                                            WaitingRoomArgs(true, roomID));
+                                        arguments: WaitingRoomArgs(true, roomID,
+                                            iconListCount.toString()));
                                   })
                                 : getTextButton(
                                     "UNIRSE",
@@ -261,7 +261,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(
-                                            false, textRoomIDController.text));
+                                            false,
+                                            textRoomIDController.text,
+                                            iconListCount.toString()));
                                   }),
                           ],
                         ),
@@ -305,5 +307,6 @@ SizedBox getButtonWithIcon(Icon newIcon, double boxWidth, double boxHeight,
 class WaitingRoomArgs {
   final bool isHost;
   final String roomID;
-  WaitingRoomArgs(this.isHost, this.roomID);
+  final String icon;
+  WaitingRoomArgs(this.isHost, this.roomID, this.icon);
 }

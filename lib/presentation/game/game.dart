@@ -99,7 +99,7 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
             getIconButtonStyle(
                 getSecondaryColor(),
                 openChat(context, getSecondaryColor(), getPrimaryColor(),
-                    args.roomID)),
+                    args.roomID, args.icon)),
             SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 3,
                 height: SizeConfig.blockSizeHorizontal * 3),

@@ -86,8 +86,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     roomUseCase.updateJoinable(args.roomID);
                                     Navigator.pushNamed(
                                         context, GamePage.routeName,
-                                        arguments: GameRoomArgs(
-                                            args.isHost, args.roomID));
+                                        arguments: GameRoomArgs(args.isHost,
+                                            args.roomID, args.icon));
                                   })
                                 : roomUseCase.onJoinableUpdate(args.roomID)),
                       ],
@@ -100,7 +100,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
               getIconButtonStyle(
                   getSecondaryColor(),
                   openChat(context, getSecondaryColor(), getPrimaryColor(),
-                      args.roomID)),
+                      args.roomID, args.icon)),
             ],
           )),
     );
@@ -205,5 +205,6 @@ Column getPlayersList(
 class GameRoomArgs {
   final bool isHost;
   final String roomID;
-  GameRoomArgs(this.isHost, this.roomID);
+  final String icon;
+  GameRoomArgs(this.isHost, this.roomID, this.icon);
 }
