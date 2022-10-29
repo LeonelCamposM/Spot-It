@@ -37,6 +37,9 @@ class _RegisterRoomPageState extends State<RegisterRoomPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).nextFocus();
+    });
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -48,6 +51,8 @@ class _RegisterRoomPageState extends State<RegisterRoomPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset:
+          false, //sino true(indio) y sino xd poner el scaffold antes de la columna que retorna abajo
       backgroundColor: getPrimaryColor(),
       body: const Padding(
         padding: EdgeInsets.all(10.0),
@@ -233,8 +238,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
-                                        arguments:
-                                            WaitingRoomArgs(true, roomID));
+                                        arguments: WaitingRoomArgs(true, roomID,
+                                            iconListCount.toString()));
                                   })
                                 : getTextButton(
                                     "UNIRSE",
@@ -256,7 +261,9 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(
-                                            false, textRoomIDController.text));
+                                            false,
+                                            textRoomIDController.text,
+                                            iconListCount.toString()));
                                   }),
                           ],
                         ),
@@ -300,5 +307,6 @@ SizedBox getButtonWithIcon(Icon newIcon, double boxWidth, double boxHeight,
 class WaitingRoomArgs {
   final bool isHost;
   final String roomID;
-  WaitingRoomArgs(this.isHost, this.roomID);
+  final String icon;
+  WaitingRoomArgs(this.isHost, this.roomID, this.icon);
 }

@@ -60,20 +60,32 @@ class _CreditsWidget extends StatefulWidget {
 class _CreditsWidgetState extends State<_CreditsWidget> {
   final ButtonStyle style = getButtonStyle(650, 85, 30.0, getSecondaryColor());
   List<String> links = [
-    "Creador: Angie Sofia Castillo Campos",
-    "Creador: Nayeri Azofeifa Porras",
-    "Creador: Jeremy Vargas Artavia",
-    "Creador: Leonel Campos Murillo",
+    "Angie Sofia Castillo Campos",
+    "Nayeri Azofeifa Porras",
+    "Jeremy Vargas Artavia",
+    "Leonel Campos Murillo",
     "Icono: https://www.dobblegame.com/es/inicio/",
     "Ancla: https://www.pngfind.com/mpng/TbmJxJ_anchor-anchor-clipart-hd-png-download/",
     "Manzana: https://toppng.com/apple-for-teachers-transparent-teacher-apple-PNG-free-PNG-Images_280053",
-    "Bomba: https://www.pngwing.com/en/free-png-byisd",
+    "Bomba: https://www.pngwing.com/en/search?q=cartoon+Bomb",
     "Cactus: https://pngtree.com/freepng/hand-drawn-cute-cactus_4210174.html",
     "Candela: https://toppng.com/photo/35948/baboa-nyo-ghynya-shmaa-byda",
     "Zanahoria: https://clipartix.com/carrot-clipart-image-55597/",
     "Queso: https://www.pngwing.com/en/free-png-btzwp",
     "Caballo de Ajedrez: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
-        "Martillo: https://es.vexels.com/png-svg/vista-previa/198054/martillo-plano"
+        "Reloj: https://pngtree.com/so/clock-icon",
+    "Payaso: s.pngtree.com/freepng/clown-with-big-eye-icon-cartoon-style_5272124.html",
+    "Margarita: https://www.pngwing.com/en/free-png-blejj",
+    "Dinosaurio: https://www.cleanpng.com/png-royalty-free-dinosaur-cartoon-cute-dinosaur-1445651/",
+    "Delfín: https://www.freepik.es/fotos-vectores-gratis/dolphin-jump/2",
+    "Dragon: https://www.pngwing.com/es/free-png-birhw",
+    "Signo de exclamación: https://www.pngegg.com/en/png-blxfm"
+        "Ojo: https://www.flaticon.com/free-icon/cartoon-happy-eyes_64863",
+    "Fuego: https://stock.adobe.com/es/images/fire-emoji-flame-icon-isolated-bonfire-sign-emotion-flame-symbol-isolated-on-white-fire-emoji-and-logo-vector-illustration-eps-10/348550501?as_campaign=ftmigration2&as_channel=dpcft&as_campclass=brand&as_source=ft_web&as_camptype=acquisition&as_audience=users&as_content=closure_asset-detail-page",
+    "Trébol: https://iconos8.es/icon/z8HLqk3pYtq9/four-leaf-clover",
+    "Fantasma: https://www.pngwing.com/en/free-png-bfnrf",
+    "Salpicadura verde: https://www.pngwing.com/en/free-png-tania",
+    "Martillo: https://es.vexels.com/png-svg/vista-previa/198054/martillo-plano"
         "Corazón: https://www.pngwing.com/es/free-png-bewwy",
     "Cubos de hielo: https://www.pngwing.com/es/free-png-nulrc",
     "Iglú: https://www.pngwing.com/es/free-png-bruhl",
@@ -85,18 +97,32 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
     "Hoja de arce: https://www.pngwing.com/es/free-png-dsjzl",
     "Biberón: https://www.pngwing.com/es/free-png-pdfdg",
     "Luna: https://flyclipart.com/pictures-of-crescent-moon-png-crescent-moon-png-672718",
-    "Signo No Entrar: https://www.discountsafetysignsaustralia.com.au/products/regulatory-road-signs/no-entry-sign-regulatory/",
+    "Signo no Entrar: https://www.discountsafetysignsaustralia.com.au/products/regulatory-road-signs/no-entry-sign-regulatory/",
     "Espantapájaros: http://clipart-library.com/clip-art/scarecrow-clipart-transparent-15.htm",
     "Lápiz: https://www.kindpng.com/imgv/xmTxiT_pencil-colored-drawing-mechanical-clip-art-yellow-cliparts/",
     "Pájaro: https://www.freeiconspng.com/images/bird-purple-png-icon",
     "Gato: https://clipartcraft.com/explore/Cat-clipart-purple/",
     "Signo de pregunta: https://illustcut.com/?p=2757",
-    "Labios: http://clipart-library.com/lip-cartoon.html",
+    "Labios: https://creazilla.com/nodes/69762-lip-clipart",
     "Tijeras: https://www.iconsdb.com/purple-icons/scissors-6-icon.html",
     "Calavera con huesos: https://www.onlinewebfonts.com/icon/493161",
     "Copo de nieve: https://www.vectorstock.com/royalty-free-vector/snow-flake-icon-winter-symbol-vector-27559547",
-    "Hombre de nieve: https://maison-lachenal.fr/menu-des-fetes/"
+    "Hombre de nieve: https://maison-lachenal.fr/menu-des-fetes/",
+    "Araña: https://www.kindpng.com/imgv/JTJRiJ_spider-spider-icon-free-download-hd-png-download/",
+    "Tela de araña: https://www.flaticon.com/free-icon/spiderweb_93223",
+    "Sol: https://www.cleanpng.com/png-transparent-cartoon-sun-png-clipart-picture-8464/",
+    "Lentes: https://www.pngwing.com/es/free-png-vhqlo",
+    "Blanco-objetivo: https://www.freepng.es/png-zmqyjh/",
+    "Taxi: https://es.pngtree.com/freepng/taxi-icon-cartoon-style_5230226.html",
+    "Tortuga: https://pngtree.com/freepng/hand-drawn-cartoon-tortoise-clipart_5546424.html?share=3",
+    "Clave de sol: https://www.flaticon.com/free-icon/treble-clef_2227",
+    "Árbol: https://www.flaticon.com/free-icon/fruit-tree_1497192",
+    "Gota de agua: https://toppng.com/free-image/free-download-gota-de-agua-png-clipart-drop-clip-art-imagen-de-gotas-de-agua-PNG-free-PNG-Images_165621"
+        "Perro: https://dribbble.com/shots/4295728-Pitbull",
+    "Yin Yang: https://www.flaticon.es/icono-gratis/simbolo-de-yin-yang_68155",
+    "Zebra: https://www.freepng.es/png-muyxmq/"
   ];
+
   @override
   Widget build(BuildContext context) {
     //Arrow back icon to get to the home page
@@ -131,6 +157,7 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   }
 }
 
+//(links.getRange(5, 57).toList())
 // @param text: references or creators' names or images' links
 // @return Container with vertical list references
 ListView getVerticalList(List<String> text) {

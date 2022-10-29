@@ -11,8 +11,10 @@ import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 // ignore: must_be_immutable
 class OnJoinableUpdate extends StatelessWidget {
   String roomID;
+  String icon;
   late Stream<QuerySnapshot> _usersStream;
-  OnJoinableUpdate({Key? key, required this.roomID}) : super(key: key) {
+  OnJoinableUpdate({Key? key, required this.roomID, required this.icon})
+      : super(key: key) {
     _usersStream = FirebaseFirestore.instance.collection('Room').snapshots();
   }
   final List<String> messages = [];
@@ -42,7 +44,7 @@ class OnJoinableUpdate extends StatelessWidget {
               SizeConfig.safeBlockHorizontal * 2,
               getSecondaryColor(), () {
             Navigator.pushNamed(context, GamePage.routeName,
-                arguments: GameRoomArgs(true, roomID));
+                arguments: GameRoomArgs(true, roomID, icon));
           });
         } else {
           return getText("Esperando al host para comenzar ...",

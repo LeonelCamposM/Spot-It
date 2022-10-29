@@ -13,7 +13,7 @@ import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 IconButton openChat(BuildContext context, Color secondaryColor,
-    Color primaryColor, String roomID) {
+    Color primaryColor, String roomID, String icon) {
   // Abstract Interface that provides database services
   final chatUseCase =
       ChatUseCase(ChatRepository(FirebaseFirestore.instance, roomID));
@@ -49,7 +49,7 @@ IconButton openChat(BuildContext context, Color secondaryColor,
                   ),
 
                   //user input
-                  getMessageBar(secondaryColor, chatUseCase, context),
+                  getMessageBar(secondaryColor, chatUseCase, context, icon),
                 ],
               ),
             );
@@ -62,8 +62,8 @@ IconButton openChat(BuildContext context, Color secondaryColor,
 // @param secondaryColor: current page secondary color
 // @param context: build context
 // @return Row with input text and send button
-Row getMessageBar(
-    Color secondaryColor, ChatUseCase chatUseCase, BuildContext context) {
+Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase,
+    BuildContext context, String icon) {
   final textController = TextEditingController();
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -85,7 +85,7 @@ Row getMessageBar(
               onPressed: () {
                 chatUseCase.sendMessage(
                   Message(textController.text,
-                      DateTime.now().microsecondsSinceEpoch, "1"),
+                      DateTime.now().microsecondsSinceEpoch, icon),
                 );
                 textController.clear();
               },
