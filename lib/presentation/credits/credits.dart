@@ -222,7 +222,6 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   }
 }
 
-// const Image(image: AssetImage(images[index].toString()),
 // @param text: references or creators' names or images' links
 // @return Container with vertical list references
 ListView getVerticalList(List<String> text, List<IconData> icons) {
@@ -243,8 +242,8 @@ ListView getVerticalList(List<String> text, List<IconData> icons) {
               getTransparentFocusBox(
                   getText(text[index], SizeConfig.blockSizeHorizontal * 1.5,
                       Alignment.centerLeft),
-                  SizeConfig.blockSizeVertical * 10,
-                  SizeConfig.blockSizeHorizontal * 43),
+                  SizeConfig.blockSizeVertical * 12,
+                  SizeConfig.blockSizeHorizontal * 65),
               const Text(""),
             ],
           ),
