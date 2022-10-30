@@ -8,6 +8,7 @@ import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 class CreditsPage extends StatefulWidget {
   static String routeName = '/credits';
@@ -81,6 +82,16 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
     "Dragon: https://www.pngwing.com/es/free-png-birhw",
     "Signo de exclamación: https://www.pngegg.com/en/png-blxfm",
     "Ojo: https://www.flaticon.com/free-icon/cartoon-happy-eyes_64863",
+    "Fuego: https://stock.adobe.com/es/images/fire-emoji-flame-icon-isolated-bonfire-sign-emotion-flame-symbol-isolated-on-white-fire-emoji-and-logo-vector-illustration-eps-10/348550501?as_campaign=ftmigration2&as_channel=dpcft&as_campclass=brand&as_source=ft_web&as_camptype=acquisition&as_audience=users&as_content=closure_asset-detail-page",
+    "Trébol: https://iconos8.es/icon/z8HLqk3pYtq9/four-leaf-clover",
+    "Fantasma: https://www.pngwing.com/en/free-png-bfnrf",
+    "Salpicadura verde: https://www.pngwing.com/en/free-png-tania",
+    "Martillo: https://es.vexels.com/png-svg/vista-previa/198054/martillo-plano",
+    "Corazón: https://www.pngwing.com/es/free-png-bewwy",
+    "Cubos de hielo: https://www.pngwing.com/es/free-png-nulrc",
+    "Iglú: https://www.pngwing.com/es/free-png-bruhl",
+    "Llave: https://www.pngwing.com/es/free-png-ntksz",
+    "Mariquita: https://www.pngwing.com/es/free-png-zpnqa",
     "Bombillo: https://www.pngwing.com/es/free-png-zxhea",
     "Rayo: https://www.pngwing.com/es/free-png-ztsph",
     "Candado: https://www.pngwing.com/es/free-png-ijglf",
@@ -211,7 +222,6 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   }
 }
 
-//(links.getRange(5, 57).toList())
 // @param text: references or creators' names or images' links
 // @return Container with vertical list references
 ListView getVerticalList(List<String> text, List<IconData> icons) {
