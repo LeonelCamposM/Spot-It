@@ -23,7 +23,3 @@ Map<String, IconData> roomIcons = {
 IconData getRoomIcon(String icon) {
   return roomIcons[icon]!;
 }
-
-IconData getRoomIcon2(int position) {
-  return roomIcons[position]!;
-}

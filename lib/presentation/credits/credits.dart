@@ -8,6 +8,7 @@ import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 class CreditsPage extends StatefulWidget {
   static String routeName = '/credits';
@@ -72,21 +73,21 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
     "Candela: https://toppng.com/photo/35948/baboa-nyo-ghynya-shmaa-byda",
     "Zanahoria: https://clipartix.com/carrot-clipart-image-55597/",
     "Queso: https://www.pngwing.com/en/free-png-btzwp",
-    "Caballo de Ajedrez: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/"
-        "Reloj: https://pngtree.com/so/clock-icon",
+    "Caballo de Ajedrez: https://www.cleanpng.com/png-chess-knight-royalty-free-clip-art-hand-painted-eu-440623/",
+    "Reloj: https://pngtree.com/so/clock-icon",
     "Payaso: s.pngtree.com/freepng/clown-with-big-eye-icon-cartoon-style_5272124.html",
     "Margarita: https://www.pngwing.com/en/free-png-blejj",
     "Dinosaurio: https://www.cleanpng.com/png-royalty-free-dinosaur-cartoon-cute-dinosaur-1445651/",
     "Delfín: https://www.freepik.es/fotos-vectores-gratis/dolphin-jump/2",
     "Dragon: https://www.pngwing.com/es/free-png-birhw",
-    "Signo de exclamación: https://www.pngegg.com/en/png-blxfm"
-        "Ojo: https://www.flaticon.com/free-icon/cartoon-happy-eyes_64863",
+    "Signo de exclamación: https://www.pngegg.com/en/png-blxfm",
+    "Ojo: https://www.flaticon.com/free-icon/cartoon-happy-eyes_64863",
     "Fuego: https://stock.adobe.com/es/images/fire-emoji-flame-icon-isolated-bonfire-sign-emotion-flame-symbol-isolated-on-white-fire-emoji-and-logo-vector-illustration-eps-10/348550501?as_campaign=ftmigration2&as_channel=dpcft&as_campclass=brand&as_source=ft_web&as_camptype=acquisition&as_audience=users&as_content=closure_asset-detail-page",
     "Trébol: https://iconos8.es/icon/z8HLqk3pYtq9/four-leaf-clover",
     "Fantasma: https://www.pngwing.com/en/free-png-bfnrf",
     "Salpicadura verde: https://www.pngwing.com/en/free-png-tania",
-    "Martillo: https://es.vexels.com/png-svg/vista-previa/198054/martillo-plano"
-        "Corazón: https://www.pngwing.com/es/free-png-bewwy",
+    "Martillo: https://es.vexels.com/png-svg/vista-previa/198054/martillo-plano",
+    "Corazón: https://www.pngwing.com/es/free-png-bewwy",
     "Cubos de hielo: https://www.pngwing.com/es/free-png-nulrc",
     "Iglú: https://www.pngwing.com/es/free-png-bruhl",
     "Llave: https://www.pngwing.com/es/free-png-ntksz",
@@ -117,10 +118,74 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
     "Tortuga: https://pngtree.com/freepng/hand-drawn-cartoon-tortoise-clipart_5546424.html?share=3",
     "Clave de sol: https://www.flaticon.com/free-icon/treble-clef_2227",
     "Árbol: https://www.flaticon.com/free-icon/fruit-tree_1497192",
-    "Gota de agua: https://toppng.com/free-image/free-download-gota-de-agua-png-clipart-drop-clip-art-imagen-de-gotas-de-agua-PNG-free-PNG-Images_165621"
-        "Perro: https://dribbble.com/shots/4295728-Pitbull",
+    "Gota de agua: https://toppng.com/free-image/free-download-gota-de-agua-png-clipart-drop-clip-art-imagen-de-gotas-de-agua-PNG-free-PNG-Images_165621",
+    "Perro: https://dribbble.com/shots/4295728-Pitbull",
     "Yin Yang: https://www.flaticon.es/icono-gratis/simbolo-de-yin-yang_68155",
     "Zebra: https://www.freepng.es/png-muyxmq/"
+  ];
+
+  List<IconData> icons = [
+    Icons.face,
+    Icons.face_outlined,
+    Icons.sentiment_satisfied_alt_rounded,
+    Icons.insert_emoticon_outlined,
+    Icons.front_hand_outlined,
+    Icons.anchor_outlined,
+    Icons.fiber_manual_record,
+    Icons.timer,
+    Icons.spa,
+    Icons.candlestick_chart,
+    Icons.kitchen,
+    Icons.local_pizza,
+    Icons.bedroom_baby,
+    Icons.alarm,
+    Icons.face_retouching_natural,
+    Icons.local_florist,
+    Icons.history_edu,
+    Icons.water,
+    Icons.castle,
+    Icons.priority_high,
+    Icons.visibility,
+    Icons.local_fire_department,
+    Icons.compost,
+    Icons.face_retouching_off,
+    Icons.color_lens,
+    Icons.handyman,
+    Icons.favorite,
+    Icons.view_in_ar,
+    Icons.balcony,
+    Icons.key,
+    Icons.emoji_nature,
+    Icons.tips_and_updates,
+    Icons.flash_on,
+    Icons.lock,
+    Icons.park,
+    Icons.baby_changing_station,
+    Icons.nightlight_round,
+    Icons.do_not_touch,
+    Icons.accessibility_new,
+    Icons.edit,
+    Icons.flutter_dash,
+    Icons.pets,
+    Icons.question_mark,
+    Icons.insert_emoticon,
+    Icons.content_cut,
+    Icons.person_off,
+    Icons.ac_unit,
+    Icons.snowing,
+    Icons.bug_report,
+    Icons.leak_add,
+    Icons.sunny,
+    Icons.hdr_weak,
+    Icons.adjust,
+    Icons.local_taxi,
+    Icons.cyclone,
+    Icons.queue_music,
+    Icons.forest,
+    Icons.water_drop,
+    Icons.pets,
+    Icons.change_circle,
+    Icons.bedroom_baby
   ];
 
   @override
@@ -148,7 +213,7 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
             SizedBox(
                 height: SizeConfig.blockSizeVertical * 80,
                 width: SizeConfig.blockSizeHorizontal * 80,
-                child: getVerticalList(links)),
+                child: getVerticalList(links, icons)),
           ],
         ),
         const Text(""),
@@ -157,10 +222,10 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
   }
 }
 
-//(links.getRange(5, 57).toList())
+// const Image(image: AssetImage(images[index].toString()),
 // @param text: references or creators' names or images' links
 // @return Container with vertical list references
-ListView getVerticalList(List<String> text) {
+ListView getVerticalList(List<String> text, List<IconData> icons) {
   return ListView(
       scrollDirection: Axis.vertical,
       children: List.generate(
@@ -168,9 +233,13 @@ ListView getVerticalList(List<String> text) {
         (index) => Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(""),
+              Icon(
+                icons[index],
+                size: SizeConfig.blockSizeVertical * 4,
+              ),
               getTransparentFocusBox(
                   getText(text[index], SizeConfig.blockSizeHorizontal * 1.5,
                       Alignment.centerLeft),
