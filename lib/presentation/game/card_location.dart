@@ -11,12 +11,15 @@ import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 //1 means there are 2 more players besides the current user.
 List<Widget> getAmountOfCardsMenu(
     context, List<Player> playerList, String roomID, String playerNickName) {
+  
+  int amountOfPlayers = playerList.length;
   Player currentUser =
       playerList.firstWhere(((element) => element.nickname == playerNickName));
-  int amountOfPlayers = playerList.length;
   SizedBox currentUserCard =
       getCardStyle(currentUser.nickname, currentUser.displayedCard, 15, 15);
   playerList.remove(currentUser);
+
+  playerList.forEach( (element) => print(element.displayedCard));
 
   return ([
     SizedBox(
@@ -308,7 +311,7 @@ List<Widget> getThirdCardsRowInfo(
     Padding(
       padding: EdgeInsets.only(top: SizeConfig.blockSizeHorizontal * 1),
       child: InkWell(
-          child: getVisibilityCard(stateCardThree, cardThree),
+          child: getVisibilityCard(stateCardOne, cardOne),
           onTap: stateCardOne
               ? () {
                   showCardSelection(context, cardTwo, cardOne, roomID);
