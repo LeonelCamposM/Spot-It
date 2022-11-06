@@ -34,10 +34,6 @@ Future showCardSelection(
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
-  Future.delayed(const Duration(seconds: 8), () async {
-    playerUseCase.spotIt(roomID, cardTwoInformation, cardOneInformation);
-  });
-
   return showDialog(
     context: context,
     builder: (context) {
@@ -134,6 +130,7 @@ Column getDisplayedCards(
                             {
                               spotItResults = "assets/error.png",
                               feedbackPhrase = "Iconos diferentes!",
+                              getFeedback(context),
                             },
                         }
                     : null),

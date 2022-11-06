@@ -225,18 +225,6 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0),
                                         roomID);
 
-                                    await playerUseCase.addPlayer(
-                                        Player(
-                                            'Bot',
-                                            "0",
-                                            "empty,empty,empty,empty,empty,empty,empty,empty",
-                                            0,
-                                            0),
-                                        roomID);
-
-                                    await scoreboardUseCase.createScoreboard(
-                                        roomID, Scoreboard('Bot', 0));
-
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
                                         arguments: WaitingRoomArgs(
@@ -255,7 +243,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Player(
                                             textNameController.text,
                                             iconListCount.toString(),
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            "empty,empty,empty,empty,empty,empty,empty,empty",
                                             0,
                                             0),
                                         textRoomIDController.text);
