@@ -8,7 +8,6 @@ import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/show_card_selection.dart';
-import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 // ignore: must_be_immutable
 class OnSpotIt extends StatelessWidget {

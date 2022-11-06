@@ -8,7 +8,6 @@ import 'package:spot_it_game/presentation/game/rules.dart';
 import 'package:spot_it_game/presentation/home/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 
 class CreditsPage extends StatefulWidget {
   static String routeName = '/credits';
