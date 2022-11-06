@@ -13,7 +13,7 @@ class Player {
       json['icon'] as String,
       json["displayedCard"] as String,
       json["cardCount"] as int,
-      json["stackCardsCount" as int]);
+      json["stackCardsCount"] as int);
 
   Map<String, dynamic> toJson() => {
         'nickname': nickname,
