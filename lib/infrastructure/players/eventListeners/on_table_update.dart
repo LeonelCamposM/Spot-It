@@ -44,8 +44,11 @@ class OnTableUpdate extends StatelessWidget {
         }
 
         List<Player> players = getAllPlayers(snapshot);
+        bool stopCondition =
+            players.where((element) => element.cardCount == -1).length ==
+                players.length;
 
-        if (players.where((element) => element.cardCount == -1).length > 1) {
+        if (stopCondition) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -69,8 +72,8 @@ class OnTableUpdate extends StatelessWidget {
         } else {
           return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: getAmountOfCardsMenu(
-                  context, players, roomID, playerNickName, isHost));
+              children: getAmountOfCardsMenu(context, players, roomID,
+                  playerNickName, isHost, playerNickName));
         }
       },
     );
@@ -86,12 +89,7 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
     children: snapshot.data!.docs
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          players.add(Player(
-              data['nickname'],
-              data["icon"],
-              data["displayedCard"],
-              data["cardCount"],
-              data["stackCardsCount"]));
+          players.add(Player.fromJson(data));
         })
         .toList()
         .cast(),

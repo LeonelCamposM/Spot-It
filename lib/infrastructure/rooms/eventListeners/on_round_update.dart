@@ -125,8 +125,8 @@ Future<void> dealCards(String roomID) async {
             ',' +
             newCard.iconEight +
             ',',
-        currentPlayer.cardCount + 1,
-        currentPlayer.stackCardsCount + 1);
+        1,
+        1);
     await doc.reference.update(newPlayer.toJson());
   }
 

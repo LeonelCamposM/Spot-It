@@ -15,8 +15,8 @@ bool changeContent = false;
 String spotItResults = "";
 String feedbackPhrase = "";
 
-Future showCardSelection(
-    context, SizedBox cardOne, SizedBox cardTwo, String roomID, bool isHost) {
+Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo,
+    String roomID, bool isHost, String nickname) {
   //Information (userName and card) about the current user card and the selected card by user
   List<String> cardOneInformation = cardOne.key
       .toString()
@@ -68,6 +68,7 @@ Future showCardSelection(
                 playerUseCase: playerUseCase,
                 cardOneInformation: cardOneInformation,
                 cardTwoInformation: cardTwoInformation,
+                nickname: nickname,
               )));
         },
       );

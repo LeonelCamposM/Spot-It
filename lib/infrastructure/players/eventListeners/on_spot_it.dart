@@ -18,6 +18,7 @@ class OnSpotIt extends StatelessWidget {
   PlayerUseCase playerUseCase;
   Function(void Function()) setState;
   bool isHost;
+  String nickname;
   OnSpotIt(
       {Key? key,
       required this.roomID,
@@ -25,7 +26,8 @@ class OnSpotIt extends StatelessWidget {
       required this.cardOneInformation,
       required this.cardTwoInformation,
       required this.playerUseCase,
-      required this.isHost})
+      required this.isHost,
+      required this.nickname})
       : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
@@ -54,10 +56,10 @@ class OnSpotIt extends StatelessWidget {
         }
 
         Player currentUser =
-            players.firstWhere(((element) => element.nickname != "Bot"));
+            players.firstWhere(((element) => element.nickname == nickname));
 
         if (emptyCount == players.length - 1 && isHost) {
-          updateNewRound(roomID);
+          // updateNewRound(roomID);
         }
 
         if (currentUser.cardCount == -1) {
@@ -65,17 +67,20 @@ class OnSpotIt extends StatelessWidget {
               context, 'assets/logo.png', 'El juego ha terminado!', roomID);
         }
 
-        if (currentUser.displayedCard.contains("empty,empty")) {
+        bool madeSpotit = currentUser.displayedCard.contains("empty,empty") &&
+            currentUser.cardCount == 0;
+        if (madeSpotit) {
+          return getFeedback(context, 'assets/logo.png', '¡Spot it!', roomID);
+        }
+
+        bool spoted = currentUser.cardCount == 2;
+        if (spoted) {
           return getFeedback(
               context, 'assets/error.png', 'Le hicieron spot it!', roomID);
-        } else {
-          if (currentUser.cardCount == 0) {
-            return getFeedback(context, 'assets/logo.png', '¡Spot it!', roomID);
-          } else {
-            return getDisplayedCards(context, setState, playerUseCase, roomID,
-                cardOneInformation, cardTwoInformation);
-          }
         }
+
+        return getDisplayedCards(context, setState, playerUseCase, roomID,
+            cardOneInformation, cardTwoInformation);
       },
     );
   }
@@ -112,13 +117,7 @@ Column getFeedback(
             SizeConfig.safeBlockVertical * 10,
             SizeConfig.safeBlockHorizontal * 2,
             getSecondaryColor(),
-            () => {
-                  updateNewRound(roomID),
-                  changeContent = false,
-                  feedbackPhrase = "",
-                  iconSelection.clear(),
-                  Navigator.pop(context)
-                }),
+            () => {Navigator.pop(context)}),
       )
     ],
   ));
@@ -143,12 +142,7 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
     children: snapshot.data!.docs
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          messages.add(Player(
-              data['nickname'],
-              data["icon"],
-              data['displayedCard'],
-              data['cardCount'],
-              data['stackCardsCount']));
+          messages.add(Player.fromJson(data));
         })
         .toList()
         .cast(),
