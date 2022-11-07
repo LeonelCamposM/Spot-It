@@ -61,8 +61,7 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           if (document.id == roomID) {
-            messages.add(Room(data['round'], data["joinable"],
-                data['dealedCards'], data['newRound']));
+            messages.add(Room.fromJson(data));
           }
         })
         .toList()

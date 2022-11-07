@@ -59,16 +59,13 @@ class OnSpotIt extends StatelessWidget {
             players.firstWhere(((element) => element.nickname == nickname));
 
         // if (emptyCount == players.length - 1 && isHost) {
-        //   Future.delayed(const Duration(seconds: 4), () async {
-        //     final roomIDReference =
-        //         FirebaseFirestore.instance.collection('Room').doc(roomID);
-        //     final roomCollection = await roomIDReference.get();
-        //     Room room = Room.fromJson(roomCollection.data()!);
-        //     if (room.dealedCards && room.newRound == false) {
-        //       print('new round');
-        //       updateNewRound(roomID);
-        //     }
-        //   });
+        //   print('new update: ' +
+        //       emptyCount.toString() +
+        //       ' ' +
+        //       players.length.toString());
+        //   if(){
+        //     updateNewRound(roomID);
+        //   }
         // }
 
         if (currentUser.cardCount == -1) {
