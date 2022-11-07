@@ -92,8 +92,11 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                             args.icon,
                                             args.playerNickName));
                                   })
-                                : roomUseCase.onJoinableUpdate(args.roomID,
-                                    args.icon, args.playerNickName)),
+                                : roomUseCase.onJoinableUpdate(
+                                    args.roomID,
+                                    args.icon,
+                                    args.playerNickName,
+                                    args.isHost)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,

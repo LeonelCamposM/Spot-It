@@ -14,11 +14,13 @@ class OnJoinableUpdate extends StatelessWidget {
   String icon;
   String playerNickName;
   late Stream<QuerySnapshot> _usersStream;
+  bool isHost;
   OnJoinableUpdate(
       {Key? key,
       required this.roomID,
       required this.icon,
-      required this.playerNickName})
+      required this.playerNickName,
+      required this.isHost})
       : super(key: key) {
     _usersStream = FirebaseFirestore.instance.collection('Room').snapshots();
   }
@@ -49,7 +51,7 @@ class OnJoinableUpdate extends StatelessWidget {
               SizeConfig.safeBlockHorizontal * 2,
               getSecondaryColor(), () {
             Navigator.pushNamed(context, GamePage.routeName,
-                arguments: GameRoomArgs(true, roomID, icon, playerNickName));
+                arguments: GameRoomArgs(isHost, roomID, icon, playerNickName));
           });
         } else {
           return getText("Esperando al host para comenzar ...",

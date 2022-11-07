@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
-import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
@@ -48,25 +47,9 @@ class OnSpotIt extends StatelessWidget {
         }
 
         List<Player> players = getAllPlayers(snapshot);
-        int emptyCount = 0;
-        for (var element in players) {
-          if (element.displayedCard.contains("empty,empty")) {
-            emptyCount += 1;
-          }
-        }
 
         Player currentUser =
             players.firstWhere(((element) => element.nickname == nickname));
-
-        // if (emptyCount == players.length - 1 && isHost) {
-        //   print('new update: ' +
-        //       emptyCount.toString() +
-        //       ' ' +
-        //       players.length.toString());
-        //   if(){
-        //     updateNewRound(roomID);
-        //   }
-        // }
 
         if (currentUser.cardCount == -1) {
           return getFeedback(context, 'assets/logo.png',
@@ -149,16 +132,6 @@ void updateCardCount(String roomID, String nickname) async {
   Player newPlayer = Player.fromJson(currentPlayer.data());
   newPlayer.cardCount = 1;
   currentPlayerReference.update(newPlayer.toJson());
-}
-
-void updateNewRound(String roomID) async {
-  final roomIDReference =
-      FirebaseFirestore.instance.collection('Room').doc(roomID);
-  final roomCollection = await roomIDReference.get();
-  Room room = Room.fromJson(roomCollection.data()!);
-  room.newRound = true;
-  room.round = room.round + 1;
-  roomIDReference.update(room.toJson());
 }
 
 // @param snapshot: enventListener on database
