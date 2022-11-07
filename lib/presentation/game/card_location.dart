@@ -19,7 +19,6 @@ List<Widget> getAmountOfCardsMenu(
       getCardStyle(currentUser.nickname, currentUser.displayedCard, 15, 15);
   playerList.remove(currentUser);
 
-  playerList.forEach( (element) => print(element.displayedCard));
 
   return ([
     SizedBox(
