@@ -58,25 +58,35 @@ class OnSpotIt extends StatelessWidget {
         Player currentUser =
             players.firstWhere(((element) => element.nickname == nickname));
 
-        if (emptyCount == players.length - 1 && isHost) {
-          // updateNewRound(roomID);
-        }
+        // if (emptyCount == players.length - 1 && isHost) {
+        //   Future.delayed(const Duration(seconds: 4), () async {
+        //     final roomIDReference =
+        //         FirebaseFirestore.instance.collection('Room').doc(roomID);
+        //     final roomCollection = await roomIDReference.get();
+        //     Room room = Room.fromJson(roomCollection.data()!);
+        //     if (room.dealedCards && room.newRound == false) {
+        //       print('new round');
+        //       updateNewRound(roomID);
+        //     }
+        //   });
+        // }
 
         if (currentUser.cardCount == -1) {
-          return getFeedback(
-              context, 'assets/logo.png', 'El juego ha terminado!', roomID);
+          return getFeedback(context, 'assets/logo.png',
+              'El juego ha terminado!', roomID, nickname);
         }
 
         bool madeSpotit = currentUser.displayedCard.contains("empty,empty") &&
             currentUser.cardCount == 0;
         if (madeSpotit) {
-          return getFeedback(context, 'assets/logo.png', '¡Spot it!', roomID);
+          return getFeedback(
+              context, 'assets/logo.png', '¡Spot it!', roomID, nickname);
         }
 
         bool spoted = currentUser.cardCount == 2;
         if (spoted) {
-          return getFeedback(
-              context, 'assets/error.png', 'Le hicieron spot it!', roomID);
+          return getFeedback(context, 'assets/error.png',
+              'Le hicieron spot it!', roomID, nickname);
         }
 
         return getDisplayedCards(context, setState, playerUseCase, roomID,
@@ -87,7 +97,12 @@ class OnSpotIt extends StatelessWidget {
 }
 
 Column getFeedback(
-    context, String spotItResults, String feedbackPhrase, String roomID) {
+  context,
+  String spotItResults,
+  String feedbackPhrase,
+  String roomID,
+  String nickname,
+) {
   return (Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -117,10 +132,26 @@ Column getFeedback(
             SizeConfig.safeBlockVertical * 10,
             SizeConfig.safeBlockHorizontal * 2,
             getSecondaryColor(),
-            () => {Navigator.pop(context)}),
+            () => {updateCardCount(roomID, nickname), Navigator.pop(context)}),
       )
     ],
   ));
+}
+
+void updateCardCount(String roomID, String nickname) async {
+  var playersReference = FirebaseFirestore.instance
+      .collection('Room_Player')
+      .doc(roomID)
+      .collection('players');
+  var players = await playersReference.get();
+  var currentPlayer = players.docs
+      .where((element) => element.data()['nickname'] == nickname)
+      .first;
+
+  var currentPlayerReference = playersReference.doc(currentPlayer.id);
+  Player newPlayer = Player.fromJson(currentPlayer.data());
+  newPlayer.cardCount = 1;
+  currentPlayerReference.update(newPlayer.toJson());
 }
 
 void updateNewRound(String roomID) async {
