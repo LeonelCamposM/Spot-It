@@ -9,9 +9,8 @@ import 'package:spot_it_game/presentation/game/show_card_selection.dart';
 //3 means there are 3 more players besides the current user.
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
-List<Widget> getAmountOfCardsMenu(
-    context, List<Player> playerList, String roomID, String playerNickName) {
-  
+List<Widget> getAmountOfCardsMenu(context, List<Player> playerList,
+    String roomID, String playerNickName, bool isHost) {
   int amountOfPlayers = playerList.length;
   Player currentUser =
       playerList.firstWhere(((element) => element.nickname == playerNickName));
@@ -19,60 +18,59 @@ List<Widget> getAmountOfCardsMenu(
       getCardStyle(currentUser.nickname, currentUser.displayedCard, 15, 15);
   playerList.remove(currentUser);
 
-
   return ([
     SizedBox(
         width: SizeConfig.blockSizeHorizontal * 2,
         height: SizeConfig.blockSizeHorizontal * 2),
     if (amountOfPlayers == 8) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 3), 3, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(5, 7), 2, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(3, 5), 3, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 3), 3,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(5, 7), 2,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(3, 5), 3,
+          roomID, isHost),
     ] else if (amountOfPlayers == 7) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 2), 2, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(4, 6), 2, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(2, 4), 3, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 2), 2,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(4, 6), 2,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(2, 4), 3,
+          roomID, isHost),
     ] else if (amountOfPlayers == 6) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 3), 3, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(3, 5), 3, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 3), 3,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(3, 5), 3,
+          roomID, isHost),
     ] else if (amountOfPlayers == 5) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 2), 2, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(2, 4), 2, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 2), 2,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(2, 4), 2,
+          roomID, isHost),
     ] else if (amountOfPlayers == 4) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 3), 3, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 3), 3,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
     ] else if (amountOfPlayers == 3) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 2), 2, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 2), 2,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
     ] else if (amountOfPlayers == 2) ...[
-      getFirstCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
-      getSecondCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
-      getThirdCardsRow(
-          context, currentUserCard, playerList.sublist(0, 1), 1, roomID),
+      getFirstCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
+      getSecondCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
+      getThirdCardsRow(context, currentUserCard, playerList.sublist(0, 1), 1,
+          roomID, isHost),
     ]
   ]);
 }
@@ -82,7 +80,7 @@ List<Widget> getAmountOfCardsMenu(
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
 Row getFirstCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
-    int amountOfPlayers, String roomID) {
+    int amountOfPlayers, String roomID, bool isHost) {
   return (Row(children: [
     if (amountOfPlayers == 1) ...[
       ...getFirstCardsRowInfo(
@@ -97,7 +95,8 @@ Row getFirstCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
               playerList[0].nickname, playerList[0].displayedCard, 10, 10),
           getCardStyle(
               playerList[0].nickname, playerList[0].displayedCard, 10, 10),
-          roomID),
+          roomID,
+          isHost),
     ] else if (amountOfPlayers == 2) ...[
       ...getFirstCardsRowInfo(
           context,
@@ -111,7 +110,8 @@ Row getFirstCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
               playerList[0].nickname, playerList[0].displayedCard, 10, 10),
           getCardStyle(
               playerList[1].nickname, playerList[1].displayedCard, 10, 10),
-          roomID),
+          roomID,
+          isHost),
     ] else ...[
       ...getFirstCardsRowInfo(
           context,
@@ -125,7 +125,8 @@ Row getFirstCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
               playerList[1].nickname, playerList[1].displayedCard, 10, 10),
           getCardStyle(
               playerList[2].nickname, playerList[2].displayedCard, 10, 10),
-          roomID),
+          roomID,
+          isHost),
     ],
   ]));
 }
@@ -134,7 +135,7 @@ Row getFirstCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
 Row getSecondCardsRow(context, SizedBox currentUserCard,
-    List<Player> playerList, int amountOfPlayers, String roomID) {
+    List<Player> playerList, int amountOfPlayers, String roomID, bool isHost) {
   return (Row(children: [
     if (amountOfPlayers == 1) ...[
       ...getSecondCardsRowInfo(
@@ -146,7 +147,8 @@ Row getSecondCardsRow(context, SizedBox currentUserCard,
               playerList[0].nickname, playerList[0].displayedCard, 10, 10),
           getCardStyle(
               playerList[0].nickname, playerList[0].displayedCard, 10, 10),
-          roomID),
+          roomID,
+          isHost),
     ] else if (amountOfPlayers == 2) ...[
       ...getSecondCardsRowInfo(
           context,
@@ -157,7 +159,8 @@ Row getSecondCardsRow(context, SizedBox currentUserCard,
               playerList[0].nickname, playerList[0].displayedCard, 10, 10),
           getCardStyle(
               playerList[1].nickname, playerList[1].displayedCard, 10, 10),
-          roomID),
+          roomID,
+          isHost),
     ]
   ]));
 }
@@ -166,7 +169,7 @@ Row getSecondCardsRow(context, SizedBox currentUserCard,
 //2 means there are 2 more players besides the current user.
 //1 means there are 2 more players besides the current user.
 Row getThirdCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
-    int amountOfPlayers, String roomID) {
+    int amountOfPlayers, String roomID, bool isHost) {
   return (Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +185,8 @@ Row getThirdCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
               currentUserCard,
               getCardStyle(
                   playerList[0].nickname, playerList[0].displayedCard, 10, 10),
-              roomID),
+              roomID,
+              isHost),
         ] else if (amountOfPlayers == 2) ...[
           ...getThirdCardsRowInfo(
               context,
@@ -194,7 +198,8 @@ Row getThirdCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
               currentUserCard,
               getCardStyle(
                   playerList[1].nickname, playerList[1].displayedCard, 10, 10),
-              roomID),
+              roomID,
+              isHost),
         ] else if (amountOfPlayers == 3) ...[
           ...getThirdCardsRowInfo(
               context,
@@ -206,7 +211,8 @@ Row getThirdCardsRow(context, SizedBox currentUserCard, List<Player> playerList,
               currentUserCard,
               getCardStyle(
                   playerList[1].nickname, playerList[1].displayedCard, 10, 10),
-              roomID),
+              roomID,
+              isHost),
         ]
       ]));
 }
@@ -231,13 +237,15 @@ List<Widget> getFirstCardsRowInfo(
     SizedBox cardOne,
     SizedBox cardTwo,
     SizedBox cardThree,
-    String roomID) {
+    String roomID,
+    bool isHost) {
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
         onTap: stateCardOne
             ? () {
-                showCardSelection(context, currentUserCard, cardOne, roomID);
+                showCardSelection(
+                    context, currentUserCard, cardOne, roomID, isHost);
               }
             : null),
     const Text("  "),
@@ -248,7 +256,8 @@ List<Widget> getFirstCardsRowInfo(
         ),
         onTap: stateCardTwo
             ? () {
-                showCardSelection(context, currentUserCard, cardTwo, roomID);
+                showCardSelection(
+                    context, currentUserCard, cardTwo, roomID, isHost);
               }
             : null),
     const Text("  "),
@@ -256,7 +265,8 @@ List<Widget> getFirstCardsRowInfo(
         child: getVisibilityCard(stateCardThree, cardThree),
         onTap: stateCardThree
             ? () {
-                showCardSelection(context, currentUserCard, cardThree, roomID);
+                showCardSelection(
+                    context, currentUserCard, cardThree, roomID, isHost);
               }
             : null),
   ]);
@@ -269,13 +279,15 @@ List<Widget> getSecondCardsRowInfo(
     SizedBox currentUserCard,
     SizedBox cardOne,
     SizedBox cardThree,
-    String roomID) {
+    String roomID,
+    bool isHost) {
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
         onTap: stateCardOne
             ? () {
-                showCardSelection(context, currentUserCard, cardOne, roomID);
+                showCardSelection(
+                    context, currentUserCard, cardOne, roomID, isHost);
               }
             : null),
     const Text("          "),
@@ -291,7 +303,8 @@ List<Widget> getSecondCardsRowInfo(
         child: getVisibilityCard(stateCardThree, cardThree),
         onTap: stateCardThree
             ? () {
-                showCardSelection(context, currentUserCard, cardThree, roomID);
+                showCardSelection(
+                    context, currentUserCard, cardThree, roomID, isHost);
               }
             : null),
   ]);
@@ -305,7 +318,8 @@ List<Widget> getThirdCardsRowInfo(
     SizedBox cardOne,
     SizedBox cardTwo,
     SizedBox cardThree,
-    String roomID) {
+    String roomID,
+    bool isHost) {
   return ([
     Padding(
       padding: EdgeInsets.only(top: SizeConfig.blockSizeHorizontal * 1),
@@ -313,7 +327,7 @@ List<Widget> getThirdCardsRowInfo(
           child: getVisibilityCard(stateCardOne, cardOne),
           onTap: stateCardOne
               ? () {
-                  showCardSelection(context, cardTwo, cardOne, roomID);
+                  showCardSelection(context, cardTwo, cardOne, roomID, isHost);
                 }
               : null),
     ),
@@ -330,7 +344,8 @@ List<Widget> getThirdCardsRowInfo(
           child: getVisibilityCard(stateCardThree, cardThree),
           onTap: stateCardThree
               ? () {
-                  showCardSelection(context, cardTwo, cardThree, roomID);
+                  showCardSelection(
+                      context, cardTwo, cardThree, roomID, isHost);
                 }
               : null),
     ),

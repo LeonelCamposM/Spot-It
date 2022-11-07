@@ -16,7 +16,7 @@ String spotItResults = "";
 String feedbackPhrase = "";
 
 Future showCardSelection(
-    context, SizedBox cardOne, SizedBox cardTwo, String roomID) {
+    context, SizedBox cardOne, SizedBox cardTwo, String roomID, bool isHost) {
   //Information (userName and card) about the current user card and the selected card by user
   List<String> cardOneInformation = cardOne.key
       .toString()
@@ -62,6 +62,7 @@ Future showCardSelection(
               backgroundColor: getPrimaryColor(),
               content: SizedBox(
                   child: OnSpotIt(
+                isHost: isHost,
                 roomID: roomID,
                 setState: setState,
                 playerUseCase: playerUseCase,

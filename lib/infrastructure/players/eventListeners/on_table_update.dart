@@ -17,11 +17,13 @@ class OnTableUpdate extends StatelessWidget {
   late Stream<QuerySnapshot> _usersStream;
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+  bool isHost;
 
   OnTableUpdate({
     Key? key,
     required this.roomID,
     required this.playerNickName,
+    required this.isHost,
   }) : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
@@ -68,7 +70,7 @@ class OnTableUpdate extends StatelessWidget {
           return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: getAmountOfCardsMenu(
-                  context, players, roomID, playerNickName));
+                  context, players, roomID, playerNickName, isHost));
         }
       },
     );

@@ -17,13 +17,15 @@ class OnSpotIt extends StatelessWidget {
   List<String> cardTwoInformation;
   PlayerUseCase playerUseCase;
   Function(void Function()) setState;
+  bool isHost;
   OnSpotIt(
       {Key? key,
       required this.roomID,
       required this.setState,
       required this.cardOneInformation,
       required this.cardTwoInformation,
-      required this.playerUseCase})
+      required this.playerUseCase,
+      required this.isHost})
       : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
@@ -54,7 +56,7 @@ class OnSpotIt extends StatelessWidget {
         Player currentUser =
             players.firstWhere(((element) => element.nickname != "Bot"));
 
-        if (emptyCount == players.length - 1) {
+        if (emptyCount == players.length - 1 && isHost) {
           updateNewRound(roomID);
         }
 
