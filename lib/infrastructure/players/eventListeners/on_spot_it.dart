@@ -44,16 +44,26 @@ class OnSpotIt extends StatelessWidget {
         }
 
         List<Player> players = getAllPlayers(snapshot);
+        int emptyCount = 0;
+        for (var element in players) {
+          if (element.displayedCard.contains("empty,empty")) {
+            emptyCount += 1;
+          }
+        }
 
         Player currentUser =
             players.firstWhere(((element) => element.nickname != "Bot"));
 
+        if (emptyCount == players.length - 1) {
+          updateNewRound(roomID);
+        }
+
         if (currentUser.cardCount == -1) {
           return getFeedback(
               context, 'assets/logo.png', 'El juego ha terminado!', roomID);
-        } 
+        }
 
-        if (currentUser.displayedCard.contains("QuestionMark,QuestionMark")) {
+        if (currentUser.displayedCard.contains("empty,empty")) {
           return getFeedback(
               context, 'assets/error.png', 'Le hicieron spot it!', roomID);
         } else {
@@ -118,6 +128,7 @@ void updateNewRound(String roomID) async {
   final roomCollection = await roomIDReference.get();
   Room room = Room.fromJson(roomCollection.data()!);
   room.newRound = true;
+  room.round = room.round + 1;
   roomIDReference.update(room.toJson());
 }
 
