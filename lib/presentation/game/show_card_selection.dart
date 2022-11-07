@@ -34,21 +34,21 @@ Future showCardSelection(
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
-  Future.delayed(const Duration(seconds: 8), () async {
-    List<String> currentUserCard = cardOneInformation[1].split(",");
-    List<String> otherUserCard = cardTwoInformation[1].split(",");
-    bool valid = false;
-    for (var element in currentUserCard) {
-      for (var otherElement in otherUserCard) {
-        if (element == otherElement) {
-          valid = true;
-        }
-      }
-    }
-    if (valid) {
-      playerUseCase.spotIt(roomID, cardTwoInformation, cardOneInformation);
-    }
-  });
+  // Future.delayed(const Duration(seconds: 8), () async {
+  //   List<String> currentUserCard = cardOneInformation[1].split(",");
+  //   List<String> otherUserCard = cardTwoInformation[1].split(",");
+  //   bool valid = false;
+  //   for (var element in currentUserCard) {
+  //     for (var otherElement in otherUserCard) {
+  //       if (element == otherElement) {
+  //         valid = true;
+  //       }
+  //     }
+  //   }
+  //   if (valid) {
+  //     playerUseCase.spotIt(roomID, cardTwoInformation, cardOneInformation);
+  //   }
+  // });
 
   return showDialog(
     context: context,
