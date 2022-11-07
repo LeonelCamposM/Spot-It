@@ -42,7 +42,7 @@ class OnRoundUpdate extends StatelessWidget {
             }
           }
         }
-        if (room.round > 5) {
+        if (room.round >= 5) {
           sendEndGame(roomID);
         }
         return const Text('');
