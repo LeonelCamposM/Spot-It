@@ -44,8 +44,6 @@ class OnSpotIt extends StatelessWidget {
         }
 
         List<Player> players = getAllPlayers(snapshot);
-        Player bot =
-            players.firstWhere(((element) => element.nickname == "Bot"));
 
         Player currentUser =
             players.firstWhere(((element) => element.nickname != "Bot"));
@@ -53,9 +51,9 @@ class OnSpotIt extends StatelessWidget {
         if (currentUser.cardCount == -1) {
           return getFeedback(
               context, 'assets/logo.png', 'El juego ha terminado!', roomID);
-        }
+        } 
 
-        if (bot.cardCount == 0) {
+        if (currentUser.displayedCard.contains("QuestionMark,QuestionMark")) {
           return getFeedback(
               context, 'assets/error.png', 'Le hicieron spot it!', roomID);
         } else {

@@ -13,6 +13,7 @@ import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 // ignore: must_be_immutable
 class OnTableUpdate extends StatelessWidget {
   String roomID;
+  String playerNickName;
   late Stream<QuerySnapshot> _usersStream;
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
@@ -20,6 +21,7 @@ class OnTableUpdate extends StatelessWidget {
   OnTableUpdate({
     Key? key,
     required this.roomID,
+    required this.playerNickName,
   }) : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
@@ -65,7 +67,8 @@ class OnTableUpdate extends StatelessWidget {
         } else {
           return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: getAmountOfCardsMenu(context, players, roomID));
+              children: getAmountOfCardsMenu(
+                  context, players, roomID, playerNickName));
         }
       },
     );

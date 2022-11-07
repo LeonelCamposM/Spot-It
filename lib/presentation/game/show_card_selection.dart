@@ -146,6 +146,7 @@ Column getDisplayedCards(
                             {
                               spotItResults = "assets/error.png",
                               feedbackPhrase = "Iconos diferentes!",
+                              getFeedback(context),
                             },
                         }
                     : null),

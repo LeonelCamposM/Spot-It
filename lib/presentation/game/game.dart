@@ -87,8 +87,7 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             OnTableUpdate(
-              roomID: args.roomID,
-            ),
+                roomID: args.roomID, playerNickName: args.playerNickName),
             OnRoundUpdate(roomID: args.roomID),
           ],
         ),
