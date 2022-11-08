@@ -52,28 +52,6 @@ class OnTableUpdate extends StatelessWidget {
                 .length ==
             players.length - 1;
 
-        if (roundCondition && isHost) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 50,
-              ),
-              getTextButton(
-                  "Nueva ronda",
-                  SizeConfig.safeBlockHorizontal * 20,
-                  SizeConfig.safeBlockVertical * 10,
-                  SizeConfig.safeBlockHorizontal * 2,
-                  getSecondaryColor(), () {
-                updateNewRound(roomID);
-              }),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 30,
-              ),
-            ],
-          );
-        }
-
         bool stopCondition =
             players.where((element) => element.cardCount == -1).length ==
                 players.length;
@@ -93,6 +71,28 @@ class OnTableUpdate extends StatelessWidget {
                   getSecondaryColor(), () {
                 Navigator.pushNamed(context, ScoreboardPage.routeName,
                     arguments: ScoreboardRoomArgs(true, roomID));
+              }),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 30,
+              ),
+            ],
+          );
+        }
+
+        if (roundCondition && isHost) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 50,
+              ),
+              getTextButton(
+                  "Nueva ronda",
+                  SizeConfig.safeBlockHorizontal * 20,
+                  SizeConfig.safeBlockVertical * 10,
+                  SizeConfig.safeBlockHorizontal * 2,
+                  getSecondaryColor(), () {
+                updateNewRound(roomID);
               }),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 30,

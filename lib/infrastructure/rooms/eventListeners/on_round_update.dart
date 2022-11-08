@@ -34,10 +34,10 @@ class OnRoundUpdate extends StatelessWidget {
 
         Room room = getUpdateRoom(snapshot, roomID);
         if (isHost) {
-          if (room.dealedCards == false) {
+          if (!room.dealedCards && !room.finished) {
             dealCards(roomID);
           } else {
-            if (room.newRound == true) {
+            if (room.newRound == true && !room.finished) {
               dealCards(roomID);
             }
           }
@@ -133,11 +133,17 @@ Future<void> dealCards(String roomID) async {
   var roomReference = FirebaseFirestore.instance.collection('Room').doc(roomID);
   var roomquery = await roomReference.get();
   Map<String, dynamic> data = roomquery.data()!;
-  final newRoom = Room(data["round"], data["joinable"], true, false);
+  final newRoom =
+      Room(data["round"], data["joinable"], true, false, data["finished"]);
   roomReference.update(newRoom.toJson());
 }
 
 Future<void> sendEndGame(String roomID) async {
+  var roomRefrence = FirebaseFirestore.instance.collection('Room').doc(roomID);
+  var rooms = await roomRefrence.get();
+  Room newRoom = Room.fromJson(rooms.data()!);
+  newRoom.finished = true;
+  roomRefrence.update(newRoom.toJson());
   // Get players collection
   var collection = FirebaseFirestore.instance
       .collection('Room_Player')

@@ -210,7 +210,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     getSecondaryColor(), () async {
                                     String roomID =
                                         await roomUseCase.createRoom(
-                                            Room(0, true, false, false));
+                                            Room(0, true, false, false, false));
                                     // await cardUseCase.createRoomDeck(roomID);
                                     await scoreboardUseCase.createScoreboard(
                                         roomID,
