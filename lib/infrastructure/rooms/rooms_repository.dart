@@ -23,7 +23,7 @@ class RoomRepository implements IRoomRepository {
   Future<void> updateJoinable(String roomID) async {
     await _roomsCollection
         .doc(roomID)
-        .update(Room(0, false, false, false, false).toJson());
+        .update(Room(0, false, false, false, false, false).toJson());
   }
 
   @override
