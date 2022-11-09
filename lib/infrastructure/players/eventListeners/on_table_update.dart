@@ -8,7 +8,6 @@ import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/card_location.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
@@ -91,26 +90,9 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
         }
 
         if (roundCondition && widget.isHost) {
-          updateRoomRound(widget.roomID);
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 50,
-              ),
-              getTextButton(
-                  "Nueva ronda",
-                  SizeConfig.safeBlockHorizontal * 20,
-                  SizeConfig.safeBlockVertical * 10,
-                  SizeConfig.safeBlockHorizontal * 2,
-                  getSecondaryColor(), () {
-                updateNewRound(widget.roomID);
-              }),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 30,
-              ),
-            ],
-          );
+          Future.delayed(const Duration(seconds: 3), () {
+            updateNewRound(widget.roomID);
+          });
         }
 
         return Column(
@@ -156,10 +138,4 @@ void updateNewRound(String roomID) async {
       });
     }
   });
-}
-
-void updateRoomRound(String roomID) async {
-  final db = FirebaseFirestore.instance;
-  var roomDoc = db.collection("Room").doc(roomID);
-  roomDoc.update({"updatedRound": false});
 }
