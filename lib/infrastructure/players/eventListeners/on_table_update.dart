@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
@@ -12,12 +14,10 @@ import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 // ignore: must_be_immutable
-class OnTableUpdate extends StatelessWidget {
+class OnTableUpdate extends StatefulWidget {
   String roomID;
   String playerNickName;
   late Stream<QuerySnapshot> _usersStream;
-  PlayerUseCase playerUseCase =
-      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
   bool isHost;
 
   OnTableUpdate({
@@ -32,9 +32,19 @@ class OnTableUpdate extends StatelessWidget {
   }
 
   @override
+  State<OnTableUpdate> createState() => _OnTableUpdateState();
+}
+
+class _OnTableUpdateState extends State<OnTableUpdate> {
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
+  bool clicked = false;
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
+      stream: widget._usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('');
@@ -70,7 +80,7 @@ class OnTableUpdate extends StatelessWidget {
                   SizeConfig.safeBlockHorizontal * 2,
                   getSecondaryColor(), () {
                 Navigator.pushNamed(context, ScoreboardPage.routeName,
-                    arguments: ScoreboardRoomArgs(true, roomID));
+                    arguments: ScoreboardRoomArgs(true, widget.roomID));
               }),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 30,
@@ -79,32 +89,16 @@ class OnTableUpdate extends StatelessWidget {
           );
         }
 
-        if (roundCondition && isHost) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 50,
-              ),
-              getTextButton(
-                  "Nueva ronda",
-                  SizeConfig.safeBlockHorizontal * 20,
-                  SizeConfig.safeBlockVertical * 10,
-                  SizeConfig.safeBlockHorizontal * 2,
-                  getSecondaryColor(), () {
-                updateNewRound(roomID);
-              }),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 30,
-              ),
-            ],
-          );
+        if (roundCondition && widget.isHost) {
+          Future.delayed(const Duration(seconds: 3), () {
+            updateNewRound(widget.roomID);
+          });
         }
 
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: getAmountOfCardsMenu(context, players, roomID,
-                playerNickName, isHost, playerNickName));
+            children: getAmountOfCardsMenu(context, players, widget.roomID,
+                widget.playerNickName, widget.isHost, widget.playerNickName));
       },
     );
   }
@@ -129,11 +123,19 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
 }
 
 void updateNewRound(String roomID) async {
-  final roomIDReference =
-      FirebaseFirestore.instance.collection('Room').doc(roomID);
-  final roomCollection = await roomIDReference.get();
-  Room room = Room.fromJson(roomCollection.data()!);
-  room.newRound = true;
-  room.round = room.round + 1;
-  roomIDReference.update(room.toJson());
+  final db = FirebaseFirestore.instance;
+  var roomDoc = db.collection("Room").doc(roomID);
+
+  db.runTransaction((transaction) async {
+    DocumentSnapshot roomSnapshot = await transaction.get(roomDoc);
+    Room roomInstance =
+        Room.fromJson(roomSnapshot.data() as Map<String, dynamic>);
+    if (roomInstance.updatedRound == false) {
+      transaction.update(roomDoc, {
+        "updatedRound": true,
+        "round": roomInstance.round + 1,
+        "newRound": true
+      });
+    }
+  });
 }

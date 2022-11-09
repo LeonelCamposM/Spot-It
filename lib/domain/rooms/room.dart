@@ -4,6 +4,7 @@ class Room {
   bool dealedCards;
   bool newRound;
   bool finished;
+  bool updatedRound;
 
   Room(
     this.round,
@@ -11,6 +12,7 @@ class Room {
     this.dealedCards,
     this.newRound,
     this.finished,
+    this.updatedRound,
   );
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -18,7 +20,8 @@ class Room {
       json['joinable'] as bool,
       json['dealedCards'] as bool,
       json['newRound'] as bool,
-      json['finished'] as bool);
+      json['finished'] as bool,
+      json['updatedRound'] as bool);
 
   Map<String, dynamic> toJson() => {
         'round': round,
@@ -26,5 +29,6 @@ class Room {
         'dealedCards': dealedCards,
         'newRound': newRound,
         'finished': finished,
+        'updatedRound': updatedRound,
       };
 }

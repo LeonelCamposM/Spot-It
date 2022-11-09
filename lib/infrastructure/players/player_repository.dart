@@ -55,6 +55,8 @@ class PlayerRepository implements IPlayerRepository {
         .where((element) => element.data()['nickname'] == cardOneInformation[0])
         .first;
 
+    var roomDoc = db.collection("Room").doc(roomID);
+
     var scoreWinnerReference = scoreboardReference.doc(scoreWinnerDoc.id);
 
     db.runTransaction((transaction) async {
@@ -92,6 +94,7 @@ class PlayerRepository implements IPlayerRepository {
               {"displayedCard": winner.displayedCard, "cardCount": 2});
           transaction.update(
               scoreWinnerReference, {"score": winnerScoreboard.score + 1});
+          transaction.update(roomDoc, {"updatedRound": false});
         } else {
           response = false;
         }
