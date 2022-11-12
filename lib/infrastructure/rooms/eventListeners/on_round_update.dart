@@ -34,15 +34,15 @@ class OnRoundUpdate extends StatelessWidget {
 
         Room room = getUpdateRoom(snapshot, roomID);
         if (isHost) {
-          if (room.dealedCards == false) {
+          if (!room.dealedCards && !room.finished) {
             dealCards(roomID);
           } else {
-            if (room.newRound == true) {
+            if (room.newRound == true && !room.finished) {
               dealCards(roomID);
             }
           }
         }
-        if (room.round >= 5) {
+        if (room.round > 5) {
           sendEndGame(roomID);
         }
         return const Text('');
@@ -61,8 +61,7 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           if (document.id == roomID) {
-            messages.add(Room(data['round'], data["joinable"],
-                data['dealedCards'], data['newRound']));
+            messages.add(Room.fromJson(data));
           }
         })
         .toList()
@@ -125,8 +124,8 @@ Future<void> dealCards(String roomID) async {
             ',' +
             newCard.iconEight +
             ',',
-        currentPlayer.cardCount + 1,
-        currentPlayer.stackCardsCount + 1);
+        1,
+        1);
     await doc.reference.update(newPlayer.toJson());
   }
 
@@ -134,11 +133,17 @@ Future<void> dealCards(String roomID) async {
   var roomReference = FirebaseFirestore.instance.collection('Room').doc(roomID);
   var roomquery = await roomReference.get();
   Map<String, dynamic> data = roomquery.data()!;
-  final newRoom = Room(data["round"], data["joinable"], true, false);
+  final newRoom = Room(data["round"], data["joinable"], true, false,
+      data["finished"], data["updatedRound"]);
   roomReference.update(newRoom.toJson());
 }
 
 Future<void> sendEndGame(String roomID) async {
+  var roomRefrence = FirebaseFirestore.instance.collection('Room').doc(roomID);
+  var rooms = await roomRefrence.get();
+  Room newRoom = Room.fromJson(rooms.data()!);
+  newRoom.finished = true;
+  roomRefrence.update(newRoom.toJson());
   // Get players collection
   var collection = FirebaseFirestore.instance
       .collection('Room_Player')

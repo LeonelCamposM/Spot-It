@@ -23,11 +23,17 @@ class RoomRepository implements IRoomRepository {
   Future<void> updateJoinable(String roomID) async {
     await _roomsCollection
         .doc(roomID)
-        .update(Room(0, false, false, false).toJson());
+        .update(Room(0, false, false, false, false, false).toJson());
   }
 
   @override
-  Widget onJoinableUpdate(String roomID, String icon) {
-    return OnJoinableUpdate(roomID: roomID, icon: icon);
+  Widget onJoinableUpdate(
+      String roomID, String icon, String playerNickName, bool isHost) {
+    return OnJoinableUpdate(
+      roomID: roomID,
+      icon: icon,
+      playerNickName: playerNickName,
+      isHost: isHost,
+    );
   }
 }

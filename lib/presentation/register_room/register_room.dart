@@ -209,8 +209,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
                                     String roomID =
-                                        await roomUseCase.createRoom(
-                                            Room(0, true, false, false));
+                                        await roomUseCase.createRoom(Room(0,
+                                            true, false, false, false, false));
                                     // await cardUseCase.createRoomDeck(roomID);
                                     await scoreboardUseCase.createScoreboard(
                                         roomID,
@@ -225,21 +225,13 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0),
                                         roomID);
 
-                                    await playerUseCase.addPlayer(
-                                        Player(
-                                            'Bot',
-                                            "0",
-                                            "empty,empty,empty,empty,empty,empty,empty,empty",
-                                            0,
-                                            0),
-                                        roomID);
-                                    await scoreboardUseCase.createScoreboard(
-                                        roomID, Scoreboard('Bot', 0));
-
                                     Navigator.pushNamed(
                                         context, WaitingRoomPage.routeName,
-                                        arguments: WaitingRoomArgs(true, roomID,
-                                            iconListCount.toString()));
+                                        arguments: WaitingRoomArgs(
+                                            true,
+                                            roomID,
+                                            iconListCount.toString(),
+                                            textNameController.text));
                                   })
                                 : getTextButton(
                                     "UNIRSE",
@@ -251,7 +243,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Player(
                                             textNameController.text,
                                             iconListCount.toString(),
-                                            "Anchor,Apple,Bomb,Cactus,Carrot,Candle,Cheese,Chessknight",
+                                            "empty,empty,empty,empty,empty,empty,empty,empty",
                                             0,
                                             0),
                                         textRoomIDController.text);
@@ -263,7 +255,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         arguments: WaitingRoomArgs(
                                             false,
                                             textRoomIDController.text,
-                                            iconListCount.toString()));
+                                            iconListCount.toString(),
+                                            textNameController.text));
                                   }),
                           ],
                         ),
@@ -308,5 +301,6 @@ class WaitingRoomArgs {
   final bool isHost;
   final String roomID;
   final String icon;
-  WaitingRoomArgs(this.isHost, this.roomID, this.icon);
+  final String playerNickName;
+  WaitingRoomArgs(this.isHost, this.roomID, this.icon, this.playerNickName);
 }

@@ -15,8 +15,13 @@ bool changeContent = false;
 String spotItResults = "";
 String feedbackPhrase = "";
 
-Future showCardSelection(
-    context, SizedBox cardOne, SizedBox cardTwo, String roomID) {
+Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo,
+    String roomID, bool isHost, String nickname) {
+  
+  iconSelection.clear();
+  spotItResults = "";
+  feedbackPhrase = "";
+
   //Information (userName and card) about the current user card and the selected card by user
   List<String> cardOneInformation = cardOne.key
       .toString()
@@ -34,10 +39,6 @@ Future showCardSelection(
   PlayerUseCase playerUseCase =
       PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
-  Future.delayed(const Duration(seconds: 8), () async {
-    playerUseCase.spotIt(roomID, cardTwoInformation, cardOneInformation);
-  });
-
   return showDialog(
     context: context,
     builder: (context) {
@@ -50,11 +51,13 @@ Future showCardSelection(
               backgroundColor: getPrimaryColor(),
               content: SizedBox(
                   child: OnSpotIt(
+                isHost: isHost,
                 roomID: roomID,
                 setState: setState,
                 playerUseCase: playerUseCase,
                 cardOneInformation: cardOneInformation,
                 cardTwoInformation: cardTwoInformation,
+                nickname: nickname,
               )));
         },
       );
@@ -134,6 +137,7 @@ Column getDisplayedCards(
                             {
                               spotItResults = "assets/error.png",
                               feedbackPhrase = "Iconos diferentes!",
+                              getFeedback(context),
                             },
                         }
                     : null),

@@ -88,6 +88,8 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
           children: [
             OnTableUpdate(
               roomID: args.roomID,
+              playerNickName: args.playerNickName,
+              isHost: args.isHost,
             ),
             OnRoundUpdate(roomID: args.roomID),
           ],

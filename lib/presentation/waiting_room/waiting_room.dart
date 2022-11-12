@@ -86,11 +86,17 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     roomUseCase.updateJoinable(args.roomID);
                                     Navigator.pushNamed(
                                         context, GamePage.routeName,
-                                        arguments: GameRoomArgs(args.isHost,
-                                            args.roomID, args.icon));
+                                        arguments: GameRoomArgs(
+                                            args.isHost,
+                                            args.roomID,
+                                            args.icon,
+                                            args.playerNickName));
                                   })
                                 : roomUseCase.onJoinableUpdate(
-                                    args.roomID, args.icon)),
+                                    args.roomID,
+                                    args.icon,
+                                    args.playerNickName,
+                                    args.isHost)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,
@@ -207,5 +213,6 @@ class GameRoomArgs {
   final bool isHost;
   final String roomID;
   final String icon;
-  GameRoomArgs(this.isHost, this.roomID, this.icon);
+  final String playerNickName;
+  GameRoomArgs(this.isHost, this.roomID, this.icon, this.playerNickName);
 }

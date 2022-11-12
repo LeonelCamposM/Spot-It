@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
@@ -11,15 +14,17 @@ import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 // ignore: must_be_immutable
-class OnTableUpdate extends StatelessWidget {
+class OnTableUpdate extends StatefulWidget {
   String roomID;
+  String playerNickName;
   late Stream<QuerySnapshot> _usersStream;
-  PlayerUseCase playerUseCase =
-      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+  bool isHost;
 
   OnTableUpdate({
     Key? key,
     required this.roomID,
+    required this.playerNickName,
+    required this.isHost,
   }) : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
@@ -27,9 +32,19 @@ class OnTableUpdate extends StatelessWidget {
   }
 
   @override
+  State<OnTableUpdate> createState() => _OnTableUpdateState();
+}
+
+class _OnTableUpdateState extends State<OnTableUpdate> {
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
+
+  bool clicked = false;
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
+      stream: widget._usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           return const Text('');
@@ -41,7 +56,17 @@ class OnTableUpdate extends StatelessWidget {
 
         List<Player> players = getAllPlayers(snapshot);
 
-        if (players.where((element) => element.cardCount == -1).length > 1) {
+        bool roundCondition = players
+                .where(
+                    (element) => element.displayedCard.contains('empty,empty'))
+                .length ==
+            players.length - 1;
+
+        bool stopCondition =
+            players.where((element) => element.cardCount == -1).length ==
+                players.length;
+
+        if (stopCondition) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -49,24 +74,31 @@ class OnTableUpdate extends StatelessWidget {
                 height: SizeConfig.blockSizeVertical * 50,
               ),
               getTextButton(
-                  "Scoreboard",
+                  "Puntajes",
                   SizeConfig.safeBlockHorizontal * 20,
                   SizeConfig.safeBlockVertical * 10,
                   SizeConfig.safeBlockHorizontal * 2,
                   getSecondaryColor(), () {
                 Navigator.pushNamed(context, ScoreboardPage.routeName,
-                    arguments: ScoreboardRoomArgs(true, roomID));
+                    arguments: ScoreboardRoomArgs(true, widget.roomID));
               }),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 30,
               ),
             ],
           );
-        } else {
-          return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: getAmountOfCardsMenu(context, players, roomID));
         }
+
+        if (roundCondition && widget.isHost) {
+          Future.delayed(const Duration(seconds: 3), () {
+            updateNewRound(widget.roomID);
+          });
+        }
+
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: getAmountOfCardsMenu(context, players, widget.roomID,
+                widget.playerNickName, widget.isHost, widget.playerNickName));
       },
     );
   }
@@ -81,16 +113,29 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
     children: snapshot.data!.docs
         .map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          players.add(Player(
-              data['nickname'],
-              data["icon"],
-              data["displayedCard"],
-              data["cardCount"],
-              data["stackCardsCount"]));
+          players.add(Player.fromJson(data));
         })
         .toList()
         .cast(),
   );
 
   return players;
+}
+
+void updateNewRound(String roomID) async {
+  final db = FirebaseFirestore.instance;
+  var roomDoc = db.collection("Room").doc(roomID);
+
+  db.runTransaction((transaction) async {
+    DocumentSnapshot roomSnapshot = await transaction.get(roomDoc);
+    Room roomInstance =
+        Room.fromJson(roomSnapshot.data() as Map<String, dynamic>);
+    if (roomInstance.updatedRound == false) {
+      transaction.update(roomDoc, {
+        "updatedRound": true,
+        "round": roomInstance.round + 1,
+        "newRound": true
+      });
+    }
+  });
 }
