@@ -20,4 +20,8 @@ class RoomUseCase {
   Future<void> updateJoinable(roomID) async {
     return roomRepository.updateJoinable(roomID);
   }
+
+  Future<void> updateMaximumRound(roomID, maximumCount) async {
+    return roomRepository.updateMaximumRound(roomID, maximumCount);
+  }
 }

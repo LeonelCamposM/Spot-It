@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_number_picker/flutter_number_picker.dart';
-import 'package:spot_it_game/application/chat/rooms_use_case.dart';
-import 'package:spot_it_game/infrastructure/chat/chat_repositoy.dart';
+import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
+import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
@@ -12,8 +12,6 @@ import '../core/text_button_style.dart';
 IconButton roundConfig(BuildContext context, Color secondaryColor,
     Color primaryColor, String roomID) {
   // Abstract Interface that provides database services
-  final chatUseCase =
-      ChatUseCase(ChatRepository(FirebaseFirestore.instance, roomID));
 
   return IconButton(
     iconSize: getIconSize(),
@@ -39,7 +37,7 @@ IconButton roundConfig(BuildContext context, Color secondaryColor,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             getVerticalList(
-                                primaryColor, secondaryColor, context),
+                                roomID, primaryColor, secondaryColor, context),
                           ],
                         ),
                         getCloseButton(secondaryColor, context),
@@ -78,8 +76,8 @@ Row getCloseButton(Color secondaryColor, BuildContext context) {
   );
 }
 
-Widget getVerticalList(
-    Color primaryColor, Color secondaryColor, BuildContext context) {
+Widget getVerticalList(String roomID, Color primaryColor, Color secondaryColor,
+    BuildContext context) {
   int roundCount = 0;
   return SizedBox(
     height: SizeConfig.blockSizeVertical * 90,
@@ -116,10 +114,16 @@ Widget getVerticalList(
             SizeConfig.safeBlockHorizontal * 2,
             secondaryColor, () {
           // funcion para actualizar y pop
+          updateRoundCount(roomID, roundCount);
           print(roundCount);
           Navigator.pop(context);
         })
       ],
     ),
   );
+}
+
+void updateRoundCount(String roomID, int roundCount) {
+  final roomUseCase = RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+  roomUseCase.updateMaximumRound(roomID, roundCount);
 }

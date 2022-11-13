@@ -107,18 +107,23 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
               ),
 
               //Chat icon
-              Row(
-                children: [
-                  getIconButtonStyle(
-                      getSecondaryColor(),
-                      roundConfig(context, getSecondaryColor(),
-                          getPrimaryColor(), args.roomID)),
-                  getIconButtonStyle(
+              args.isHost == true
+                  ? Row(
+                      children: [
+                        getIconButtonStyle(
+                            getSecondaryColor(),
+                            roundConfig(context, getSecondaryColor(),
+                                getPrimaryColor(), args.roomID)),
+                        getIconButtonStyle(
+                            getSecondaryColor(),
+                            openChat(context, getSecondaryColor(),
+                                getPrimaryColor(), args.roomID, args.icon)),
+                      ],
+                    )
+                  : getIconButtonStyle(
                       getSecondaryColor(),
                       openChat(context, getSecondaryColor(), getPrimaryColor(),
                           args.roomID, args.icon)),
-                ],
-              ),
             ],
           )),
     );

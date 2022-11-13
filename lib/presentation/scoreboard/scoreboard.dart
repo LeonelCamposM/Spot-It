@@ -229,7 +229,7 @@ SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph) {
   return SizedBox(
     child: SfCartesianChart(
         primaryXAxis: CategoryAxis(),
-        primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
+        primaryYAxis: NumericAxis(minimum: 0, maximum: 10, interval: 1),
         tooltipBehavior: _tooltip,
         series: <ChartSeries<Scoreboard, String>>[
           ColumnSeries<Scoreboard, String>(

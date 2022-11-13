@@ -21,9 +21,26 @@ class RoomRepository implements IRoomRepository {
 
   @override
   Future<void> updateJoinable(String roomID) async {
-    await _roomsCollection
-        .doc(roomID)
-        .update(Room(0, false, false, false, false, false).toJson());
+    DocumentSnapshot roomDoc = await _roomsCollection.doc(roomID).get();
+    Room roomInstance = roomDoc.data() as Room;
+    await _roomsCollection.doc(roomID).update(
+        Room(0, false, false, false, false, false, roomInstance.maximumRounds)
+            .toJson());
+  }
+
+  @override
+  Future<void> updateMaximumRound(String roomID, int maximumCount) async {
+    DocumentSnapshot roomDoc = await _roomsCollection.doc(roomID).get();
+    Room roomInstance = roomDoc.data() as Room;
+    await _roomsCollection.doc(roomID).update(Room(
+            roomInstance.round,
+            roomInstance.joinable,
+            roomInstance.dealedCards,
+            roomInstance.newRound,
+            roomInstance.finished,
+            roomInstance.updatedRound,
+            maximumCount)
+        .toJson());
   }
 
   @override

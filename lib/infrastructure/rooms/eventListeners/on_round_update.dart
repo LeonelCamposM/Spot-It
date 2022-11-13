@@ -42,7 +42,7 @@ class OnRoundUpdate extends StatelessWidget {
             }
           }
         }
-        if (room.round > 5) {
+        if (room.round >= room.maximumRounds) {
           sendEndGame(roomID);
         }
         return const Text('');
@@ -134,7 +134,7 @@ Future<void> dealCards(String roomID) async {
   var roomquery = await roomReference.get();
   Map<String, dynamic> data = roomquery.data()!;
   final newRoom = Room(data["round"], data["joinable"], true, false,
-      data["finished"], data["updatedRound"]);
+      data["finished"], data["updatedRound"], data["maximumRounds"]);
   roomReference.update(newRoom.toJson());
 }
 
