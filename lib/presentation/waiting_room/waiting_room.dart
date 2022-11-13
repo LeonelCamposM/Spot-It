@@ -75,8 +75,8 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
 
                         Center(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               getText(
                                   "Elegir número de rondas: ",
