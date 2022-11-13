@@ -20,6 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 import 'dart:math';
 import 'package:flutter_number_picker/flutter_number_picker.dart';
+import 'package:spot_it_game/presentation/waiting_room/round_config.dart';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -73,31 +74,6 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         // Room ID
                         getIDBanner(args.roomID),
 
-                        Center(
-                          child: args.isHost == true
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    getText(
-                                        "Elegir número de rondas: ",
-                                        SizeConfig.blockSizeHorizontal * 2,
-                                        Alignment.center),
-                                    CustomNumberPicker(
-                                      initialValue: 1,
-                                      maxValue: 5,
-                                      minValue: 1,
-                                      step: 1,
-                                      onValue: (value) {
-                                        //set el value para el número de rondas en on round update?
-                                        print(value.toString());
-                                      },
-                                    ),
-                                  ],
-                                )
-                              : Row(),
-                        ),
-
                         // Players list view
                         playerUseCase.onPlayersUpdate(args.roomID),
 
@@ -131,10 +107,18 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
               ),
 
               //Chat icon
-              getIconButtonStyle(
-                  getSecondaryColor(),
-                  openChat(context, getSecondaryColor(), getPrimaryColor(),
-                      args.roomID, args.icon)),
+              Row(
+                children: [
+                  getIconButtonStyle(
+                      getSecondaryColor(),
+                      roundConfig(context, getSecondaryColor(),
+                          getPrimaryColor(), args.roomID)),
+                  getIconButtonStyle(
+                      getSecondaryColor(),
+                      openChat(context, getSecondaryColor(), getPrimaryColor(),
+                          args.roomID, args.icon)),
+                ],
+              ),
             ],
           )),
     );
