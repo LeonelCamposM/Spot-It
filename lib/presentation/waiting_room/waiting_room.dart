@@ -74,26 +74,28 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                         getIDBanner(args.roomID),
 
                         Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              getText(
-                                  "Elegir número de rondas: ",
-                                  SizeConfig.blockSizeHorizontal * 2,
-                                  Alignment.center),
-                              CustomNumberPicker(
-                                initialValue: 1,
-                                maxValue: 5,
-                                minValue: 1,
-                                step: 1,
-                                onValue: (value) {
-                                  //set el value para el número de rondas en on round update?
-                                  print(value.toString());
-                                },
-                              ),
-                            ],
-                          ),
+                          child: args.isHost == true
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    getText(
+                                        "Elegir número de rondas: ",
+                                        SizeConfig.blockSizeHorizontal * 2,
+                                        Alignment.center),
+                                    CustomNumberPicker(
+                                      initialValue: 1,
+                                      maxValue: 5,
+                                      minValue: 1,
+                                      step: 1,
+                                      onValue: (value) {
+                                        //set el value para el número de rondas en on round update?
+                                        print(value.toString());
+                                      },
+                                    ),
+                                  ],
+                                )
+                              : Row(),
                         ),
 
                         // Players list view
