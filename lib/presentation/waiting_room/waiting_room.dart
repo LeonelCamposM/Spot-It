@@ -11,6 +11,7 @@ import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
@@ -18,6 +19,7 @@ import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
 import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 import 'dart:math';
+import 'package:flutter_number_picker/flutter_number_picker.dart';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -70,6 +72,29 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       children: [
                         // Room ID
                         getIDBanner(args.roomID),
+
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              getText(
+                                  "Elegir número de rondas: ",
+                                  SizeConfig.blockSizeHorizontal * 2,
+                                  Alignment.center),
+                              CustomNumberPicker(
+                                initialValue: 1,
+                                maxValue: 5,
+                                minValue: 1,
+                                step: 1,
+                                onValue: (value) {
+                                  //set el value para el número de rondas en on round update?
+                                  print(value.toString());
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
 
                         // Players list view
                         playerUseCase.onPlayersUpdate(args.roomID),
