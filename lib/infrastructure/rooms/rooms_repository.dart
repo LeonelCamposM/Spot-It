@@ -29,6 +29,13 @@ class RoomRepository implements IRoomRepository {
   }
 
   @override
+  Future<int> getMaximumRoundCount(String roomID) async {
+    DocumentSnapshot roomDoc = await _roomsCollection.doc(roomID).get();
+    Room roomInstance = roomDoc.data() as Room;
+    return roomInstance.maximumRounds;
+  }
+
+  @override
   Future<void> updateMaximumRound(String roomID, int maximumCount) async {
     DocumentSnapshot roomDoc = await _roomsCollection.doc(roomID).get();
     Room roomInstance = roomDoc.data() as Room;

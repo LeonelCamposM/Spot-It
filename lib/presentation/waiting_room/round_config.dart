@@ -99,7 +99,7 @@ Widget getVerticalList(String roomID, Color primaryColor, Color secondaryColor,
               shape: const Border(),
               initialValue: 4,
               maxValue: 10,
-              minValue: 1,
+              minValue: 2,
               step: 1,
               onValue: (value) {
                 roundCount = value as int;
@@ -115,7 +115,6 @@ Widget getVerticalList(String roomID, Color primaryColor, Color secondaryColor,
             secondaryColor, () {
           // funcion para actualizar y pop
           updateRoundCount(roomID, roundCount);
-          print(roundCount);
           Navigator.pop(context);
         })
       ],
