@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
+import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
+import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
@@ -74,6 +76,7 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
   late ScoreboardRoomArgs args;
+  int maximumPoints = 0;
   List<Scoreboard> dataForList = [];
   List<Scoreboard> dataForGraph = [];
   List<IconData> playerIcons = [];
@@ -89,6 +92,15 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
     args = ModalRoute.of(context)!.settings.arguments as ScoreboardRoomArgs;
     super.didChangeDependencies();
     getScoreboard(args.roomID);
+    getMaximumPoints(args.roomID);
+  }
+
+  Future<void> getMaximumPoints(String roomID) async {
+    final roomUseCase = RoomUseCase(RoomRepository(FirebaseFirestore.instance));
+    int roundCount = await roomUseCase.getMaximumRoundCount(roomID);
+    setState(() {
+      maximumPoints = roundCount;
+    });
   }
 
   // @param roomID: The roomID of the desired scoreboard
@@ -166,7 +178,7 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
                           getHeader(context, dataForList, playerIcons),
                           const Text("", style: TextStyle(fontSize: 40.0)),
                           // Graph of Columns
-                          getBarChart(_tooltip, dataForGraph)
+                          getBarChart(_tooltip, dataForGraph, maximumPoints)
                         ],
                       ),
                       SizeConfig.safeBlockVertical * 85,
@@ -225,11 +237,13 @@ Flexible getHeader(
 // @param _tooltip: Component used in Syncfunctions charts
 // @param dataForGraph: Data to be displayed on the chart
 // @return SizedBox with Column Chart of the data
-SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph) {
+SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph,
+    int maximumPoints) {
   return SizedBox(
     child: SfCartesianChart(
         primaryXAxis: CategoryAxis(),
-        primaryYAxis: NumericAxis(minimum: 0, maximum: 5, interval: 1),
+        primaryYAxis: NumericAxis(
+            minimum: 0, maximum: maximumPoints as double, interval: 1),
         tooltipBehavior: _tooltip,
         series: <ChartSeries<Scoreboard, String>>[
           ColumnSeries<Scoreboard, String>(

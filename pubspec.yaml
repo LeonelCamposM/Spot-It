@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_number_picker:
+      git: https://github.com/phuongtinhbien/flutter_number_picker.git
 
 
   # The following adds the Cupertino Icons font to your application.

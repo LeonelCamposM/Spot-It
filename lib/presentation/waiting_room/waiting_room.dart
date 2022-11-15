@@ -18,6 +18,7 @@ import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
 import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 import 'dart:math';
+import 'package:spot_it_game/presentation/waiting_room/round_config.dart';
 
 class WaitingRoomPage extends StatefulWidget {
   static String routeName = '/waiting_room';
@@ -104,10 +105,23 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
               ),
 
               //Chat icon
-              getIconButtonStyle(
-                  getSecondaryColor(),
-                  openChat(context, getSecondaryColor(), getPrimaryColor(),
-                      args.roomID, args.icon)),
+              args.isHost == true
+                  ? Row(
+                      children: [
+                        getIconButtonStyle(
+                            getSecondaryColor(),
+                            roundConfig(context, getSecondaryColor(),
+                                getPrimaryColor(), args.roomID)),
+                        getIconButtonStyle(
+                            getSecondaryColor(),
+                            openChat(context, getSecondaryColor(),
+                                getPrimaryColor(), args.roomID, args.icon)),
+                      ],
+                    )
+                  : getIconButtonStyle(
+                      getSecondaryColor(),
+                      openChat(context, getSecondaryColor(), getPrimaryColor(),
+                          args.roomID, args.icon)),
             ],
           )),
     );
