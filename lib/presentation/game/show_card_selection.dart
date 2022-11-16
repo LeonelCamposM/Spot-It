@@ -246,6 +246,7 @@ class _CardSelectorState extends State<CardSelector> {
                       height: SizeConfig.blockSizeHorizontal * 25,
                       child: CardStylePopUp(
                           callback, userNameCardOne, currentUserCard)),
+                  Text("Selected icon one:" + selectedIconOne)
                 ],
               ),
             ],
@@ -276,13 +277,34 @@ class _CardStylePopUpState extends State<CardStylePopUp> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        child: getTextButton(
-            widget.card[7],
-            SizeConfig.safeBlockHorizontal * 10,
-            SizeConfig.safeBlockVertical * 10,
-            SizeConfig.safeBlockHorizontal * 2,
-            getSecondaryColor(),
-            () => {widget.callbackFunction('one', widget.card[7])}));
+    return Column(
+      children: [
+        getSingleCardIconPopUp2(widget.callbackFunction, iconSelection,
+            widget.userName, widget.card[7]),
+        getSingleCardIconPopUp2(widget.callbackFunction, iconSelection,
+            widget.userName, widget.card[7]),
+        getSingleCardIconPopUp2(widget.callbackFunction, iconSelection,
+            widget.userName, widget.card[7]),
+      ],
+    );
   }
+}
+
+SizedBox getSingleCardIconPopUp2(
+    setState, List<String> iconSelection, userName, String iconName) {
+  return SizedBox(
+    height: SizeConfig.blockSizeHorizontal * 7,
+    width: SizeConfig.blockSizeHorizontal * 7,
+    child: ElevatedButton(
+      child: Container(
+        child: getIcon(iconName),
+      ),
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        // ignore: deprecated_member_use
+        primary: Colors.white,
+      ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+      onPressed: () => {setState("one", iconName)},
+    ),
+  );
 }
