@@ -74,7 +74,8 @@ class OnSpotIt extends StatelessWidget {
             cardOneInformation[1] = element.displayedCard;
           }
           if (element.nickname == cardTwoInformation[0]) {
-            if (element.displayedCard != cardTwoInformation[1]) {
+            if (element.displayedCard != cardTwoInformation[1] &&
+                element.cardCount == 2) {
               return getFeedback(
                   context,
                   'assets/error.png',
