@@ -5,7 +5,6 @@ import 'package:spot_it_game/infrastructure/players/eventListeners/on_spot_it.da
 import 'package:spot_it_game/presentation/core/card_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 
@@ -17,7 +16,6 @@ String feedbackPhrase = "";
 
 Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo,
     String roomID, bool isHost, String nickname) {
-  
   iconSelection.clear();
   spotItResults = "";
   feedbackPhrase = "";
@@ -137,7 +135,6 @@ Column getDisplayedCards(
                             {
                               spotItResults = "assets/error.png",
                               feedbackPhrase = "Iconos diferentes!",
-                              getFeedback(context),
                             },
                         }
                     : null),
@@ -184,113 +181,4 @@ Row getSelectedIcons(Function(void Function()) setState, String userNameCardOne,
       )
     ],
   ));
-}
-
-Column getFeedback(context) {
-  return (Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(top: 10.0),
-        child: Row(
-          children: [
-            SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 2,
-                width: SizeConfig.blockSizeHorizontal * 7,
-                child: const Text('')),
-            FunkyFeedback(iconName: spotItResults),
-            SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 2,
-                width: SizeConfig.blockSizeHorizontal * 7,
-                child: const Text('')),
-          ],
-        ),
-      ),
-      getText(
-          feedbackPhrase, SizeConfig.blockSizeHorizontal * 3, Alignment.center),
-      Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: getTextButton(
-            "SALIR",
-            SizeConfig.safeBlockHorizontal * 20,
-            SizeConfig.safeBlockVertical * 10,
-            SizeConfig.safeBlockHorizontal * 2,
-            getSecondaryColor(),
-            () => {
-                  changeContent = false,
-                  feedbackPhrase = "",
-                  iconSelection.clear(),
-                  Navigator.pop(context)
-                }),
-      )
-    ],
-  ));
-}
-
-// ignore: must_be_immutable
-class FunkyFeedback extends StatefulWidget {
-  String iconName;
-  FunkyFeedback({Key? key, required this.iconName}) : super(key: key);
-
-  @override
-  // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => FunkyFeedbackState(iconName: iconName);
-}
-
-class FunkyFeedbackState extends State<FunkyFeedback>
-    with SingleTickerProviderStateMixin {
-  FunkyFeedbackState({Key? key, required this.iconName});
-  late AnimationController controller;
-  late Animation<double> scaleAnimation;
-  String iconName;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1))
-          ..repeat();
-    scaleAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(controller);
-
-    controller.addListener(() {
-      setState(() {});
-    });
-    controller.forward();
-  }
-
-  @override
-  dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Material(
-        color: Colors.transparent,
-        child: Transform.rotate(
-          angle: scaleAnimation.value,
-          child: Container(
-            decoration: ShapeDecoration(
-                color: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0))),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 18,
-                  height: SizeConfig.blockSizeHorizontal * 12,
-                  child: Image(
-                    image: AssetImage(iconName),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
