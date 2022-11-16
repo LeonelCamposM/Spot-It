@@ -117,138 +117,93 @@ class _CardSelectorState extends State<CardSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
             children: [
-              Column(
-                children: [
-                  Text(
-                    userNameCardOne,
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 25,
-                      height: SizeConfig.blockSizeHorizontal * 25,
-                      child: CardStylePopUp(
-                          callback, "one", userNameCardOne, currentUserCard)),
-                ],
-              ),
+              getText(userNameCardOne, 25, Alignment.center),
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal * 2,
-                height: SizeConfig.blockSizeHorizontal * 2,
-                child: const Text(""),
-              ),
-              Column(
-                children: [
-                  Text(
-                    userNameCardTwo,
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 25,
-                      height: SizeConfig.blockSizeHorizontal * 25,
-                      child: CardStylePopUp(
-                          callback, "two", userNameCardTwo, otherUserCard)),
-                ],
-              ),
+                  width: SizeConfig.blockSizeHorizontal * 25,
+                  height: SizeConfig.blockSizeHorizontal * 25,
+                  child: CardStylePopUp(callback, selectedIconOne, "one",
+                      userNameCardOne, currentUserCard)),
             ],
           ),
-          !differentIcons
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: SizeConfig.blockSizeHorizontal * 7,
-                      width: SizeConfig.blockSizeHorizontal * 7,
-                      child: ElevatedButton(
-                        child: Container(
-                          child: getIcon(selectedIconOne),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          // ignore: deprecated_member_use
-                          primary: Colors.white,
-                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                        onPressed: () => {},
-                      ),
-                    ),
-                    const Text("  "),
-                    SizedBox(
-                      height: SizeConfig.blockSizeHorizontal * 7,
-                      width: SizeConfig.blockSizeHorizontal * 7,
-                      child: ElevatedButton(
-                        child: Container(
-                          child: getIcon(selectedIconTwo),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          // ignore: deprecated_member_use
-                          primary: Colors.white,
-                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                        onPressed: () => {},
-                      ),
-                    ),
-                  ],
-                )
-              : getText("Iconos diferentes!", SizeConfig.blockSizeHorizontal * 5, Alignment.center),
           SizedBox(
             width: SizeConfig.blockSizeHorizontal * 2,
             height: SizeConfig.blockSizeHorizontal * 2,
             child: const Text(""),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              getTextButton(
-                  "SPOT IT!",
-                  SizeConfig.safeBlockHorizontal * 20,
-                  SizeConfig.safeBlockVertical * 10,
-                  SizeConfig.safeBlockHorizontal * 2,
-                  getSecondaryColor(),
-                  !selectedIconOne.contains("empty") &&
-                          !selectedIconTwo.contains("empty")
-                      ? () => {
-                            //if both user icons are equals
-                            if (selectedIconOne == selectedIconTwo)
-                              {
-                                playerUseCase.spotIt(
-                                    widget.roomID,
-                                    widget.currentPlayerCardInf,
-                                    widget.otherPlayerCardInf)
-                              }
-                            else
-                              {
-                                callback("different", ""),
-                                Future.delayed(const Duration(seconds: 3), () {
-                                  callback("different", "");
-                                }),
-                              },
-                            callback("one", "empty"),
-                            callback("two", "empty"),
-                          }
-                      : null),
-              const Text("  "),
-              getTextButton(
-                  "CANCELAR",
-                  SizeConfig.safeBlockHorizontal * 20,
-                  SizeConfig.safeBlockVertical * 10,
-                  SizeConfig.safeBlockHorizontal * 2,
-                  getSecondaryColor(),
-                  () => {
-                        feedbackPhrase = "",
-                        callback("one", "empty"),
-                        callback("two", "empty"),
-                        Navigator.pop(context)
-                      })
+              getText(userNameCardTwo, 25, Alignment.center),
+              SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 25,
+                  height: SizeConfig.blockSizeHorizontal * 25,
+                  child: CardStylePopUp(callback, selectedIconTwo, "two",
+                      userNameCardTwo, otherUserCard)),
             ],
           ),
-        ]),
-      ],
-    );
+        ],
+      ),
+      !differentIcons
+          ? const SizedBox()
+          : getText("Iconos diferentes!", SizeConfig.blockSizeHorizontal * 2,
+              Alignment.center),
+      SizedBox(
+        width: SizeConfig.blockSizeHorizontal * 2,
+        height: SizeConfig.blockSizeHorizontal * 2,
+        child: const Text(""),
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          getTextButton(
+              "SPOT IT!",
+              SizeConfig.safeBlockHorizontal * 20,
+              SizeConfig.safeBlockVertical * 10,
+              SizeConfig.safeBlockHorizontal * 2,
+              getSecondaryColor(),
+              !selectedIconOne.contains("empty") &&
+                      !selectedIconTwo.contains("empty")
+                  ? () => {
+                        //if both user icons are equals
+                        if (selectedIconOne == selectedIconTwo)
+                          {
+                            playerUseCase.spotIt(
+                                widget.roomID,
+                                widget.currentPlayerCardInf,
+                                widget.otherPlayerCardInf)
+                          }
+                        else
+                          {
+                            callback("different", ""),
+                            Future.delayed(const Duration(seconds: 3), () {
+                              callback("different", "");
+                            }),
+                          },
+                        callback("one", "empty"),
+                        callback("two", "empty"),
+                      }
+                  : null),
+          const Text("  "),
+          getTextButton(
+              "CANCELAR",
+              SizeConfig.safeBlockHorizontal * 20,
+              SizeConfig.safeBlockVertical * 10,
+              SizeConfig.safeBlockHorizontal * 2,
+              getSecondaryColor(),
+              () => {
+                    feedbackPhrase = "",
+                    callback("one", "empty"),
+                    callback("two", "empty"),
+                    Navigator.pop(context)
+                  })
+        ],
+      ),
+    ]);
   }
 }
 
@@ -258,8 +213,10 @@ class CardStylePopUp extends StatefulWidget {
   String userName;
   String route;
   List<String> card;
+  String selectedIcon;
 
-  CardStylePopUp(this.callbackFunction, this.route, this.userName, this.card,
+  CardStylePopUp(this.callbackFunction, this.selectedIcon, this.route,
+      this.userName, this.card,
       {Key? key})
       : super(key: key);
 
@@ -280,8 +237,8 @@ class _CardStylePopUpState extends State<CardStylePopUp> {
         SizedBox(
           width: SizeConfig.blockSizeHorizontal * 25,
           height: SizeConfig.blockSizeHorizontal * 25,
-          child: getCardStylePopUp(widget.callbackFunction, widget.route,
-              widget.userName, widget.card, 10, 10),
+          child: getCardStylePopUp(widget.callbackFunction, widget.selectedIcon,
+              widget.route, widget.userName, widget.card, 10, 10),
         ),
       ],
     );
