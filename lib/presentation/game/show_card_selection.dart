@@ -9,7 +9,6 @@ import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 
-List<String> iconSelection = [];
 const double pi = 3.1415926535897932;
 bool changeContent = false;
 String spotItResults = "";
@@ -17,8 +16,6 @@ String feedbackPhrase = "";
 
 Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo,
     String roomID, bool isHost, String nickname) {
-  
-  iconSelection.clear();
   spotItResults = "";
   feedbackPhrase = "";
 
@@ -65,232 +62,185 @@ Future showCardSelection(context, SizedBox cardOne, SizedBox cardTwo,
   );
 }
 
-Column getDisplayedCards(
-    context,
-    Function(void Function()) setState,
-    PlayerUseCase playerUseCase,
-    String roomID,
-    List<String> cardOneInformation,
-    List<String> cardTwoInformation) {
-  String userNameCardOne = cardOneInformation[0];
-  String userNameCardTwo = cardTwoInformation[0];
-  List<String> currentUserCard = cardOneInformation[1].split(",");
-  List<String> otherUserCard = cardTwoInformation[1].split(",");
-  return (Column(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Column(children: [
-        Row(
-          children: [
-            Column(
-              children: [
-                Text(
-                  userNameCardOne,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 25,
-                  height: SizeConfig.blockSizeHorizontal * 25,
-                  child: getCardStylePopUp(setState, iconSelection,
-                      userNameCardOne, currentUserCard, 10, 10),
-                ),
-              ],
-            ),
-            const Text("  "),
-            Column(
-              children: [
-                Text(
-                  userNameCardTwo,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 25,
-                  height: SizeConfig.blockSizeHorizontal * 25,
-                  child: getCardStylePopUp(setState, iconSelection,
-                      userNameCardTwo, otherUserCard, 10, 10),
-                ),
-              ],
-            ),
-          ],
-        ),
-        getSelectedIcons(setState, userNameCardOne, userNameCardTwo),
-        const Text("  "),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            getTextButton(
-                "SPOT IT!",
-                SizeConfig.safeBlockHorizontal * 20,
-                SizeConfig.safeBlockVertical * 10,
-                SizeConfig.safeBlockHorizontal * 2,
-                getSecondaryColor(),
-                iconSelection.length == 2
-                    ? () => {
-                          //if both user icons are equals
-                          if (iconSelection[0].split("%%")[1] ==
-                              iconSelection[1].split("%%")[1])
-                            {
-                              playerUseCase.spotIt(roomID, cardOneInformation,
-                                  cardTwoInformation)
-                            }
-                          else
-                            {
-                              spotItResults = "assets/error.png",
-                              feedbackPhrase = "Iconos diferentes!",
-                              getFeedback(context),
-                            },
-                        }
-                    : null),
-            const Text("  "),
-            getTextButton(
-                "CANCELAR",
-                SizeConfig.safeBlockHorizontal * 20,
-                SizeConfig.safeBlockVertical * 10,
-                SizeConfig.safeBlockHorizontal * 2,
-                getSecondaryColor(),
-                () => {
-                      feedbackPhrase = "",
-                      iconSelection.clear(),
-                      Navigator.pop(context)
-                    })
-          ],
-        ),
-      ]),
-    ],
-  ));
-}
-
-Row getSelectedIcons(Function(void Function()) setState, String userNameCardOne,
-    String userNameCardTwo) {
-  return (Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      SizedBox(
-        width: SizeConfig.blockSizeHorizontal * 5,
-        height: SizeConfig.blockSizeHorizontal * 5,
-        child: iconSelection.isNotEmpty
-            ? getSingleCardIconPopUp(setState, iconSelection, userNameCardOne,
-                iconSelection[0].split("%%")[1])
-            : const Text(" "),
-      ),
-      const Text("  "),
-      SizedBox(
-        width: SizeConfig.blockSizeHorizontal * 5,
-        height: SizeConfig.blockSizeHorizontal * 5,
-        child: iconSelection.length == 2
-            ? getSingleCardIconPopUp(setState, iconSelection, userNameCardTwo,
-                iconSelection[1].split("%%")[1])
-            : const Text(" "),
-      )
-    ],
-  ));
-}
-
-Column getFeedback(context) {
-  return (Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(top: 10.0),
-        child: Row(
-          children: [
-            SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 2,
-                width: SizeConfig.blockSizeHorizontal * 7,
-                child: const Text('')),
-            FunkyFeedback(iconName: spotItResults),
-            SizedBox(
-                height: SizeConfig.blockSizeHorizontal * 2,
-                width: SizeConfig.blockSizeHorizontal * 7,
-                child: const Text('')),
-          ],
-        ),
-      ),
-      getText(
-          feedbackPhrase, SizeConfig.blockSizeHorizontal * 3, Alignment.center),
-      Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: getTextButton(
-            "SALIR",
-            SizeConfig.safeBlockHorizontal * 20,
-            SizeConfig.safeBlockVertical * 10,
-            SizeConfig.safeBlockHorizontal * 2,
-            getSecondaryColor(),
-            () => {
-                  changeContent = false,
-                  feedbackPhrase = "",
-                  iconSelection.clear(),
-                  Navigator.pop(context)
-                }),
-      )
-    ],
-  ));
-}
-
 // ignore: must_be_immutable
-class FunkyFeedback extends StatefulWidget {
-  String iconName;
-  FunkyFeedback({Key? key, required this.iconName}) : super(key: key);
+class CardSelector extends StatefulWidget {
+  late List<String> currentPlayerCardInf;
+  late List<String> otherPlayerCardInf;
+  late String roomID;
+
+  CardSelector(
+      {Key? key,
+      required this.currentPlayerCardInf,
+      required this.otherPlayerCardInf,
+      required this.roomID})
+      : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => FunkyFeedbackState(iconName: iconName);
+  State<StatefulWidget> createState() => _CardSelectorState();
 }
 
-class FunkyFeedbackState extends State<FunkyFeedback>
-    with SingleTickerProviderStateMixin {
-  FunkyFeedbackState({Key? key, required this.iconName});
-  late AnimationController controller;
-  late Animation<double> scaleAnimation;
-  String iconName;
+class _CardSelectorState extends State<CardSelector> {
+  List<String> currentUserCard = [];
+  List<String> otherUserCard = [];
+  String userNameCardOne = "";
+  String userNameCardTwo = "";
+  String selectedIconOne = "empty";
+  String selectedIconTwo = "empty";
+  bool differentIcons = false;
 
-  @override
-  void initState() {
-    super.initState();
+  PlayerUseCase playerUseCase =
+      PlayerUseCase(PlayerRepository(FirebaseFirestore.instance));
 
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1))
-          ..repeat();
-    scaleAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(controller);
-
-    controller.addListener(() {
-      setState(() {});
+  callback(String route, String state) {
+    setState(() {
+      if (route == "one") {
+        selectedIconOne = state;
+      }
+      if (route == "two") {
+        selectedIconTwo = state;
+      }
+      if (route == "different") {
+        differentIcons = !differentIcons;
+      }
     });
-    controller.forward();
   }
 
   @override
-  dispose() {
-    controller.dispose();
-    super.dispose();
+  void initState() {
+    currentUserCard = widget.currentPlayerCardInf[1].split(",");
+    otherUserCard = widget.otherPlayerCardInf[1].split(",");
+    userNameCardOne = widget.currentPlayerCardInf[0];
+    userNameCardTwo = widget.otherPlayerCardInf[0];
+    differentIcons = false;
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Material(
-        color: Colors.transparent,
-        child: Transform.rotate(
-          angle: scaleAnimation.value,
-          child: Container(
-            decoration: ShapeDecoration(
-                color: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0))),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 18,
-                  height: SizeConfig.blockSizeHorizontal * 12,
-                  child: Image(
-                    image: AssetImage(iconName),
-                  ),
-                ),
-              ],
-            ),
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              getText(userNameCardOne, 25, Alignment.center),
+              SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 25,
+                  height: SizeConfig.blockSizeHorizontal * 25,
+                  child: CardStylePopUp(callback, selectedIconOne, "one",
+                      userNameCardOne, currentUserCard)),
+            ],
           ),
-        ),
+          SizedBox(
+            width: SizeConfig.blockSizeHorizontal * 2,
+            height: SizeConfig.blockSizeHorizontal * 2,
+            child: const Text(""),
+          ),
+          Column(
+            children: [
+              getText(userNameCardTwo, 25, Alignment.center),
+              SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 25,
+                  height: SizeConfig.blockSizeHorizontal * 25,
+                  child: CardStylePopUp(callback, selectedIconTwo, "two",
+                      userNameCardTwo, otherUserCard)),
+            ],
+          ),
+        ],
       ),
+      !differentIcons
+          ? const SizedBox()
+          : getText("Iconos diferentes!", SizeConfig.blockSizeHorizontal * 2,
+              Alignment.center),
+      SizedBox(
+        width: SizeConfig.blockSizeHorizontal * 2,
+        height: SizeConfig.blockSizeHorizontal * 2,
+        child: const Text(""),
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          getTextButton(
+              "SPOT IT!",
+              SizeConfig.safeBlockHorizontal * 20,
+              SizeConfig.safeBlockVertical * 10,
+              SizeConfig.safeBlockHorizontal * 2,
+              getSecondaryColor(),
+              !selectedIconOne.contains("empty") &&
+                      !selectedIconTwo.contains("empty")
+                  ? () => {
+                        //if both user icons are equals
+                        if (selectedIconOne == selectedIconTwo)
+                          {
+                            playerUseCase.spotIt(
+                                widget.roomID,
+                                widget.currentPlayerCardInf,
+                                widget.otherPlayerCardInf)
+                          }
+                        else
+                          {
+                            callback("different", ""),
+                            Future.delayed(const Duration(seconds: 3), () {
+                              callback("different", "");
+                            }),
+                          },
+                        callback("one", "empty"),
+                        callback("two", "empty"),
+                      }
+                  : null),
+          const Text("  "),
+          getTextButton(
+              "CANCELAR",
+              SizeConfig.safeBlockHorizontal * 20,
+              SizeConfig.safeBlockVertical * 10,
+              SizeConfig.safeBlockHorizontal * 2,
+              getSecondaryColor(),
+              () => {
+                    feedbackPhrase = "",
+                    callback("one", "empty"),
+                    callback("two", "empty"),
+                    Navigator.pop(context)
+                  })
+        ],
+      ),
+    ]);
+  }
+}
+
+// ignore: must_be_immutable
+class CardStylePopUp extends StatefulWidget {
+  final Function callbackFunction;
+  String userName;
+  String route;
+  List<String> card;
+  String selectedIcon;
+
+  CardStylePopUp(this.callbackFunction, this.selectedIcon, this.route,
+      this.userName, this.card,
+      {Key? key})
+      : super(key: key);
+
+  @override
+  State<CardStylePopUp> createState() => _CardStylePopUpState();
+}
+
+class _CardStylePopUpState extends State<CardStylePopUp> {
+  var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
+
+  var cardBorderColor = Colors.black;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: SizeConfig.blockSizeHorizontal * 25,
+          height: SizeConfig.blockSizeHorizontal * 25,
+          child: getCardStylePopUp(widget.callbackFunction, widget.selectedIcon,
+              widget.route, widget.userName, widget.card, 10, 10),
+        ),
+      ],
     );
   }
 }

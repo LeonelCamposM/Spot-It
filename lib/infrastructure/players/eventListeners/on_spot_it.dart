@@ -69,8 +69,32 @@ class OnSpotIt extends StatelessWidget {
               'Le hicieron spot it!', roomID, nickname);
         }
 
-        return getDisplayedCards(context, setState, playerUseCase, roomID,
-            cardOneInformation, cardTwoInformation);
+        for (var element in players) {
+          if (element.nickname == cardOneInformation[0]) {
+            cardOneInformation[1] = element.displayedCard;
+          }
+          if (element.nickname == cardTwoInformation[0]) {
+            if (element.displayedCard != cardTwoInformation[1] &&
+                element.cardCount == 2) {
+              return getFeedback(
+                  context,
+                  'assets/error.png',
+                  "a " + element.nickname + ' le hicieron spot it!',
+                  roomID,
+                  nickname);
+            }
+            cardTwoInformation[1] = element.displayedCard;
+            if (element.displayedCard.contains("empty,empty")) {
+              return getFeedback(context, 'assets/error.png',
+                  " " + element.nickname + ' hizo spot it!', roomID, nickname);
+            }
+          }
+        }
+        return CardSelector(
+          currentPlayerCardInf: cardOneInformation,
+          otherPlayerCardInf: cardTwoInformation,
+          roomID: roomID,
+        );
       },
     );
   }
@@ -150,4 +174,72 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
   );
 
   return messages;
+}
+
+// ignore: must_be_immutable
+class FunkyFeedback extends StatefulWidget {
+  String iconName;
+  FunkyFeedback({Key? key, required this.iconName}) : super(key: key);
+
+  @override
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => FunkyFeedbackState(iconName: iconName);
+}
+
+class FunkyFeedbackState extends State<FunkyFeedback>
+    with SingleTickerProviderStateMixin {
+  FunkyFeedbackState({Key? key, required this.iconName});
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
+  String iconName;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1))
+          ..repeat();
+    scaleAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(controller);
+
+    controller.addListener(() {
+      setState(() {});
+    });
+    controller.forward();
+  }
+
+  @override
+  dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: Transform.rotate(
+          angle: scaleAnimation.value,
+          child: Container(
+            decoration: ShapeDecoration(
+                color: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0))),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: SizeConfig.blockSizeHorizontal * 18,
+                  height: SizeConfig.blockSizeHorizontal * 12,
+                  child: Image(
+                    image: AssetImage(iconName),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
