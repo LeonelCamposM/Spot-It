@@ -92,9 +92,8 @@ class OnSpotIt extends StatelessWidget {
         return CardSelector(
           currentPlayerCardInf: cardOneInformation,
           otherPlayerCardInf: cardTwoInformation,
+          roomID: roomID,
         );
-        // return getDisplayedCards(context, setState, playerUseCase, roomID,
-        //     cardOneInformation, cardTwoInformation);
       },
     );
   }
