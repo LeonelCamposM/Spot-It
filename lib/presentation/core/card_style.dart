@@ -88,7 +88,7 @@ Image getIcon(String iconName) {
 // @param card: card of user
 // @param width: width of sized box
 // @param height: height of sized box
-SizedBox getCardStylePopUp(Function setState, List<String> iconSelection,
+SizedBox getCardStylePopUp(Function setState,
     String userName, List<String> card, int width, int height) {
   var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
   var cardBorderColor = Colors.black;
@@ -106,14 +106,14 @@ SizedBox getCardStylePopUp(Function setState, List<String> iconSelection,
           child: Column(
             children: [
               getSingleCardIconPopUp(
-                  setState, iconSelection, userName, card[0]),
+                  setState, userName, card[0]),
               getDoubleCardIconPopUp(
-                  setState, iconSelection, userName, card[1], card[2]),
+                  setState, userName, card[1], card[2]),
               getDoubleCardIconPopUp(
-                  setState, iconSelection, userName, card[3], card[4]),
+                  setState,  userName, card[3], card[4]),
               getDoubleCardIconPopUp(
-                  setState, iconSelection, userName, card[5], card[6]),
-              getSingleCardIconPopUp(setState, iconSelection, userName, card[7])
+                  setState, userName, card[5], card[6]),
+              getSingleCardIconPopUp(setState,  userName, card[7])
             ],
           )));
 }
@@ -124,7 +124,7 @@ SizedBox getCardStylePopUp(Function setState, List<String> iconSelection,
 // @param userName: user name of the current player
 // @param iconNameOne: first icon selected by current user
 // @param iconNameTwo: second icon selected by current user
-Flexible getDoubleCardIconPopUp(setState, List<String> iconSelection,
+Flexible getDoubleCardIconPopUp(setState,
     String userName, String iconNameOne, String iconNameTwo) {
   return Flexible(
       flex: 4,
@@ -132,8 +132,8 @@ Flexible getDoubleCardIconPopUp(setState, List<String> iconSelection,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           getSingleCardIconPopUp(
-              setState, iconSelection, userName, iconNameOne),
-          getSingleCardIconPopUp(setState, iconSelection, userName, iconNameTwo)
+              setState,  userName, iconNameOne),
+          getSingleCardIconPopUp(setState,userName, iconNameTwo)
         ],
       ));
 }
@@ -144,7 +144,7 @@ Flexible getDoubleCardIconPopUp(setState, List<String> iconSelection,
 // @param userName: user name of the current player
 // @param iconName: icon of the current user
 SizedBox getSingleCardIconPopUp(
-    setState, List<String> iconSelection, userName, String iconName) {
+    setState, userName, String iconName) {
   return SizedBox(
     height: SizeConfig.blockSizeHorizontal * 7,
     width: SizeConfig.blockSizeHorizontal * 7,
@@ -157,21 +157,7 @@ SizedBox getSingleCardIconPopUp(
         // ignore: deprecated_member_use
         primary: Colors.white,
       ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-      onPressed: () => (() => {
-            if (iconSelection.isEmpty)
-              {setState.call(userName + "%%" + iconName)}
-            else if (iconSelection.length < 2)
-              {
-                if (!iconSelection[0].contains(userName) &&
-                    iconSelection[0] != userName + "%%" + iconName)
-                  setState.call("one", userName + "%%" + iconName),
-              }
-            else if (iconSelection.length >= 2)
-              {
-                iconSelection.clear(),
-                setState.call("one", userName + "%%" + iconName),
-              },
-          }),
+      onPressed: () => setState("one", iconName),
     ),
   );
 }
