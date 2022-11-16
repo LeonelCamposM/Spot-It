@@ -89,8 +89,12 @@ class OnSpotIt extends StatelessWidget {
             }
           }
         }
-        return getDisplayedCards(context, setState, playerUseCase, roomID,
-            cardOneInformation, cardTwoInformation);
+        return CardSelector(
+          currentPlayerCardInf: cardOneInformation,
+          otherPlayerCardInf: cardTwoInformation,
+        );
+        // return getDisplayedCards(context, setState, playerUseCase, roomID,
+        //     cardOneInformation, cardTwoInformation);
       },
     );
   }

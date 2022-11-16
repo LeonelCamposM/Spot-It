@@ -157,8 +157,8 @@ Column getDisplayedCards(
   ));
 }
 
-Row getSelectedIcons(Function(void Function()) setState, String userNameCardOne,
-    String userNameCardTwo) {
+Row getSelectedIcons(
+    dynamic setState, String userNameCardOne, String userNameCardTwo) {
   return (Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -181,4 +181,108 @@ Row getSelectedIcons(Function(void Function()) setState, String userNameCardOne,
       )
     ],
   ));
+}
+
+// ignore: must_be_immutable
+class CardSelector extends StatefulWidget {
+  late List<String> currentPlayerCardInf;
+  late List<String> otherPlayerCardInf;
+
+  CardSelector(
+      {Key? key,
+      required this.currentPlayerCardInf,
+      required this.otherPlayerCardInf})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _CardSelectorState();
+}
+
+class _CardSelectorState extends State<CardSelector> {
+  List<String> currentUserCard = [];
+  List<String> otherUserCard = [];
+  String userNameCardOne = "";
+  String userNameCardTwo = "";
+  String selectedIconOne = "";
+  String selectedIconTwo = "";
+
+  callback(String route, String state) {
+    print(route + " " + state);
+    setState(() {
+      if (route == "one") {
+        selectedIconOne = state;
+      }
+      if (route == "two") {
+        selectedIconTwo = state;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    currentUserCard = widget.currentPlayerCardInf[1].split(",");
+    otherUserCard = widget.otherPlayerCardInf[1].split(",");
+    userNameCardOne = widget.currentPlayerCardInf[0];
+    userNameCardTwo = widget.otherPlayerCardInf[0];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(children: [
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text(
+                    userNameCardOne,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                      width: SizeConfig.blockSizeHorizontal * 25,
+                      height: SizeConfig.blockSizeHorizontal * 25,
+                      child: CardStylePopUp(
+                          callback, userNameCardOne, currentUserCard)),
+                ],
+              ),
+            ],
+          ),
+        ]),
+      ],
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class CardStylePopUp extends StatefulWidget {
+  final Function callbackFunction;
+  String userName;
+  List<String> card;
+
+  CardStylePopUp(this.callbackFunction, this.userName, this.card, {Key? key})
+      : super(key: key);
+
+  @override
+  State<CardStylePopUp> createState() => _CardStylePopUpState();
+}
+
+class _CardStylePopUpState extends State<CardStylePopUp> {
+  var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
+
+  var cardBorderColor = Colors.black;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        child: getTextButton(
+            widget.card[7],
+            SizeConfig.safeBlockHorizontal * 10,
+            SizeConfig.safeBlockVertical * 10,
+            SizeConfig.safeBlockHorizontal * 2,
+            getSecondaryColor(),
+            () => {widget.callbackFunction('one', widget.card[7])}));
+  }
 }

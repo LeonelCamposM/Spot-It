@@ -88,13 +88,8 @@ Image getIcon(String iconName) {
 // @param card: card of user
 // @param width: width of sized box
 // @param height: height of sized box
-SizedBox getCardStylePopUp(
-    Function(void Function()) setState,
-    List<String> iconSelection,
-    String userName,
-    List<String> card,
-    int width,
-    int height) {
+SizedBox getCardStylePopUp(Function setState, List<String> iconSelection,
+    String userName, List<String> card, int width, int height) {
   var cardBackgroundColor = const Color.fromARGB(255, 255, 255, 255);
   var cardBorderColor = Colors.black;
   return SizedBox(
@@ -129,12 +124,8 @@ SizedBox getCardStylePopUp(
 // @param userName: user name of the current player
 // @param iconNameOne: first icon selected by current user
 // @param iconNameTwo: second icon selected by current user
-Flexible getDoubleCardIconPopUp(
-    Function(void Function()) setState,
-    List<String> iconSelection,
-    String userName,
-    String iconNameOne,
-    String iconNameTwo) {
+Flexible getDoubleCardIconPopUp(setState, List<String> iconSelection,
+    String userName, String iconNameOne, String iconNameTwo) {
   return Flexible(
       flex: 4,
       child: Row(
@@ -152,8 +143,8 @@ Flexible getDoubleCardIconPopUp(
 // @param cardSelection: the icon selection of the users in game
 // @param userName: user name of the current player
 // @param iconName: icon of the current user
-SizedBox getSingleCardIconPopUp(Function(void Function()) setState,
-    List<String> iconSelection, userName, String iconName) {
+SizedBox getSingleCardIconPopUp(
+    setState, List<String> iconSelection, userName, String iconName) {
   return SizedBox(
     height: SizeConfig.blockSizeHorizontal * 7,
     width: SizeConfig.blockSizeHorizontal * 7,
@@ -166,21 +157,19 @@ SizedBox getSingleCardIconPopUp(Function(void Function()) setState,
         // ignore: deprecated_member_use
         primary: Colors.white,
       ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-      onPressed: () => setState(() => {
+      onPressed: () => (() => {
             if (iconSelection.isEmpty)
-              {
-                iconSelection.add(userName + "%%" + iconName),
-              }
+              {setState.call(userName + "%%" + iconName)}
             else if (iconSelection.length < 2)
               {
                 if (!iconSelection[0].contains(userName) &&
                     iconSelection[0] != userName + "%%" + iconName)
-                  iconSelection.add(userName + "%%" + iconName),
+                  setState.call("one", userName + "%%" + iconName),
               }
             else if (iconSelection.length >= 2)
               {
                 iconSelection.clear(),
-                iconSelection.add(userName + "%%" + iconName),
+                setState.call("one", userName + "%%" + iconName),
               },
           }),
     ),
