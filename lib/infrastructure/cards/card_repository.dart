@@ -31,7 +31,4 @@ class CardRepository implements ICardRepository {
           .add(element.toJson());
     }
   }
-
-  @override
-  Future<void> dealCards(String roomID) async {}
 }

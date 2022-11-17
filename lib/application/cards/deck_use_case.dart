@@ -13,8 +13,4 @@ class CardUseCase {
   Future<void> createRoomDeck(String roomID) {
     return cardRepository.createRoomDeck(roomID);
   }
-
-  Future<void> dealCards(String roomID) {
-    return cardRepository.dealCards(roomID);
-  }
 }
