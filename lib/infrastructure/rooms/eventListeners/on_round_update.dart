@@ -4,6 +4,7 @@ import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
 
 // ignore: must_be_immutable
 class OnRoundUpdate extends StatelessWidget {
@@ -42,7 +43,11 @@ class OnRoundUpdate extends StatelessWidget {
         if (room.round > room.maximumRounds) {
           sendEndGame(roomID);
         }
-        return const Text('');
+        room.round + 1;
+        return getText("Ronda: " + room.round.toString(),
+            SizeConfig.blockSizeHorizontal * 1.2, Alignment.topCenter);
+
+        //Text(");
       },
     );
   }
