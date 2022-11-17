@@ -91,7 +91,10 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
               playerNickName: args.playerNickName,
               isHost: args.isHost,
             ),
-            OnRoundUpdate(roomID: args.roomID),
+            OnRoundUpdate(
+              roomID: args.roomID,
+              isHost: args.isHost,
+            ),
           ],
         ),
         Column(

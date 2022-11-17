@@ -34,6 +34,7 @@ class CardRepository implements ICardRepository {
 
   @override
   Future<void> dealCards(String roomID) async {
+    print("cartas repartidas" + DateTime.now().toString());
     // Get players collection
     var collection = FirebaseFirestore.instance
         .collection('Room_Player')
