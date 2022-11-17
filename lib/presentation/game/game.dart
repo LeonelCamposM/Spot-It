@@ -91,10 +91,6 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
               playerNickName: args.playerNickName,
               isHost: args.isHost,
             ),
-            OnRoundUpdate(
-              roomID: args.roomID,
-              isHost: args.isHost,
-            ),
           ],
         ),
         Column(
@@ -105,10 +101,11 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
                 getSecondaryColor(),
                 openChat(context, getSecondaryColor(), getPrimaryColor(),
                     args.roomID, args.icon)),
+
             SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 3,
                 height: SizeConfig.blockSizeHorizontal * 3),
-            getLeaderboard(args.roomID),
+            getLeaderboard(context, args.roomID),
           ],
         )
       ],
@@ -116,9 +113,10 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
   ]);
 }
 
-Column getLeaderboard(String roomID) {
+Column getLeaderboard(BuildContext context, String roomID) {
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
+  final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -132,6 +130,10 @@ Column getLeaderboard(String roomID) {
         ),
         child: Column(
           children: [
+            OnRoundUpdate(
+              roomID: args.roomID,
+              isHost: args.isHost,
+            ),
             getText("Posición", SizeConfig.blockSizeHorizontal * 1.2,
                 Alignment.topCenter),
             scoreboardUseCase.onScoreboardUpdate(roomID),
