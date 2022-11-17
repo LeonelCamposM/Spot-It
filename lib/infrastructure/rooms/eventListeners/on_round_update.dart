@@ -35,14 +35,8 @@ class OnRoundUpdate extends StatelessWidget {
         // Trigger
         Room room = getUpdateRoom(snapshot, roomID);
         if (isHost) {
-          if (!room.dealedCards && !room.finished) {
-            print("caso 2");
+          if (room.newRound == true && !room.finished) {
             dealCards(roomID);
-          } else {
-            if (room.newRound == true && !room.finished) {
-              print("caso 1");
-              dealCards(roomID);
-            }
           }
         }
         if (room.round > room.maximumRounds) {
