@@ -9,9 +9,9 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 class OnRoundUpdate extends StatelessWidget {
   String roomID;
   late Stream<QuerySnapshot> _usersStream;
-
-  bool isHost = true;
-  OnRoundUpdate({Key? key, required this.roomID}) : super(key: key) {
+  bool isHost;
+  OnRoundUpdate({Key? key, required this.isHost, required this.roomID})
+      : super(key: key) {
     _usersStream = FirebaseFirestore.instance.collection('Room').snapshots();
   }
   final List<String> messages = [];
@@ -32,14 +32,11 @@ class OnRoundUpdate extends StatelessWidget {
               child: const Text(''));
         }
 
+        // Trigger
         Room room = getUpdateRoom(snapshot, roomID);
         if (isHost) {
-          if (!room.dealedCards && !room.finished) {
+          if (room.newRound == true && !room.finished) {
             dealCards(roomID);
-          } else {
-            if (room.newRound == true && !room.finished) {
-              dealCards(roomID);
-            }
           }
         }
         if (room.round > room.maximumRounds) {

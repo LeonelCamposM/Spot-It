@@ -24,7 +24,7 @@ class RoomRepository implements IRoomRepository {
     DocumentSnapshot roomDoc = await _roomsCollection.doc(roomID).get();
     Room roomInstance = roomDoc.data() as Room;
     await _roomsCollection.doc(roomID).update(
-        Room(0, false, false, false, false, false, roomInstance.maximumRounds)
+        Room(0, false, false, true, false, false, roomInstance.maximumRounds)
             .toJson());
   }
 
