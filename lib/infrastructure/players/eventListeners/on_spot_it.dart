@@ -128,16 +128,29 @@ Column getFeedback(
       ),
       getText(
           feedbackPhrase, SizeConfig.blockSizeHorizontal * 3, Alignment.center),
-      Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: getTextButton(
-            "SALIR",
-            SizeConfig.safeBlockHorizontal * 20,
-            SizeConfig.safeBlockVertical * 10,
-            SizeConfig.safeBlockHorizontal * 2,
-            getSecondaryColor(),
-            () => {updateCardCount(roomID, nickname), Navigator.pop(context)}),
-      )
+      'El juego ha terminado!' == feedbackPhrase
+          ? Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: getTextButton(
+                  "SALIR",
+                  SizeConfig.safeBlockHorizontal * 20,
+                  SizeConfig.safeBlockVertical * 10,
+                  SizeConfig.safeBlockHorizontal * 2,
+                  getSecondaryColor(),
+                  () => {Navigator.pop(context)}))
+          : Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: getTextButton(
+                  "SALIR",
+                  SizeConfig.safeBlockHorizontal * 20,
+                  SizeConfig.safeBlockVertical * 10,
+                  SizeConfig.safeBlockHorizontal * 2,
+                  getSecondaryColor(),
+                  () => {
+                        updateCardCount(roomID, nickname),
+                        Navigator.pop(context)
+                      }),
+            )
     ],
   ));
 }
