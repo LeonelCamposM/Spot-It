@@ -4,25 +4,21 @@ import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
-import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
-import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/game/game.dart';
-import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
-import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
 import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 import 'dart:math';
 import 'package:spot_it_game/presentation/waiting_room/round_config.dart';
 
+// ignore: must_be_immutable
 class WaitingRoomPage extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   var args;
   Function setParentState;
   WaitingRoomPage({Key? key, required this.args, required this.setParentState})
@@ -191,12 +187,4 @@ Column getPlayersList(
           )),
     ],
   );
-}
-
-class GameRoomArgs {
-  final bool isHost;
-  final String roomID;
-  final String icon;
-  final String playerNickName;
-  GameRoomArgs(this.isHost, this.roomID, this.icon, this.playerNickName);
 }

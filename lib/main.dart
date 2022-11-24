@@ -1,12 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/credits/credits.dart';
-import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
-import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

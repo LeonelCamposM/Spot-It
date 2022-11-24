@@ -8,12 +8,12 @@ import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
-import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/scoreboard/colors.dart';
 
 // ignore: must_be_immutable
 class OnPlayAgain extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   var args;
   late Stream<QuerySnapshot> _usersStream;
   Function setParentState;

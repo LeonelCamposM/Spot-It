@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spot_it_game/domain/cards/card_model.dart';
 import 'package:spot_it_game/domain/cards/i_card_repository.dart';
-import 'package:spot_it_game/domain/players/player.dart';
 
 class CardRepository implements ICardRepository {
   final CollectionReference<CardModel> _deckCollection;
