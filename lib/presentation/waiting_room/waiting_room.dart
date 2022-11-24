@@ -68,43 +68,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                   MaterialPageRoute(builder: (context) => const HomePage())),
 
               // Main screen
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: getFocusBox(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        // Room ID
-                        getIDBanner(widget.args.roomID),
-
-                        // Players list view
-                        playerUseCase.onPlayersUpdate(widget.args.roomID),
-
-                        // Start button
-                        Center(
-                            child: widget.args.isHost == true
-                                ? getTextButton(
-                                    "COMENZAR",
-                                    SizeConfig.safeBlockHorizontal * 20,
-                                    SizeConfig.safeBlockVertical * 10,
-                                    SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () {
-                                    widget.setParentState(
-                                        NavigationState.game, null);
-                                    roomUseCase
-                                        .updateJoinable(widget.args.roomID);
-                                  })
-                                : OnJoinableUpdate(
-                                    roomID: widget.args.roomID,
-                                    icon: widget.args.icon,
-                                    isHost: widget.args.isHost,
-                                    playerNickName: widget.args.playerNickName,
-                                    setParentState: widget.setParentState)),
-                      ],
-                    ),
-                    SizeConfig.safeBlockVertical * 85,
-                    SizeConfig.safeBlockHorizontal * 50),
-              ),
+              playerUseCase.onPlayersUpdate(widget.args, widget.setParentState),
 
               //Chat icon
               widget.args.isHost == true

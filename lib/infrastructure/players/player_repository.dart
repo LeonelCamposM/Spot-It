@@ -23,8 +23,8 @@ class PlayerRepository implements IPlayerRepository {
   }
 
   @override
-  Widget onPlayersUpdate(String roomID) {
-    return OnPlayersUpdate(roomID: roomID);
+  Widget onPlayersUpdate(playerArgs, Function state) {
+    return OnPlayersUpdate(args: playerArgs, setParentState: state);
   }
 
   @override
