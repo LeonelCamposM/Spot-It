@@ -89,7 +89,6 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () {
-                                    print('tocado');
                                     widget.setParentState(
                                         NavigationState.game, null);
                                     roomUseCase

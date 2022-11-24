@@ -83,11 +83,13 @@ Row getMessageBar(Color secondaryColor, ChatUseCase chatUseCase,
               iconSize: getIconSize(),
               icon: const Icon(Icons.send),
               onPressed: () {
-                chatUseCase.sendMessage(
-                  Message(textController.text,
-                      DateTime.now().microsecondsSinceEpoch, icon),
-                );
-                textController.clear();
+                if (textController.text != "") {
+                  chatUseCase.sendMessage(
+                    Message(textController.text,
+                        DateTime.now().microsecondsSinceEpoch, icon),
+                  );
+                  textController.clear();
+                }
               },
             )),
       ),
