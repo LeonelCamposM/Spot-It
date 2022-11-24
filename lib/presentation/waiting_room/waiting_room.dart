@@ -4,6 +4,7 @@ import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
+import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
