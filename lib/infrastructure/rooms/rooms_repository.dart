@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/rooms/i_room_repository.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
-import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 
 class RoomRepository implements IRoomRepository {
   final CollectionReference<Room> _roomsCollection;
@@ -50,14 +48,17 @@ class RoomRepository implements IRoomRepository {
         .toJson());
   }
 
-  // @override
-  // Widget onJoinableUpdate(
-  //     String roomID, String icon, String playerNickName, bool isHost, ) {
-  //   return OnJoinableUpdate(
-  //     roomID: roomID,
-  //     icon: icon,
-  //     playerNickName: playerNickName,
-  //     isHost: isHost,
-  //   );
-  // }
+  @override
+  Future<bool> validateNumberOfPlayers(String roomID) async {
+    final db = FirebaseFirestore.instance
+    .collection("Room_Player")
+    .doc(roomID)
+    .collection("players");
+    var snapshots = await db.get();
+    bool validNumberOfPlayers = true;
+    if(snapshots.docs.length == 8){
+      validNumberOfPlayers = false;
+    }
+     return validNumberOfPlayers;
+  }
 }

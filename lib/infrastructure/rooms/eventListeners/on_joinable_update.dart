@@ -2,12 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
-import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
-import 'package:spot_it_game/presentation/waiting_room/colors.dart';
-import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
 // ignore: must_be_immutable
 class OnJoinableUpdate extends StatelessWidget {

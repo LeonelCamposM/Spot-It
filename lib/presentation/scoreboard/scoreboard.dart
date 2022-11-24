@@ -17,7 +17,6 @@ import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
 import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/scoreboard/scorelist.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';

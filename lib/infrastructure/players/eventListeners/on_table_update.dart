@@ -6,13 +6,8 @@ import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
-import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/game/card_location.dart';
-import 'package:spot_it_game/presentation/game/colors.dart';
-import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
-import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 // ignore: must_be_immutable
 class OnTableUpdate extends StatefulWidget {
@@ -121,7 +116,7 @@ void updateNewRound(String roomID) async {
       transaction.update(roomDoc, {
         "updatedRound": true,
         "round": roomInstance.round + 1,
-        "newRound": true
+        "newRound": true,
       });
     }
   });
