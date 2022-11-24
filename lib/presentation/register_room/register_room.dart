@@ -16,6 +16,7 @@ import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
@@ -232,7 +233,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         roomID);
 
                                     Navigator.pushNamed(
-                                        context, WaitingRoomPage.routeName,
+                                        context, GameRootPage.routeName,
                                         arguments: WaitingRoomArgs(
                                             true,
                                             roomID,
@@ -257,7 +258,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         textRoomIDController.text,
                                         Scoreboard(textNameController.text, 0));
                                     Navigator.pushNamed(
-                                        context, WaitingRoomPage.routeName,
+                                        context, GameRootPage.routeName,
                                         arguments: WaitingRoomArgs(
                                             false,
                                             textRoomIDController.text,

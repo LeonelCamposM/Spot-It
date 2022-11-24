@@ -15,6 +15,6 @@ abstract class IRoomRepository {
 
   // @brief: enventListener waiting for changes on joinable property of a Room
   // it redirects the user to game page
-  Widget onJoinableUpdate(
-      String roomID, String icon, String playerNickName, bool isHost);
+  // Widget onJoinableUpdate(
+  //     String roomID, String icon, String playerNickName, bool isHost);
 }

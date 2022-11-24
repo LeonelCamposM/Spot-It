@@ -4,6 +4,7 @@ import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
+import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
@@ -12,6 +13,7 @@ import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
@@ -21,8 +23,11 @@ import 'dart:math';
 import 'package:spot_it_game/presentation/waiting_room/round_config.dart';
 
 class WaitingRoomPage extends StatefulWidget {
-  static String routeName = '/waiting_room';
-  const WaitingRoomPage({Key? key}) : super(key: key);
+  var args;
+  Function setParentState;
+  WaitingRoomPage({Key? key, required this.args, required this.setParentState})
+      : super(key: key);
+
   @override
   State<WaitingRoomPage> createState() => _WaitingRoomPageState();
 }
@@ -45,7 +50,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
+    // final args = ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
@@ -70,34 +75,32 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         // Room ID
-                        getIDBanner(args.roomID),
+                        getIDBanner(widget.args.roomID),
 
                         // Players list view
-                        playerUseCase.onPlayersUpdate(args.roomID),
+                        playerUseCase.onPlayersUpdate(widget.args.roomID),
 
                         // Start button
                         Center(
-                            child: args.isHost == true
+                            child: widget.args.isHost == true
                                 ? getTextButton(
                                     "COMENZAR",
                                     SizeConfig.safeBlockHorizontal * 20,
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () {
-                                    roomUseCase.updateJoinable(args.roomID);
-                                    Navigator.pushNamed(
-                                        context, GamePage.routeName,
-                                        arguments: GameRoomArgs(
-                                            args.isHost,
-                                            args.roomID,
-                                            args.icon,
-                                            args.playerNickName));
+                                    print('tocado');
+                                    widget.setParentState(
+                                        NavigationState.game, null);
+                                    roomUseCase
+                                        .updateJoinable(widget.args.roomID);
                                   })
-                                : roomUseCase.onJoinableUpdate(
-                                    args.roomID,
-                                    args.icon,
-                                    args.playerNickName,
-                                    args.isHost)),
+                                : OnJoinableUpdate(
+                                    roomID: widget.args.roomID,
+                                    icon: widget.args.icon,
+                                    isHost: widget.args.isHost,
+                                    playerNickName: widget.args.playerNickName,
+                                    setParentState: widget.setParentState)),
                       ],
                     ),
                     SizeConfig.safeBlockVertical * 85,
@@ -105,23 +108,27 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
               ),
 
               //Chat icon
-              args.isHost == true
+              widget.args.isHost == true
                   ? Row(
                       children: [
                         getIconButtonStyle(
                             getSecondaryColor(),
                             roundConfig(context, getSecondaryColor(),
-                                getPrimaryColor(), args.roomID)),
+                                getPrimaryColor(), widget.args.roomID)),
                         getIconButtonStyle(
                             getSecondaryColor(),
-                            openChat(context, getSecondaryColor(),
-                                getPrimaryColor(), args.roomID, args.icon)),
+                            openChat(
+                                context,
+                                getSecondaryColor(),
+                                getPrimaryColor(),
+                                widget.args.roomID,
+                                widget.args.icon)),
                       ],
                     )
                   : getIconButtonStyle(
                       getSecondaryColor(),
                       openChat(context, getSecondaryColor(), getPrimaryColor(),
-                          args.roomID, args.icon)),
+                          widget.args.roomID, widget.args.icon)),
             ],
           )),
     );

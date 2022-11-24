@@ -5,6 +5,7 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 
@@ -15,12 +16,15 @@ class OnJoinableUpdate extends StatelessWidget {
   String playerNickName;
   late Stream<QuerySnapshot> _usersStream;
   bool isHost;
+  Function setParentState;
+
   OnJoinableUpdate(
       {Key? key,
       required this.roomID,
       required this.icon,
       required this.playerNickName,
-      required this.isHost})
+      required this.isHost,
+      required this.setParentState})
       : super(key: key) {
     _usersStream = FirebaseFirestore.instance.collection('Room').snapshots();
   }
@@ -44,15 +48,10 @@ class OnJoinableUpdate extends StatelessWidget {
 
         Room room = getUpdateRoom(snapshot, roomID);
         if (room.joinable == false) {
-          return getTextButton(
-              "Ingresar",
-              SizeConfig.safeBlockHorizontal * 20,
-              SizeConfig.safeBlockVertical * 10,
-              SizeConfig.safeBlockHorizontal * 2,
-              getSecondaryColor(), () {
-            Navigator.pushNamed(context, GamePage.routeName,
-                arguments: GameRoomArgs(isHost, roomID, icon, playerNickName));
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            setParentState(NavigationState.game, null);
           });
+          return Text('ya');
         } else {
           return getText("Esperando al host para comenzar ...",
               SizeConfig.safeBlockHorizontal * 1.5, Alignment.topCenter);
