@@ -7,6 +7,7 @@ import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/eventListeners/on_play_again.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
@@ -224,7 +225,7 @@ Row getNavigationButtons(context, Function setParentState, args) {
                 },
               ),
             )
-          : const Text(""),
+          : OnPlayAgain(args: args, setParentState: setParentState),
     ],
   );
 }
@@ -283,8 +284,6 @@ SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph,
 Future<void> playAgain(args) async {
   final roomCollection =
       FirebaseFirestore.instance.collection('Room').doc(args.roomID);
-  await roomCollection
-      .update(Room(0, true, false, false, false, false, 4).toJson());
   final playerCollection = FirebaseFirestore.instance
       .collection('Room_Player')
       .doc(args.roomID)
@@ -307,4 +306,7 @@ Future<void> playAgain(args) async {
       .toJson());
 
   await scoreboardCollection.add(Scoreboard(args.playerNickName, 0).toJson());
+
+  await roomCollection
+      .update(Room(0, true, false, false, false, false, 4).toJson());
 }
