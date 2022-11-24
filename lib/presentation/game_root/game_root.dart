@@ -24,8 +24,6 @@ class _GameRootPageState extends State<GameRootPage> {
 
   callback(NavigationState state, dynamic args) {
     setState(() {
-      print('12callback');
-      print(state);
       navState = state;
       this.args = args;
     });
@@ -36,8 +34,6 @@ class _GameRootPageState extends State<GameRootPage> {
     late Widget page;
     final waitingRoomArgs =
         ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
-    // WaitingRoomArgs waitingRoomArgs =
-    //     WaitingRoomArgs(false, "tXvas8dJ7XiPntUe8oOG", "1", "Anuel");
 
     switch (navState) {
       case NavigationState.waitingRoom:
