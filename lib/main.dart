@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.dark(),
         routes: {
           GameRootPage.routeName: (context) => const GameRootPage(),
-          HomePage.routeName: (context) => const HomePage(),
+          HomePage.routeName: (context) => const GameRootPage(),
           RegisterRoomPage.routeName: (context) => const RegisterRoomPage(),
           CreditsPage.routeName: (context) => const CreditsPage(),
         },

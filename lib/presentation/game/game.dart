@@ -131,7 +131,7 @@ Column getLeaderboard(BuildContext context, String roomID, args) {
     children: [
       Container(
         width: SizeConfig.blockSizeHorizontal * 12,
-        height: SizeConfig.blockSizeVertical * 40,
+        height: SizeConfig.blockSizeVertical * 45,
         decoration: const BoxDecoration(
           color: Color.fromARGB(100, 109, 31, 138),
           borderRadius: BorderRadius.all(Radius.circular(20)),

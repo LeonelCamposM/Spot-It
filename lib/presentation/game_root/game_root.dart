@@ -19,7 +19,7 @@ class GameRootPage extends StatefulWidget {
 }
 
 class _GameRootPageState extends State<GameRootPage> {
-  var navState = NavigationState.waitingRoom;
+  var navState = NavigationState.scoreboardRoom;
   var args;
 
   callback(NavigationState state, dynamic args) {
@@ -34,10 +34,10 @@ class _GameRootPageState extends State<GameRootPage> {
   @override
   Widget build(BuildContext context) {
     late Widget page;
-    final waitingRoomArgs =
-        ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
-    // WaitingRoomArgs waitingRoomArgs =
-    //     WaitingRoomArgs(true, "tXvas8dJ7XiPntUe8oOG", "1", "Anuel");
+    // final waitingRoomArgs =
+    //     ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
+    WaitingRoomArgs waitingRoomArgs =
+        WaitingRoomArgs(false, "tXvas8dJ7XiPntUe8oOG", "1", "Anuel");
 
     switch (navState) {
       case NavigationState.waitingRoom:

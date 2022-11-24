@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
@@ -177,7 +178,8 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Home and replay icons
-                getNavigationButtons(context),
+                getNavigationButtons(
+                    context, widget.setParentState, widget.args),
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   // Main screen
@@ -204,16 +206,25 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
 
 // @param context: Build context
 // @return Row with home and replay navigation icons
-Row getNavigationButtons(context) {
+Row getNavigationButtons(context, Function setParentState, args) {
   return Row(
     children: [
       getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
           MaterialPageRoute(builder: (context) => const HomePage())),
-      getChildrenWithIcon(
-          context,
-          const Icon(Icons.replay),
-          getSecondaryColor(),
-          MaterialPageRoute(builder: (context) => const HomePage())),
+      args.isHost == true
+          ? getIconButtonStyle(
+              getSecondaryColor(),
+              IconButton(
+                icon: const Icon(Icons.replay),
+                iconSize: getIconSize(),
+                alignment: Alignment.center,
+                onPressed: () {
+                  playAgain(args);
+                  setParentState(NavigationState.waitingRoom, null);
+                },
+              ),
+            )
+          : const Text(""),
     ],
   );
 }
@@ -267,4 +278,33 @@ SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph,
     height: SizeConfig.safeBlockVertical * 50,
     width: SizeConfig.safeBlockHorizontal * 50,
   );
+}
+
+Future<void> playAgain(args) async {
+  final roomCollection =
+      FirebaseFirestore.instance.collection('Room').doc(args.roomID);
+  await roomCollection
+      .update(Room(0, true, false, false, false, false, 4).toJson());
+  final playerCollection = FirebaseFirestore.instance
+      .collection('Room_Player')
+      .doc(args.roomID)
+      .collection("players");
+  var snapshots = await playerCollection.get();
+  for (var element in snapshots.docs) {
+    element.reference.delete();
+  }
+  final scoreboardCollection = FirebaseFirestore.instance
+      .collection('Room_Scoreboard')
+      .doc(args.roomID)
+      .collection("Scoreboard");
+  var scoreboardSnapshots = await scoreboardCollection.get();
+  for (var element in scoreboardSnapshots.docs) {
+    element.reference.delete();
+  }
+
+  await playerCollection.add(Player(args.playerNickName, args.icon,
+          "empty,empty,empty,empty,empty,empty,empty,empty", 0, 0)
+      .toJson());
+
+  await scoreboardCollection.add(Scoreboard(args.playerNickName, 0).toJson());
 }

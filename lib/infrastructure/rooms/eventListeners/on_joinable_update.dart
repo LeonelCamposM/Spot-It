@@ -51,7 +51,7 @@ class OnJoinableUpdate extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             setParentState(NavigationState.game, null);
           });
-          return Text('ya');
+          return const Text('');
         } else {
           return getText("Esperando al host para comenzar ...",
               SizeConfig.safeBlockHorizontal * 1.5, Alignment.topCenter);
