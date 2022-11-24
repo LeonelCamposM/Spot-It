@@ -11,6 +11,7 @@ import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/game/card_location.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/scoreboard/scoreboard.dart';
 
 // ignore: must_be_immutable
@@ -19,13 +20,15 @@ class OnTableUpdate extends StatefulWidget {
   String playerNickName;
   late Stream<QuerySnapshot> _usersStream;
   bool isHost;
+  Function setParentState;
 
-  OnTableUpdate({
-    Key? key,
-    required this.roomID,
-    required this.playerNickName,
-    required this.isHost,
-  }) : super(key: key) {
+  OnTableUpdate(
+      {Key? key,
+      required this.roomID,
+      required this.playerNickName,
+      required this.isHost,
+      required this.setParentState})
+      : super(key: key) {
     _usersStream = FirebaseFirestore.instance
         .collection('/Room_Player/' + roomID + '/players')
         .snapshots();
@@ -67,26 +70,10 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
                 players.length;
 
         if (stopCondition) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 50,
-              ),
-              getTextButton(
-                  "Puntajes",
-                  SizeConfig.safeBlockHorizontal * 20,
-                  SizeConfig.safeBlockVertical * 10,
-                  SizeConfig.safeBlockHorizontal * 2,
-                  getSecondaryColor(), () {
-                Navigator.pushNamed(context, ScoreboardPage.routeName,
-                    arguments: ScoreboardRoomArgs(true, widget.roomID));
-              }),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 30,
-              ),
-            ],
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            widget.setParentState(NavigationState.scoreboardRoom, null);
+          });
+          return const Text("");
         }
 
         if (roundCondition && widget.isHost) {

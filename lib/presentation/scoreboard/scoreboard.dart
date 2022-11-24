@@ -6,7 +6,9 @@ import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
+import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
@@ -24,7 +26,10 @@ import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 
 class ScoreboardPage extends StatefulWidget {
   static String routeName = '/scoreboard';
-  const ScoreboardPage({Key? key}) : super(key: key);
+  WaitingRoomArgs args;
+  Function setParentState;
+  ScoreboardPage({Key? key, required this.args, required this.setParentState})
+      : super(key: key);
   @override
   State<ScoreboardPage> createState() => _ScoreboardPageState();
 }
@@ -56,7 +61,10 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: isLoading ? const LoadingWidget() : const _ScoreboardWidget(),
+          child: isLoading
+              ? const LoadingWidget()
+              : _ScoreboardWidget(
+                  args: widget.args, setParentState: widget.setParentState),
         ),
       ),
     );
@@ -64,7 +72,11 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
 }
 
 class _ScoreboardWidget extends StatefulWidget {
-  const _ScoreboardWidget({Key? key}) : super(key: key);
+  WaitingRoomArgs args;
+  Function setParentState;
+  _ScoreboardWidget(
+      {Key? key, required this.args, required this.setParentState})
+      : super(key: key);
 
   @override
   State<_ScoreboardWidget> createState() => _ScoreboardWidgetState();
@@ -75,7 +87,6 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   late TooltipBehavior _tooltip;
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-  late ScoreboardRoomArgs args;
   int maximumPoints = 0;
   List<Scoreboard> dataForList = [];
   List<Scoreboard> dataForGraph = [];
@@ -89,10 +100,9 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
 
   @override
   void didChangeDependencies() {
-    args = ModalRoute.of(context)!.settings.arguments as ScoreboardRoomArgs;
     super.didChangeDependencies();
-    getScoreboard(args.roomID);
-    getMaximumPoints(args.roomID);
+    getScoreboard(widget.args.roomID);
+    getMaximumPoints(widget.args.roomID);
   }
 
   Future<void> getMaximumPoints(String roomID) async {

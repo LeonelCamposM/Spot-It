@@ -26,8 +26,6 @@ class MyApp extends StatelessWidget {
         routes: {
           GameRootPage.routeName: (context) => const GameRootPage(),
           HomePage.routeName: (context) => const HomePage(),
-          ScoreboardPage.routeName: (context) => const ScoreboardPage(),
-          // GamePage.routeName: (context) => const GamePage(),
           RegisterRoomPage.routeName: (context) => const RegisterRoomPage(),
           CreditsPage.routeName: (context) => const CreditsPage(),
         },

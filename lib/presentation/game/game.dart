@@ -37,7 +37,8 @@ class _GamePagePageState extends State<GamePage> {
       body: Padding(
         padding: EdgeInsets.all(0.0),
         child: Center(
-          child: _GameWidget(args: widget.args),
+          child: _GameWidget(
+              args: widget.args, setParentState: widget.setParentState),
         ),
       ),
     );
@@ -46,9 +47,11 @@ class _GamePagePageState extends State<GamePage> {
 
 class _GameWidget extends StatefulWidget {
   var args;
+  Function setParentState;
   _GameWidget({
     Key? key,
     required this.args,
+    required this.setParentState,
   }) : super(key: key);
   @override
   // ignore: no_logic_in_create_state
@@ -66,18 +69,15 @@ class _GameWidgetState extends State<_GameWidget> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        children: getGameScreenWidget(context, amountOfPlayers, widget.args),
+        children: getGameScreenWidget(
+            context, amountOfPlayers, widget.args, widget.setParentState),
       ),
     );
   }
 }
 
 List<Widget> getGameScreenWidget(
-    BuildContext context, int amountOfPlayers, args) {
-  print(args.roomID);
-  print(args.isHost);
-  print(args.playerNickName);
-  // final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
+    BuildContext context, int amountOfPlayers, args, Function state) {
   return ([
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,6 +98,7 @@ List<Widget> getGameScreenWidget(
               roomID: args.roomID,
               playerNickName: args.playerNickName,
               isHost: args.isHost,
+              setParentState: state,
             ),
           ],
         ),
@@ -124,7 +125,6 @@ List<Widget> getGameScreenWidget(
 Column getLeaderboard(BuildContext context, String roomID, args) {
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-  // final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
