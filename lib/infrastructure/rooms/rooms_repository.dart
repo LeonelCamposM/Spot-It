@@ -50,14 +50,14 @@ class RoomRepository implements IRoomRepository {
         .toJson());
   }
 
-  @override
-  Widget onJoinableUpdate(
-      String roomID, String icon, String playerNickName, bool isHost) {
-    return OnJoinableUpdate(
-      roomID: roomID,
-      icon: icon,
-      playerNickName: playerNickName,
-      isHost: isHost,
-    );
-  }
+  // @override
+  // Widget onJoinableUpdate(
+  //     String roomID, String icon, String playerNickName, bool isHost, ) {
+  //   return OnJoinableUpdate(
+  //     roomID: roomID,
+  //     icon: icon,
+  //     playerNickName: playerNickName,
+  //     isHost: isHost,
+  //   );
+  // }
 }

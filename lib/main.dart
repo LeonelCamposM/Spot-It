@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/presentation/credits/credits.dart';
 import 'package:spot_it_game/presentation/game/game.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/register_room/register_room.dart';
@@ -23,10 +24,10 @@ class MyApp extends StatelessWidget {
         title: 'Spot it',
         theme: ThemeData.dark(),
         routes: {
-          WaitingRoomPage.routeName: (context) => const WaitingRoomPage(),
+          GameRootPage.routeName: (context) => const GameRootPage(),
           HomePage.routeName: (context) => const HomePage(),
           ScoreboardPage.routeName: (context) => const ScoreboardPage(),
-          GamePage.routeName: (context) => const GamePage(),
+          // GamePage.routeName: (context) => const GamePage(),
           RegisterRoomPage.routeName: (context) => const RegisterRoomPage(),
           CreditsPage.routeName: (context) => const CreditsPage(),
         },

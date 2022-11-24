@@ -13,12 +13,14 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
-  const GamePage({Key? key}) : super(key: key);
+  Function setParentState;
+  var args;
+  GamePage({Key? key, required this.args, required this.setParentState})
+      : super(key: key);
   @override
   State<GamePage> createState() => _GamePagePageState();
 }
@@ -32,10 +34,10 @@ class _GamePagePageState extends State<GamePage> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: getPrimaryColor(),
-      body: const Padding(
+      body: Padding(
         padding: EdgeInsets.all(0.0),
         child: Center(
-          child: _GameWidget(),
+          child: _GameWidget(args: widget.args),
         ),
       ),
     );
@@ -43,8 +45,10 @@ class _GamePagePageState extends State<GamePage> {
 }
 
 class _GameWidget extends StatefulWidget {
-  const _GameWidget({
+  var args;
+  _GameWidget({
     Key? key,
+    required this.args,
   }) : super(key: key);
   @override
   // ignore: no_logic_in_create_state
@@ -62,14 +66,18 @@ class _GameWidgetState extends State<_GameWidget> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        children: getGameScreenWidget(context, amountOfPlayers),
+        children: getGameScreenWidget(context, amountOfPlayers, widget.args),
       ),
     );
   }
 }
 
-List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
-  final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
+List<Widget> getGameScreenWidget(
+    BuildContext context, int amountOfPlayers, args) {
+  print(args.roomID);
+  print(args.isHost);
+  print(args.playerNickName);
+  // final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return ([
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +90,7 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
             getSecondaryColor(),
             MaterialPageRoute(builder: (context) => const HomePage())),
 
-        // Main screen
+        //Main screen
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -105,7 +113,7 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
             SizedBox(
                 width: SizeConfig.blockSizeHorizontal * 3,
                 height: SizeConfig.blockSizeHorizontal * 3),
-            getLeaderboard(context, args.roomID),
+            getLeaderboard(context, args.roomID, args),
           ],
         )
       ],
@@ -113,10 +121,10 @@ List<Widget> getGameScreenWidget(BuildContext context, int amountOfPlayers) {
   ]);
 }
 
-Column getLeaderboard(BuildContext context, String roomID) {
+Column getLeaderboard(BuildContext context, String roomID, args) {
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-  final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
+  // final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
