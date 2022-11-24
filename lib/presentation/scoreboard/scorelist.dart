@@ -87,9 +87,9 @@ ListView getVerticalScoreList(
       children: List.generate(
         scoreboard.length,
         (index) => Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                   width: SizeConfig.blockSizeHorizontal * 5,

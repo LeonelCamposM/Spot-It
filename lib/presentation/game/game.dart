@@ -15,9 +15,11 @@ import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
+// ignore: must_be_immutable
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
   Function setParentState;
+  // ignore: prefer_typing_uninitialized_variables
   var args;
   GamePage({Key? key, required this.args, required this.setParentState})
       : super(key: key);
@@ -35,20 +37,25 @@ class _GamePagePageState extends State<GamePage> {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
       body: Padding(
-        padding: EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(0.0),
         child: Center(
-          child: _GameWidget(args: widget.args),
+          child: _GameWidget(
+              args: widget.args, setParentState: widget.setParentState),
         ),
       ),
     );
   }
 }
 
+// ignore: must_be_immutable
 class _GameWidget extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   var args;
+  Function setParentState;
   _GameWidget({
     Key? key,
     required this.args,
+    required this.setParentState,
   }) : super(key: key);
   @override
   // ignore: no_logic_in_create_state
@@ -66,18 +73,15 @@ class _GameWidgetState extends State<_GameWidget> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
-        children: getGameScreenWidget(context, amountOfPlayers, widget.args),
+        children: getGameScreenWidget(
+            context, amountOfPlayers, widget.args, widget.setParentState),
       ),
     );
   }
 }
 
 List<Widget> getGameScreenWidget(
-    BuildContext context, int amountOfPlayers, args) {
-  print(args.roomID);
-  print(args.isHost);
-  print(args.playerNickName);
-  // final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
+    BuildContext context, int amountOfPlayers, args, Function state) {
   return ([
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,6 +102,7 @@ List<Widget> getGameScreenWidget(
               roomID: args.roomID,
               playerNickName: args.playerNickName,
               isHost: args.isHost,
+              setParentState: state,
             ),
           ],
         ),
@@ -124,14 +129,13 @@ List<Widget> getGameScreenWidget(
 Column getLeaderboard(BuildContext context, String roomID, args) {
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-  // final args = ModalRoute.of(context)!.settings.arguments as GameRoomArgs;
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       Container(
         width: SizeConfig.blockSizeHorizontal * 12,
-        height: SizeConfig.blockSizeVertical * 40,
+        height: SizeConfig.blockSizeVertical * 45,
         decoration: const BoxDecoration(
           color: Color.fromARGB(100, 109, 31, 138),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -177,11 +181,4 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
           ),
         )),
   );
-}
-
-// arguments for ScoreboardRoom
-class ScoreboardRoomArgs {
-  final bool isHost;
-  final String roomID;
-  ScoreboardRoomArgs(this.isHost, this.roomID);
 }

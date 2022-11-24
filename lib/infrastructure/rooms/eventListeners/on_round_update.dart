@@ -46,8 +46,6 @@ class OnRoundUpdate extends StatelessWidget {
         room.round + 1;
         return getText("Ronda: " + room.round.toString(),
             SizeConfig.blockSizeHorizontal * 1.2, Alignment.topCenter);
-
-        //Text(");
       },
     );
   }

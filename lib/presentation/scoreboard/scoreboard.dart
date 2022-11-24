@@ -4,16 +4,19 @@ import 'package:flutter/services.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
 import 'package:spot_it_game/application/rooms/rooms_use_case.dart';
 import 'package:spot_it_game/domain/players/player.dart';
+import 'package:spot_it_game/domain/rooms/room.dart';
 import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
+import 'package:spot_it_game/infrastructure/scoreboard/eventListeners/on_play_again.dart';
+import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
+import 'package:spot_it_game/presentation/register_room/register_room.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 import 'package:spot_it_game/application/scoreboard/scoreboard_use_case.dart';
 import 'package:spot_it_game/infrastructure/scoreboard/scoreboard_repository.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
-import 'package:spot_it_game/presentation/game/game.dart';
 import 'package:spot_it_game/presentation/scoreboard/scorelist.dart';
 import 'package:spot_it_game/presentation/core/loading_widget.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
@@ -22,9 +25,13 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/scoreboard/colors.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 
+// ignore: must_be_immutable
 class ScoreboardPage extends StatefulWidget {
   static String routeName = '/scoreboard';
-  const ScoreboardPage({Key? key}) : super(key: key);
+  PlayerInfo args;
+  Function setParentState;
+  ScoreboardPage({Key? key, required this.args, required this.setParentState})
+      : super(key: key);
   @override
   State<ScoreboardPage> createState() => _ScoreboardPageState();
 }
@@ -56,15 +63,23 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: isLoading ? const LoadingWidget() : const _ScoreboardWidget(),
+          child: isLoading
+              ? const LoadingWidget()
+              : _ScoreboardWidget(
+                  args: widget.args, setParentState: widget.setParentState),
         ),
       ),
     );
   }
 }
 
+// ignore: must_be_immutable
 class _ScoreboardWidget extends StatefulWidget {
-  const _ScoreboardWidget({Key? key}) : super(key: key);
+  PlayerInfo args;
+  Function setParentState;
+  _ScoreboardWidget(
+      {Key? key, required this.args, required this.setParentState})
+      : super(key: key);
 
   @override
   State<_ScoreboardWidget> createState() => _ScoreboardWidgetState();
@@ -75,7 +90,6 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
   late TooltipBehavior _tooltip;
   final scoreboardUseCase =
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
-  late ScoreboardRoomArgs args;
   int maximumPoints = 0;
   List<Scoreboard> dataForList = [];
   List<Scoreboard> dataForGraph = [];
@@ -89,10 +103,9 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
 
   @override
   void didChangeDependencies() {
-    args = ModalRoute.of(context)!.settings.arguments as ScoreboardRoomArgs;
     super.didChangeDependencies();
-    getScoreboard(args.roomID);
-    getMaximumPoints(args.roomID);
+    getScoreboard(widget.args.roomID);
+    getMaximumPoints(widget.args.roomID);
   }
 
   Future<void> getMaximumPoints(String roomID) async {
@@ -167,7 +180,8 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Home and replay icons
-                getNavigationButtons(context),
+                getNavigationButtons(
+                    context, widget.setParentState, widget.args),
                 Padding(
                   padding: const EdgeInsets.only(top: 40),
                   // Main screen
@@ -194,16 +208,25 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
 
 // @param context: Build context
 // @return Row with home and replay navigation icons
-Row getNavigationButtons(context) {
+Row getNavigationButtons(context, Function setParentState, args) {
   return Row(
     children: [
       getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
           MaterialPageRoute(builder: (context) => const HomePage())),
-      getChildrenWithIcon(
-          context,
-          const Icon(Icons.replay),
-          getSecondaryColor(),
-          MaterialPageRoute(builder: (context) => const HomePage())),
+      args.isHost == true
+          ? getIconButtonStyle(
+              getSecondaryColor(),
+              IconButton(
+                icon: const Icon(Icons.replay),
+                iconSize: getIconSize(),
+                alignment: Alignment.center,
+                onPressed: () {
+                  playAgain(args);
+                  setParentState(NavigationState.waitingRoom, null);
+                },
+              ),
+            )
+          : OnPlayAgain(args: args, setParentState: setParentState),
     ],
   );
 }
@@ -257,4 +280,34 @@ SizedBox getBarChart(TooltipBehavior _tooltip, List<Scoreboard> dataForGraph,
     height: SizeConfig.safeBlockVertical * 50,
     width: SizeConfig.safeBlockHorizontal * 50,
   );
+}
+
+Future<void> playAgain(args) async {
+  final roomCollection =
+      FirebaseFirestore.instance.collection('Room').doc(args.roomID);
+  final playerCollection = FirebaseFirestore.instance
+      .collection('Room_Player')
+      .doc(args.roomID)
+      .collection("players");
+  var snapshots = await playerCollection.get();
+  for (var element in snapshots.docs) {
+    element.reference.delete();
+  }
+  final scoreboardCollection = FirebaseFirestore.instance
+      .collection('Room_Scoreboard')
+      .doc(args.roomID)
+      .collection("Scoreboard");
+  var scoreboardSnapshots = await scoreboardCollection.get();
+  for (var element in scoreboardSnapshots.docs) {
+    element.reference.delete();
+  }
+
+  await playerCollection.add(Player(args.playerNickName, args.icon,
+          "empty,empty,empty,empty,empty,empty,empty,empty", 0, 0)
+      .toJson());
+
+  await scoreboardCollection.add(Scoreboard(args.playerNickName, 0).toJson());
+
+  await roomCollection
+      .update(Room(0, true, false, false, false, false, 4).toJson());
 }

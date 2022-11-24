@@ -78,7 +78,7 @@ Row getCloseButton(Color secondaryColor, BuildContext context) {
 
 Widget getVerticalList(String roomID, Color primaryColor, Color secondaryColor,
     BuildContext context) {
-  int roundCount = 0;
+  int roundCount = 4;
   return SizedBox(
     height: SizeConfig.blockSizeVertical * 90,
     width: SizeConfig.blockSizeHorizontal * 45,

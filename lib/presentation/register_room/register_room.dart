@@ -19,7 +19,6 @@ import 'package:spot_it_game/presentation/core/text_button_style.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
-import 'package:spot_it_game/presentation/waiting_room/waiting_room.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/presentation/core/input_field.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
@@ -234,7 +233,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
                                     Navigator.pushNamed(
                                         context, GameRootPage.routeName,
-                                        arguments: WaitingRoomArgs(
+                                        arguments: PlayerInfo(
                                             true,
                                             roomID,
                                             iconListCount.toString(),
@@ -259,7 +258,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                         Scoreboard(textNameController.text, 0));
                                     Navigator.pushNamed(
                                         context, GameRootPage.routeName,
-                                        arguments: WaitingRoomArgs(
+                                        arguments: PlayerInfo(
                                             false,
                                             textRoomIDController.text,
                                             iconListCount.toString(),
@@ -304,10 +303,10 @@ SizedBox getButtonWithIcon(Icon newIcon, double boxWidth, double boxHeight,
   );
 }
 
-class WaitingRoomArgs {
+class PlayerInfo {
   final bool isHost;
   final String roomID;
   final String icon;
   final String playerNickName;
-  WaitingRoomArgs(this.isHost, this.roomID, this.icon, this.playerNickName);
+  PlayerInfo(this.isHost, this.roomID, this.icon, this.playerNickName);
 }
