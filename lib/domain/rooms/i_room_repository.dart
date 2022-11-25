@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:spot_it_game/domain/rooms/room.dart';
 
 abstract class IRoomRepository {

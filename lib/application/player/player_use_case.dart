@@ -10,8 +10,8 @@ class PlayerUseCase {
     return playerRepository.addPlayer(player, roomID);
   }
 
-  Widget onPlayersUpdate(String roomID) {
-    return playerRepository.onPlayersUpdate(roomID);
+  Widget onPlayersUpdate(args, Function state) {
+    return playerRepository.onPlayersUpdate(args, state);
   }
 
   Future<bool> spotIt(String roomID, List<String> cardOneInformation,

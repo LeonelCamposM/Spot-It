@@ -20,6 +20,7 @@ class GameRootPage extends StatefulWidget {
 
 class _GameRootPageState extends State<GameRootPage> {
   var navState = NavigationState.waitingRoom;
+  // ignore: prefer_typing_uninitialized_variables
   var args;
 
   callback(NavigationState state, dynamic args) {
@@ -33,7 +34,7 @@ class _GameRootPageState extends State<GameRootPage> {
   Widget build(BuildContext context) {
     late Widget page;
     final waitingRoomArgs =
-        ModalRoute.of(context)!.settings.arguments as WaitingRoomArgs;
+        ModalRoute.of(context)!.settings.arguments as PlayerInfo;
 
     switch (navState) {
       case NavigationState.waitingRoom:

@@ -15,9 +15,11 @@ import 'package:spot_it_game/presentation/game/colors.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:spot_it_game/domain/scoreboard/scoreboard.dart';
 
+// ignore: must_be_immutable
 class GamePage extends StatefulWidget {
   static String routeName = '/game';
   Function setParentState;
+  // ignore: prefer_typing_uninitialized_variables
   var args;
   GamePage({Key? key, required this.args, required this.setParentState})
       : super(key: key);
@@ -35,7 +37,7 @@ class _GamePagePageState extends State<GamePage> {
     return Scaffold(
       backgroundColor: getPrimaryColor(),
       body: Padding(
-        padding: EdgeInsets.all(0.0),
+        padding: const EdgeInsets.all(0.0),
         child: Center(
           child: _GameWidget(
               args: widget.args, setParentState: widget.setParentState),
@@ -45,7 +47,9 @@ class _GamePagePageState extends State<GamePage> {
   }
 }
 
+// ignore: must_be_immutable
 class _GameWidget extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   var args;
   Function setParentState;
   _GameWidget({
@@ -177,11 +181,4 @@ Widget getScoreboardList(List<Scoreboard> scoreboard) {
           ),
         )),
   );
-}
-
-// arguments for ScoreboardRoom
-class ScoreboardRoomArgs {
-  final bool isHost;
-  final String roomID;
-  ScoreboardRoomArgs(this.isHost, this.roomID);
 }

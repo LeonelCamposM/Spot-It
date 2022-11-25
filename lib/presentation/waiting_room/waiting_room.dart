@@ -7,12 +7,9 @@ import 'package:spot_it_game/infrastructure/players/player_repository.dart';
 import 'package:spot_it_game/infrastructure/rooms/eventListeners/on_joinable_update.dart';
 import 'package:spot_it_game/infrastructure/rooms/rooms_repository.dart';
 import 'package:spot_it_game/presentation/chat/chat.dart';
-import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
-import 'package:spot_it_game/presentation/core/text_button_style.dart';
-import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/home/home.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +17,9 @@ import 'package:spot_it_game/presentation/waiting_room/colors.dart';
 import 'dart:math';
 import 'package:spot_it_game/presentation/waiting_room/round_config.dart';
 
+// ignore: must_be_immutable
 class WaitingRoomPage extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   var args;
   Function setParentState;
   WaitingRoomPage({Key? key, required this.args, required this.setParentState})
@@ -66,43 +65,7 @@ class _WaitingRoomPageState extends State<WaitingRoomPage> {
                   MaterialPageRoute(builder: (context) => const HomePage())),
 
               // Main screen
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: getFocusBox(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        // Room ID
-                        getIDBanner(widget.args.roomID),
-
-                        // Players list view
-                        playerUseCase.onPlayersUpdate(widget.args.roomID),
-
-                        // Start button
-                        Center(
-                            child: widget.args.isHost == true
-                                ? getTextButton(
-                                    "COMENZAR",
-                                    SizeConfig.safeBlockHorizontal * 20,
-                                    SizeConfig.safeBlockVertical * 10,
-                                    SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () {
-                                    widget.setParentState(
-                                        NavigationState.game, null);
-                                    roomUseCase
-                                        .updateJoinable(widget.args.roomID);
-                                  })
-                                : OnJoinableUpdate(
-                                    roomID: widget.args.roomID,
-                                    icon: widget.args.icon,
-                                    isHost: widget.args.isHost,
-                                    playerNickName: widget.args.playerNickName,
-                                    setParentState: widget.setParentState)),
-                      ],
-                    ),
-                    SizeConfig.safeBlockVertical * 85,
-                    SizeConfig.safeBlockHorizontal * 50),
-              ),
+              playerUseCase.onPlayersUpdate(widget.args, widget.setParentState),
 
               //Chat icon
               widget.args.isHost == true
@@ -225,12 +188,4 @@ Column getPlayersList(
           )),
     ],
   );
-}
-
-class GameRoomArgs {
-  final bool isHost;
-  final String roomID;
-  final String icon;
-  final String playerNickName;
-  GameRoomArgs(this.isHost, this.roomID, this.icon, this.playerNickName);
 }

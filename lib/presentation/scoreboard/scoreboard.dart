@@ -25,9 +25,10 @@ import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/scoreboard/colors.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 
+// ignore: must_be_immutable
 class ScoreboardPage extends StatefulWidget {
   static String routeName = '/scoreboard';
-  WaitingRoomArgs args;
+  PlayerInfo args;
   Function setParentState;
   ScoreboardPage({Key? key, required this.args, required this.setParentState})
       : super(key: key);
@@ -72,8 +73,9 @@ class _ScoreboardPageState extends State<ScoreboardPage> {
   }
 }
 
+// ignore: must_be_immutable
 class _ScoreboardWidget extends StatefulWidget {
-  WaitingRoomArgs args;
+  PlayerInfo args;
   Function setParentState;
   _ScoreboardWidget(
       {Key? key, required this.args, required this.setParentState})

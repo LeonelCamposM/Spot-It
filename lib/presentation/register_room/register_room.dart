@@ -93,7 +93,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final textRoomIDController = TextEditingController();
 
   int iconListCount = 1;
-  bool joinable = true; 
+  bool joinable = true;
 
   void add() {
     if (iconListCount >= 16) {
@@ -118,7 +118,6 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   void changeJoinable() {
     setState(() => joinable = !joinable);
   }
-
 
   void reverse() {
     setState(() => iconListCount = 16);
@@ -240,44 +239,51 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
                                     Navigator.pushNamed(
                                         context, GameRootPage.routeName,
-                                        arguments: WaitingRoomArgs(
+                                        arguments: PlayerInfo(
                                             true,
                                             roomID,
                                             iconListCount.toString(),
                                             textNameController.text));
                                   })
-                                : joinable ? getTextButton(
-                                    "UNIRSE",
-                                    SizeConfig.safeBlockHorizontal * 30,
-                                    SizeConfig.safeBlockVertical * 10,
-                                    SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () async {
-                                    
-                                    bool validNumberOfPlayers = await roomUseCase.validateNumberOfPlayers(textRoomIDController.text);
-                                    if(validNumberOfPlayers){
-                                      await playerUseCase.addPlayer(
-                                          Player(
-                                              textNameController.text,
-                                              iconListCount.toString(),
-                                              "empty,empty,empty,empty,empty,empty,empty,empty",
-                                              0,
-                                              0),
-                                          textRoomIDController.text);
-                                      await scoreboardUseCase.createScoreboard(
-                                          textRoomIDController.text,
-                                          Scoreboard(textNameController.text, 0));
-                                      Navigator.pushNamed(
-                                          context, GameRootPage.routeName,
-                                          arguments: WaitingRoomArgs(
-                                              false,
-                                              textRoomIDController.text,
-                                              iconListCount.toString(),
-                                              textNameController.text));
-                                    } else {
-                                      changeJoinable();
-                                    }
-                                  }) : getText("¡La sala se encuentra llena!", SizeConfig.blockSizeHorizontal * 2, 
-                                  Alignment.center),
+                                : joinable
+                                    ? getTextButton(
+                                        "UNIRSE",
+                                        SizeConfig.safeBlockHorizontal * 30,
+                                        SizeConfig.safeBlockVertical * 10,
+                                        SizeConfig.safeBlockHorizontal * 2,
+                                        getSecondaryColor(), () async {
+                                        bool validNumberOfPlayers =
+                                            await roomUseCase
+                                                .validateNumberOfPlayers(
+                                                    textRoomIDController.text);
+                                        if (validNumberOfPlayers) {
+                                          await playerUseCase.addPlayer(
+                                              Player(
+                                                  textNameController.text,
+                                                  iconListCount.toString(),
+                                                  "empty,empty,empty,empty,empty,empty,empty,empty",
+                                                  0,
+                                                  0),
+                                              textRoomIDController.text);
+                                          await scoreboardUseCase
+                                              .createScoreboard(
+                                                  textRoomIDController.text,
+                                                  Scoreboard(
+                                                      textNameController.text,
+                                                      0));
+                                          Navigator.pushNamed(
+                                              context, GameRootPage.routeName,
+                                              arguments: PlayerInfo(
+                                                  false,
+                                                  textRoomIDController.text,
+                                                  iconListCount.toString(),
+                                                  textNameController.text));
+                                        }
+                                      })
+                                    : getText(
+                                        "¡La sala se encuentra llena!",
+                                        SizeConfig.blockSizeHorizontal * 2,
+                                        Alignment.center),
                           ],
                         ),
                       ),
@@ -317,10 +323,10 @@ SizedBox getButtonWithIcon(Icon newIcon, double boxWidth, double boxHeight,
   );
 }
 
-class WaitingRoomArgs {
+class PlayerInfo {
   final bool isHost;
   final String roomID;
   final String icon;
   final String playerNickName;
-  WaitingRoomArgs(this.isHost, this.roomID, this.icon, this.playerNickName);
+  PlayerInfo(this.isHost, this.roomID, this.icon, this.playerNickName);
 }
