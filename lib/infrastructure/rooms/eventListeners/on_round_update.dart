@@ -73,69 +73,72 @@ Room getUpdateRoom(AsyncSnapshot<QuerySnapshot<Object?>> snapshot, roomID) {
 
 Future<void> dealCards(String roomID) async {
   // Get players collection
-  var collection = FirebaseFirestore.instance
-      .collection('Room_Player')
-      .doc(roomID)
-      .collection('players');
-  var snapshots = await collection.get();
-
-  // Get deck collection
-  final roomDeckReference = FirebaseFirestore.instance.collection('Deck');
-
-  // Get new cards
-  final newCardsReference = await roomDeckReference.get();
-  List<CardModel> fullDeck = newCardsReference.docs
-      .map((snapshot) => CardModel.fromJson(snapshot.data()))
-      .toList();
-
-  // get random cards from deck
-  fullDeck.shuffle();
-  Iterable<CardModel> cards = fullDeck.take(snapshots.docs.length);
-
-  int counter = 0;
-  for (var doc in snapshots.docs) {
-    // Get current player
-    final query = await doc.reference.get();
-    Map<String, dynamic> data = query.data()!;
-    final currentPlayer = Player(data['nickname'], data["icon"],
-        data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
-
-    // Give card to user
-    CardModel newCard = cards.elementAt(counter);
-    counter += 1;
-
-    // Update new player card
-    Player newPlayer = Player(
-        currentPlayer.nickname,
-        currentPlayer.icon,
-        newCard.iconOne +
-            ',' +
-            newCard.iconTwo +
-            ',' +
-            newCard.iconThree +
-            ',' +
-            newCard.iconFour +
-            ',' +
-            newCard.iconFive +
-            ',' +
-            newCard.iconSix +
-            ',' +
-            newCard.iconSeven +
-            ',' +
-            newCard.iconEight +
-            ',',
-        1,
-        1);
-    await doc.reference.update(newPlayer.toJson());
-  }
-
-  // Get players collection
   var roomReference = FirebaseFirestore.instance.collection('Room').doc(roomID);
   var roomquery = await roomReference.get();
   Map<String, dynamic> data = roomquery.data()!;
-  final newRoom = Room(data["round"], data["joinable"], true, false,
-      data["finished"], data["updatedRound"], data["maximumRounds"]);
-  roomReference.update(newRoom.toJson());
+
+  if (data["round"] == 0) {
+  } else {
+    final newRoom = Room(data["round"], data["joinable"], true, false,
+        data["finished"], data["updatedRound"], data["maximumRounds"]);
+    roomReference.update(newRoom.toJson());
+    // Get players collection
+    var collection = FirebaseFirestore.instance
+        .collection('Room_Player')
+        .doc(roomID)
+        .collection('players');
+    var snapshots = await collection.get();
+
+    // Get deck collection
+    final roomDeckReference = FirebaseFirestore.instance.collection('Deck');
+
+    // Get new cards
+    final newCardsReference = await roomDeckReference.get();
+    List<CardModel> fullDeck = newCardsReference.docs
+        .map((snapshot) => CardModel.fromJson(snapshot.data()))
+        .toList();
+
+    // get random cards from deck
+    fullDeck.shuffle();
+    Iterable<CardModel> cards = fullDeck.take(snapshots.docs.length);
+
+    int counter = 0;
+    for (var doc in snapshots.docs) {
+      // Get current player
+      final query = await doc.reference.get();
+      Map<String, dynamic> data = query.data()!;
+      final currentPlayer = Player(data['nickname'], data["icon"],
+          data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
+
+      // Give card to user
+      CardModel newCard = cards.elementAt(counter);
+      counter += 1;
+
+      // Update new player card
+      Player newPlayer = Player(
+          currentPlayer.nickname,
+          currentPlayer.icon,
+          newCard.iconOne +
+              ',' +
+              newCard.iconTwo +
+              ',' +
+              newCard.iconThree +
+              ',' +
+              newCard.iconFour +
+              ',' +
+              newCard.iconFive +
+              ',' +
+              newCard.iconSix +
+              ',' +
+              newCard.iconSeven +
+              ',' +
+              newCard.iconEight +
+              ',',
+          1,
+          1);
+      await doc.reference.update(newPlayer.toJson());
+    }
+  }
 }
 
 Future<void> sendEndGame(String roomID) async {

@@ -60,6 +60,12 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
                 .length ==
             players.length - 1;
 
+        bool startCondition = players
+                .where(
+                    (element) => element.displayedCard.contains('empty,empty'))
+                .length ==
+            players.length;
+
         bool stopCondition =
             players.where((element) => element.cardCount == -1).length ==
                 players.length;
@@ -71,7 +77,7 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
           return const Text("");
         }
 
-        if (roundCondition && widget.isHost) {
+        if ((roundCondition || startCondition) && widget.isHost) {
           Future.delayed(const Duration(seconds: 3), () {
             updateNewRound(widget.roomID);
           });
