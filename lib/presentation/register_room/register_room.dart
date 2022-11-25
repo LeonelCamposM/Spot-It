@@ -278,6 +278,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                                   textRoomIDController.text,
                                                   iconListCount.toString(),
                                                   textNameController.text));
+                                        } else {
+                                          changeJoinable();
                                         }
                                       })
                                     : getText(
