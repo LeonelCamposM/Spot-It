@@ -78,7 +78,7 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
         }
 
         if ((roundCondition || startCondition) && widget.isHost) {
-          Future.delayed(const Duration(seconds: 3), () {
+          Future.delayed(const Duration(seconds: 1), () {
             updateNewRound(widget.roomID);
           });
         }

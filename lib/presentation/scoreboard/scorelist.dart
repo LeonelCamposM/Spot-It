@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/icon_button_style.dart';
 import 'package:spot_it_game/presentation/core/size_config.dart';
 import 'package:spot_it_game/presentation/core/text_style.dart';
@@ -19,6 +20,7 @@ IconButton openList(context, List<Scoreboard> scoreboard, List<IconData> icons,
                   borderRadius: BorderRadius.all(Radius.circular(32.0))),
               backgroundColor: primaryColor,
               content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // close button
                   SizedBox(
@@ -26,10 +28,6 @@ IconButton openList(context, List<Scoreboard> scoreboard, List<IconData> icons,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(""),
-                        Text("Tabla de posiciones",
-                            style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal * 2),
-                            textAlign: TextAlign.center),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -38,13 +36,26 @@ IconButton openList(context, List<Scoreboard> scoreboard, List<IconData> icons,
                         ),
                       ],
                     ),
-                    height: SizeConfig.blockSizeVertical * 16,
+                    height: SizeConfig.blockSizeVertical * 10,
                     width: SizeConfig.blockSizeHorizontal * 50,
                   ),
-                  SizedBox(
-                      height: SizeConfig.blockSizeVertical * 70,
-                      width: SizeConfig.blockSizeHorizontal * 50,
-                      child: getVerticalScoreList(scoreboard, icons)),
+                  getFocusBox(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("Tabla de posiciones",
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal * 2),
+                            textAlign: TextAlign.center),
+                        SizedBox(
+                            height: SizeConfig.blockSizeVertical * 70,
+                            width: SizeConfig.blockSizeHorizontal * 45,
+                            child: getVerticalScoreList(scoreboard, icons)),
+                      ],
+                    ),
+                    SizeConfig.blockSizeVertical * 75,
+                    SizeConfig.blockSizeHorizontal * 45,
+                  ),
                 ],
               ),
             );
