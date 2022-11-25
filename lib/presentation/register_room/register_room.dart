@@ -16,6 +16,7 @@ import 'package:spot_it_game/presentation/core/button_style.dart';
 import 'package:spot_it_game/presentation/core/focus_box.dart';
 import 'package:spot_it_game/presentation/core/get_children_with_icon.dart';
 import 'package:spot_it_game/presentation/core/text_button_style.dart';
+import 'package:spot_it_game/presentation/core/text_style.dart';
 import 'package:spot_it_game/presentation/game_root/game_root.dart';
 import 'package:spot_it_game/presentation/register_room/available_icons.dart';
 import 'package:spot_it_game/presentation/register_room/colors.dart';
@@ -92,6 +93,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
   final textRoomIDController = TextEditingController();
 
   int iconListCount = 1;
+  bool joinable = true;
 
   void add() {
     if (iconListCount >= 16) {
@@ -111,6 +113,10 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   void reset() {
     setState(() => iconListCount = 1);
+  }
+
+  void changeJoinable() {
+    setState(() => joinable = !joinable);
   }
 
   void reverse() {
@@ -239,31 +245,47 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             iconListCount.toString(),
                                             textNameController.text));
                                   })
-                                : getTextButton(
-                                    "UNIRSE",
-                                    SizeConfig.safeBlockHorizontal * 30,
-                                    SizeConfig.safeBlockVertical * 10,
-                                    SizeConfig.safeBlockHorizontal * 2,
-                                    getSecondaryColor(), () async {
-                                    await playerUseCase.addPlayer(
-                                        Player(
-                                            textNameController.text,
-                                            iconListCount.toString(),
-                                            "empty,empty,empty,empty,empty,empty,empty,empty",
-                                            0,
-                                            0),
-                                        textRoomIDController.text);
-                                    await scoreboardUseCase.createScoreboard(
-                                        textRoomIDController.text,
-                                        Scoreboard(textNameController.text, 0));
-                                    Navigator.pushNamed(
-                                        context, GameRootPage.routeName,
-                                        arguments: PlayerInfo(
-                                            false,
-                                            textRoomIDController.text,
-                                            iconListCount.toString(),
-                                            textNameController.text));
-                                  }),
+                                : joinable
+                                    ? getTextButton(
+                                        "UNIRSE",
+                                        SizeConfig.safeBlockHorizontal * 30,
+                                        SizeConfig.safeBlockVertical * 10,
+                                        SizeConfig.safeBlockHorizontal * 2,
+                                        getSecondaryColor(), () async {
+                                        bool validNumberOfPlayers =
+                                            await roomUseCase
+                                                .validateNumberOfPlayers(
+                                                    textRoomIDController.text);
+                                        if (validNumberOfPlayers) {
+                                          await playerUseCase.addPlayer(
+                                              Player(
+                                                  textNameController.text,
+                                                  iconListCount.toString(),
+                                                  "empty,empty,empty,empty,empty,empty,empty,empty",
+                                                  0,
+                                                  0),
+                                              textRoomIDController.text);
+                                          await scoreboardUseCase
+                                              .createScoreboard(
+                                                  textRoomIDController.text,
+                                                  Scoreboard(
+                                                      textNameController.text,
+                                                      0));
+                                          Navigator.pushNamed(
+                                              context, GameRootPage.routeName,
+                                              arguments: PlayerInfo(
+                                                  false,
+                                                  textRoomIDController.text,
+                                                  iconListCount.toString(),
+                                                  textNameController.text));
+                                        } else {
+                                          changeJoinable();
+                                        }
+                                      })
+                                    : getText(
+                                        "¡La sala se encuentra llena!",
+                                        SizeConfig.blockSizeHorizontal * 2,
+                                        Alignment.center),
                           ],
                         ),
                       ),

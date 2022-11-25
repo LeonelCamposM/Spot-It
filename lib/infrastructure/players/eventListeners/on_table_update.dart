@@ -60,6 +60,12 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
                 .length ==
             players.length - 1;
 
+        bool startCondition = players
+                .where(
+                    (element) => element.displayedCard.contains('empty,empty'))
+                .length ==
+            players.length;
+
         bool stopCondition =
             players.where((element) => element.cardCount == -1).length ==
                 players.length;
@@ -71,8 +77,8 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
           return const Text("");
         }
 
-        if (roundCondition && widget.isHost) {
-          Future.delayed(const Duration(seconds: 3), () {
+        if ((roundCondition || startCondition) && widget.isHost) {
+          Future.delayed(const Duration(seconds: 1), () {
             updateNewRound(widget.roomID);
           });
         }
@@ -116,7 +122,7 @@ void updateNewRound(String roomID) async {
       transaction.update(roomDoc, {
         "updatedRound": true,
         "round": roomInstance.round + 1,
-        "newRound": true
+        "newRound": true,
       });
     }
   });

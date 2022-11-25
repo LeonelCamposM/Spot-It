@@ -148,13 +148,20 @@ Widget getVerticalList(List<Message> messages) {
                       size: SizeConfig.blockSizeVertical * 5,
                     )),
                 const Text("   "),
-                getFocusBox(
-                    getText(
-                        messages[index].message,
-                        SizeConfig.blockSizeHorizontal * 1.5,
-                        Alignment.centerLeft),
-                    SizeConfig.blockSizeVertical * 10,
-                    SizeConfig.blockSizeHorizontal * 43),
+                FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: Row(
+                    children: [
+                      getFocusBox(
+                          getText(
+                              messages[index].message,
+                              SizeConfig.blockSizeHorizontal * 1.5,
+                              Alignment.centerLeft),
+                          SizeConfig.blockSizeVertical * 10,
+                          SizeConfig.blockSizeHorizontal * 43),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

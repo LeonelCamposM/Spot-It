@@ -27,4 +27,8 @@ class RoomUseCase {
   Future<void> updateMaximumRound(roomID, maximumCount) async {
     return roomRepository.updateMaximumRound(roomID, maximumCount);
   }
+
+  Future<bool> validateNumberOfPlayers(roomID) async {
+    return roomRepository.validateNumberOfPlayers(roomID);
+  }
 }

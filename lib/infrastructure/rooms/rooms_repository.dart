@@ -48,14 +48,17 @@ class RoomRepository implements IRoomRepository {
         .toJson());
   }
 
-  // @override
-  // Widget onJoinableUpdate(
-  //     String roomID, String icon, String playerNickName, bool isHost, ) {
-  //   return OnJoinableUpdate(
-  //     roomID: roomID,
-  //     icon: icon,
-  //     playerNickName: playerNickName,
-  //     isHost: isHost,
-  //   );
-  // }
+  @override
+  Future<bool> validateNumberOfPlayers(String roomID) async {
+    final db = FirebaseFirestore.instance
+    .collection("Room_Player")
+    .doc(roomID)
+    .collection("players");
+    var snapshots = await db.get();
+    bool validNumberOfPlayers = true;
+    if(snapshots.docs.length == 8){
+      validNumberOfPlayers = false;
+    }
+     return validNumberOfPlayers;
+  }
 }

@@ -12,6 +12,8 @@ abstract class IRoomRepository {
   // @brief: Gets the property maximum rounds of a Room
   Future<int> getMaximumRoundCount(String roomID);
 
+  Future<bool> validateNumberOfPlayers(String roomID);
+
   // @brief: enventListener waiting for changes on joinable property of a Room
   // it redirects the user to game page
   // Widget onJoinableUpdate(
