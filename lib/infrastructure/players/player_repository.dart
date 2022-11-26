@@ -122,4 +122,21 @@ class PlayerRepository implements IPlayerRepository {
         .cast();
     return result;
   }
+
+  @override
+  Future<bool> validatePlayerName(String roomID, String playerName) async {
+    final db = FirebaseFirestore.instance;
+    // Players references
+    var playersReference =
+        db.collection('Room_Player').doc(roomID).collection('players');
+    var players = await playersReference.get();
+    var invalidName = players.docs
+        .where((element) => element.data()['nickname'] == playerName)
+        .first;
+    bool validPlayerName = true;
+    if (invalidName.exists) {
+      validPlayerName = false;
+    }
+    return validPlayerName;
+  }
 }

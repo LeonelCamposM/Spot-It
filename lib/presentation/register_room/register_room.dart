@@ -292,7 +292,14 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             await roomUseCase
                                                 .validateNumberOfPlayers(
                                                     textRoomIDController.text);
-                                        if (validNumberOfPlayers) {
+
+                                        bool validPlayerName =
+                                            await playerUseCase
+                                                .validatePlayerName(
+                                                    textRoomIDController.text,
+                                                    textNameController.text);
+                                        if (validNumberOfPlayers &&
+                                            validPlayerName) {
                                           await playerUseCase.addPlayer(
                                               Player(
                                                   textNameController.text,

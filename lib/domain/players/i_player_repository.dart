@@ -9,4 +9,5 @@ abstract class IPlayerRepository {
   Future<bool> spotIt(String roomID, List<String> cardOneInformation,
       List<String> cardTwoInformation);
   Future<List<Player>> getPlayers(String roomID);
+  Future<bool> validatePlayerName(String roomID, String playerName);
 }
