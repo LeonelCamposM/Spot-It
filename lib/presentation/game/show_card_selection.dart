@@ -84,8 +84,8 @@ class _CardSelectorState extends State<CardSelector> {
   List<String> otherUserCard = [];
   String userNameCardOne = "";
   String userNameCardTwo = "";
-  String selectedIconOne = "empty";
-  String selectedIconTwo = "empty";
+  String selectedIconOne = "SpotItLogo";
+  String selectedIconTwo = "SpotItLogo";
   bool differentIcons = false;
 
   PlayerUseCase playerUseCase =
@@ -166,8 +166,8 @@ class _CardSelectorState extends State<CardSelector> {
               SizeConfig.safeBlockVertical * 10,
               SizeConfig.safeBlockHorizontal * 2,
               getSecondaryColor(),
-              !selectedIconOne.contains("empty") &&
-                      !selectedIconTwo.contains("empty")
+              !selectedIconOne.contains("SpotItLogo") &&
+                      !selectedIconTwo.contains("SpotItLogo")
                   ? () => {
                         //if both user icons are equals
                         if (selectedIconOne == selectedIconTwo)
@@ -184,8 +184,8 @@ class _CardSelectorState extends State<CardSelector> {
                               callback("different", "");
                             }),
                           },
-                        callback("one", "empty"),
-                        callback("two", "empty"),
+                        callback("one", "SpotItLogo"),
+                        callback("two", "SpotItLogo"),
                       }
                   : null),
           const Text("  "),
@@ -197,8 +197,8 @@ class _CardSelectorState extends State<CardSelector> {
               getSecondaryColor(),
               () => {
                     feedbackPhrase = "",
-                    callback("one", "empty"),
-                    callback("two", "empty"),
+                    callback("one", "SpotItLogo"),
+                    callback("two", "SpotItLogo"),
                     Navigator.pop(context)
                   })
         ],
