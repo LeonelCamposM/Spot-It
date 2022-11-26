@@ -87,7 +87,7 @@ Future<void> rejoin_game(args) async {
       ScoreboardUseCase(ScoreboardRepository(FirebaseFirestore.instance));
   playerUseCase.addPlayer(
       Player(args.playerNickName, args.icon,
-          "empty,empty,empty,empty,empty,empty,empty,empty", 0, 0),
+          "SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo", 0, 0),
       args.roomID);
   scoreboardUseCase.createScoreboard(
       args.roomID, Scoreboard(args.playerNickName, 0));
