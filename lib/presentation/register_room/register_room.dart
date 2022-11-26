@@ -91,6 +91,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   final textNameController = TextEditingController();
   final textRoomIDController = TextEditingController();
+  final snackBar = const SnackBar(
+      content: Text('Por favor ingrese un nombre menor a 12 caracteres'));
 
   int iconListCount = 1;
   bool joinable = true;
@@ -121,6 +123,12 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   void reverse() {
     setState(() => iconListCount = 16);
+  }
+
+  // ignore: non_constant_identifier_names
+  ShowNotification() {
+    return showDialog<void>(
+        context: context, builder: (_) => _buildAlertDialog(context));
   }
 
   @override
@@ -236,14 +244,21 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0,
                                             0),
                                         roomID);
-
-                                    Navigator.pushNamed(
-                                        context, GameRootPage.routeName,
-                                        arguments: PlayerInfo(
-                                            true,
-                                            roomID,
-                                            iconListCount.toString(),
-                                            textNameController.text));
+                                    if (textNameController.text.isEmpty) {
+                                      ShowNotification();
+                                    } else if (textNameController
+                                            .text.characters.length >
+                                        12) {
+                                      ShowNotification();
+                                    } else {
+                                      Navigator.pushNamed(
+                                          context, GameRootPage.routeName,
+                                          arguments: PlayerInfo(
+                                              true,
+                                              roomID,
+                                              iconListCount.toString(),
+                                              textNameController.text));
+                                    }
                                   })
                                 : joinable
                                     ? getTextButton(
@@ -271,13 +286,21 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                                   Scoreboard(
                                                       textNameController.text,
                                                       0));
-                                          Navigator.pushNamed(
-                                              context, GameRootPage.routeName,
-                                              arguments: PlayerInfo(
-                                                  false,
-                                                  textRoomIDController.text,
-                                                  iconListCount.toString(),
-                                                  textNameController.text));
+                                          if (textNameController.text.isEmpty) {
+                                            ShowNotification();
+                                          } else if (textNameController
+                                                  .text.characters.length >
+                                              12) {
+                                            ShowNotification();
+                                          } else {
+                                            Navigator.pushNamed(
+                                                context, GameRootPage.routeName,
+                                                arguments: PlayerInfo(
+                                                    false,
+                                                    textRoomIDController.text,
+                                                    iconListCount.toString(),
+                                                    textNameController.text));
+                                          }
                                         } else {
                                           changeJoinable();
                                         }
@@ -299,6 +322,20 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
       ],
     );
   }
+}
+
+Widget _buildAlertDialog(BuildContext context) {
+  return AlertDialog(
+    title: const Text('Notificación'),
+    content: const Text("Por favor ingresar un nombre entre 1 y 12 caracteres"),
+    actions: <Widget>[
+      ElevatedButton(
+          child: const Text("Aceptar"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          }),
+    ],
+  );
 }
 
 // @param newIcon: Icon for the button
