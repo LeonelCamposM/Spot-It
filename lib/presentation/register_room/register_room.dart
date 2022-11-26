@@ -96,6 +96,7 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   int iconListCount = 1;
   bool joinable = true;
+  bool isVisible = false;
 
   void add() {
     if (iconListCount >= 16) {
@@ -125,8 +126,29 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
     setState(() => iconListCount = 16);
   }
 
+  void validateName() {
+    if (textNameController.text.isEmpty) {
+      invalidateName();
+    } else if (textNameController.text.characters.length > 12) {
+      invalidateName();
+    }
+  }
+
+  void invalidateName() {
+    setState(() => joinable = false);
+    isVisible = true;
+    showNotification();
+    closeNotification();
+  }
+
+  void closeNotification() {
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.of(context).pop();
+    });
+  }
+
   // ignore: non_constant_identifier_names
-  ShowNotification() {
+  showNotification() {
     return showDialog<void>(
         context: context, builder: (_) => _buildAlertDialog(context));
   }
@@ -205,6 +227,12 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                               child: getInputField(
                                   "Nombre", textNameController, context),
                             ),
+                            isVisible == true
+                                ? getText(
+                                    "Por favor ingresar un nombre entre 1 y 12 caracteres",
+                                    SizeConfig.blockSizeHorizontal * 1,
+                                    Alignment.center)
+                                : getText("", 0, Alignment.center),
 
                             args.isHost == false
                                 ? SizedBox(
@@ -244,21 +272,14 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             0,
                                             0),
                                         roomID);
-                                    if (textNameController.text.isEmpty) {
-                                      ShowNotification();
-                                    } else if (textNameController
-                                            .text.characters.length >
-                                        12) {
-                                      ShowNotification();
-                                    } else {
-                                      Navigator.pushNamed(
-                                          context, GameRootPage.routeName,
-                                          arguments: PlayerInfo(
-                                              true,
-                                              roomID,
-                                              iconListCount.toString(),
-                                              textNameController.text));
-                                    }
+                                    validateName();
+                                    Navigator.pushNamed(
+                                        context, GameRootPage.routeName,
+                                        arguments: PlayerInfo(
+                                            true,
+                                            roomID,
+                                            iconListCount.toString(),
+                                            textNameController.text));
                                   })
                                 : joinable
                                     ? getTextButton(
@@ -286,21 +307,14 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                                   Scoreboard(
                                                       textNameController.text,
                                                       0));
-                                          if (textNameController.text.isEmpty) {
-                                            ShowNotification();
-                                          } else if (textNameController
-                                                  .text.characters.length >
-                                              12) {
-                                            ShowNotification();
-                                          } else {
-                                            Navigator.pushNamed(
-                                                context, GameRootPage.routeName,
-                                                arguments: PlayerInfo(
-                                                    false,
-                                                    textRoomIDController.text,
-                                                    iconListCount.toString(),
-                                                    textNameController.text));
-                                          }
+                                          validateName();
+                                          Navigator.pushNamed(
+                                              context, GameRootPage.routeName,
+                                              arguments: PlayerInfo(
+                                                  false,
+                                                  textRoomIDController.text,
+                                                  iconListCount.toString(),
+                                                  textNameController.text));
                                         } else {
                                           changeJoinable();
                                         }
@@ -325,17 +339,11 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 }
 
 Widget _buildAlertDialog(BuildContext context) {
+  // ignore: prefer_const_constructors
   return AlertDialog(
-    title: const Text('Notificación'),
-    content: const Text("Por favor ingresar un nombre entre 1 y 12 caracteres"),
-    actions: <Widget>[
-      ElevatedButton(
-          child: const Text("Aceptar"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          }),
-    ],
-  );
+      title: const Text('Notificación'),
+      content:
+          const Text("Por favor ingresar un nombre entre 1 y 12 caracteres"));
 }
 
 // @param newIcon: Icon for the button
