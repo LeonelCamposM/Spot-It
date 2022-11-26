@@ -91,12 +91,10 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   final textNameController = TextEditingController();
   final textRoomIDController = TextEditingController();
-  final snackBar = const SnackBar(
-      content: Text('Por favor ingrese un nombre menor a 12 caracteres'));
 
   int iconListCount = 1;
   bool joinable = true;
-  bool isVisible = false;
+  String notification = "";
 
   void add() {
     if (iconListCount >= 16) {
@@ -118,32 +116,29 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
     setState(() => iconListCount = 1);
   }
 
-  void changeJoinable() {
-    setState(() => joinable = !joinable);
+  void changeJoinable(String message) {
+    setState(() => {joinable = !joinable, notification = message});
   }
 
   void reverse() {
     setState(() => iconListCount = 16);
   }
 
-  void validateName() {
-    if (textNameController.text.isEmpty) {
-      invalidateName();
-    } else if (textNameController.text.characters.length > 12) {
-      invalidateName();
+  bool validateName(String playerName) {
+    if (playerName == "") {
+      //setState(() => joinable = false);
+      return false;
+    } else if (playerName.length > 12) {
+      //setState(() => joinable = false);
+      return false;
+    } else {
+      return true;
     }
   }
 
-  void invalidateName() {
-    setState(() => joinable = false);
-    isVisible = true;
-    showNotification();
-    closeNotification();
-  }
-
   void closeNotification() {
-    Future.delayed(const Duration(seconds: 1), () {
-      Navigator.of(context).pop();
+    Future.delayed(const Duration(seconds: 3), () {
+      changeJoinable("");
     });
   }
 
@@ -227,13 +222,6 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                               child: getInputField(
                                   "Nombre", textNameController, context),
                             ),
-                            isVisible == true
-                                ? getText(
-                                    "Por favor ingresar un nombre entre 1 y 12 caracteres",
-                                    SizeConfig.blockSizeHorizontal * 1,
-                                    Alignment.center)
-                                : getText("", 0, Alignment.center),
-
                             args.isHost == false
                                 ? SizedBox(
                                     width: SizeConfig.safeBlockHorizontal * 30,
@@ -250,36 +238,40 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                     SizeConfig.safeBlockVertical * 10,
                                     SizeConfig.safeBlockHorizontal * 2,
                                     getSecondaryColor(), () async {
-                                    String roomID =
-                                        await roomUseCase.createRoom(Room(
-                                            0,
-                                            true,
-                                            false,
-                                            false,
-                                            false,
-                                            false,
-                                            4));
-                                    // await cardUseCase.createRoomDeck(roomID);
-                                    await scoreboardUseCase.createScoreboard(
-                                        roomID,
-                                        Scoreboard(textNameController.text, 0));
+                                    bool validName =
+                                        validateName(textNameController.text);
+                                    if (validName) {
+                                      String roomID =
+                                          await roomUseCase.createRoom(Room(
+                                              0,
+                                              true,
+                                              false,
+                                              false,
+                                              false,
+                                              false,
+                                              4));
+                                      // await cardUseCase.createRoomDeck(roomID);
+                                      await scoreboardUseCase.createScoreboard(
+                                          roomID,
+                                          Scoreboard(
+                                              textNameController.text, 0));
 
-                                    await playerUseCase.addPlayer(
-                                        Player(
-                                            textNameController.text,
-                                            iconListCount.toString(),
-                                            "empty,empty,empty,empty,empty,empty,empty,empty",
-                                            0,
-                                            0),
-                                        roomID);
-                                    validateName();
-                                    Navigator.pushNamed(
-                                        context, GameRootPage.routeName,
-                                        arguments: PlayerInfo(
-                                            true,
-                                            roomID,
-                                            iconListCount.toString(),
-                                            textNameController.text));
+                                      await playerUseCase.addPlayer(
+                                          Player(
+                                              textNameController.text,
+                                              iconListCount.toString(),
+                                              "empty,empty,empty,empty,empty,empty,empty,empty",
+                                              0,
+                                              0),
+                                          roomID);
+                                      Navigator.pushNamed(
+                                          context, GameRootPage.routeName,
+                                          arguments: PlayerInfo(
+                                              true,
+                                              roomID,
+                                              iconListCount.toString(),
+                                              textNameController.text));
+                                    }
                                   })
                                 : joinable
                                     ? getTextButton(
@@ -292,42 +284,54 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
                                             await roomUseCase
                                                 .validateNumberOfPlayers(
                                                     textRoomIDController.text);
-
-                                        bool validPlayerName =
+                                        bool validName = validateName(
+                                            textNameController.text);
+                                        bool invalidPlayerName =
                                             await playerUseCase
                                                 .validatePlayerName(
                                                     textRoomIDController.text,
                                                     textNameController.text);
-                                        if (validNumberOfPlayers &&
-                                            validPlayerName) {
-                                          await playerUseCase.addPlayer(
-                                              Player(
-                                                  textNameController.text,
-                                                  iconListCount.toString(),
-                                                  "empty,empty,empty,empty,empty,empty,empty,empty",
-                                                  0,
-                                                  0),
-                                              textRoomIDController.text);
-                                          await scoreboardUseCase
-                                              .createScoreboard(
-                                                  textRoomIDController.text,
-                                                  Scoreboard(
+
+                                        if (validNumberOfPlayers) {
+                                          if (!invalidPlayerName) {
+                                            if (validName) {
+                                              await playerUseCase.addPlayer(
+                                                  Player(
                                                       textNameController.text,
-                                                      0));
-                                          validateName();
-                                          Navigator.pushNamed(
-                                              context, GameRootPage.routeName,
-                                              arguments: PlayerInfo(
-                                                  false,
-                                                  textRoomIDController.text,
-                                                  iconListCount.toString(),
-                                                  textNameController.text));
+                                                      iconListCount.toString(),
+                                                      "empty,empty,empty,empty,empty,empty,empty,empty",
+                                                      0,
+                                                      0),
+                                                  textRoomIDController.text);
+                                              await scoreboardUseCase
+                                                  .createScoreboard(
+                                                      textRoomIDController.text,
+                                                      Scoreboard(
+                                                          textNameController
+                                                              .text,
+                                                          0));
+
+                                              Navigator.pushNamed(context,
+                                                  GameRootPage.routeName,
+                                                  arguments: PlayerInfo(
+                                                      false,
+                                                      textRoomIDController.text,
+                                                      iconListCount.toString(),
+                                                      textNameController.text));
+                                            }
+                                          } else {
+                                            changeJoinable(
+                                                "¡El nombre se encuentra repetido!");
+                                            closeNotification();
+                                          }
                                         } else {
-                                          changeJoinable();
+                                          changeJoinable(
+                                              "¡La sala se encuentra llena!");
+                                          closeNotification();
                                         }
                                       })
                                     : getText(
-                                        "¡La sala se encuentra llena!",
+                                        notification,
                                         SizeConfig.blockSizeHorizontal * 2,
                                         Alignment.center),
                           ],

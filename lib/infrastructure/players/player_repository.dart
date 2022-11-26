@@ -131,12 +131,13 @@ class PlayerRepository implements IPlayerRepository {
         db.collection('Room_Player').doc(roomID).collection('players');
     var players = await playersReference.get();
     var invalidName = players.docs
-        .where((element) => element.data()['nickname'] == playerName)
-        .first;
-    bool validPlayerName = true;
-    if (invalidName.exists) {
-      validPlayerName = false;
+        .where((element) => element.data()['nickname'] == playerName);
+
+    bool invalidPlayerName = false;
+
+    if (invalidName.isNotEmpty) {
+      invalidPlayerName = true;
     }
-    return validPlayerName;
+    return invalidPlayerName;
   }
 }
