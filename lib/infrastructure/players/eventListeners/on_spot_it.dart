@@ -56,7 +56,7 @@ class OnSpotIt extends StatelessWidget {
               'El juego ha terminado!', roomID, nickname);
         }
 
-        bool madeSpotit = currentUser.displayedCard.contains("empty,empty") &&
+        bool madeSpotit = currentUser.displayedCard.contains("SpotItLogo,SpotItLogo") &&
             currentUser.cardCount == 0;
         if (madeSpotit) {
           return getFeedback(
@@ -84,7 +84,7 @@ class OnSpotIt extends StatelessWidget {
                   nickname);
             }
             cardTwoInformation[1] = element.displayedCard;
-            if (element.displayedCard.contains("empty,empty")) {
+            if (element.displayedCard.contains("SpotItLogo,SpotItLogo")) {
               return getFeedback(context, 'assets/error.png',
                   " " + element.nickname + ' hizo spot it!', roomID, nickname);
             }

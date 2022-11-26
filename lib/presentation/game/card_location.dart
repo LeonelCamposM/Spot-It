@@ -254,10 +254,17 @@ List<Widget> getFirstCardsRowInfo(
     String roomID,
     bool isHost,
     String nickname) {
+   List<String> currentUserCardInformation = currentUserCard.key
+      .toString()
+      .replaceAll("[<", "")
+      .replaceAll(">]", "")
+      .replaceAll("'", "")
+      .split("%%");
+  bool validateCurrentUserCard = currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo");
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
-        onTap: stateCardOne
+        onTap: stateCardOne && !validateCurrentUserCard
             ? () {
                 showCardSelection(context, currentUserCard, cardOne, roomID,
                     isHost, nickname);
@@ -269,7 +276,7 @@ List<Widget> getFirstCardsRowInfo(
           padding: EdgeInsets.only(bottom: SizeConfig.blockSizeHorizontal * 3),
           child: getVisibilityCard(stateCardTwo, cardTwo),
         ),
-        onTap: stateCardTwo
+        onTap: stateCardTwo && !validateCurrentUserCard
             ? () {
                 showCardSelection(context, currentUserCard, cardTwo, roomID,
                     isHost, nickname);
@@ -278,7 +285,7 @@ List<Widget> getFirstCardsRowInfo(
     const Text("  "),
     InkWell(
         child: getVisibilityCard(stateCardThree, cardThree),
-        onTap: stateCardThree
+        onTap: stateCardThree && !validateCurrentUserCard
             ? () {
                 showCardSelection(context, currentUserCard, cardThree, roomID,
                     isHost, nickname);
@@ -297,10 +304,19 @@ List<Widget> getSecondCardsRowInfo(
     String roomID,
     bool isHost,
     String nickname) {
+  
+  List<String> currentUserCardInformation = currentUserCard.key
+      .toString()
+      .replaceAll("[<", "")
+      .replaceAll(">]", "")
+      .replaceAll("'", "")
+      .split("%%");
+    
+  bool validateCurrentUserCard = currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo");
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
-        onTap: stateCardOne
+        onTap: stateCardOne && !validateCurrentUserCard
             ? () {
                 showCardSelection(context, currentUserCard, cardOne, roomID,
                     isHost, nickname);
@@ -317,7 +333,7 @@ List<Widget> getSecondCardsRowInfo(
     const Text("           "),
     InkWell(
         child: getVisibilityCard(stateCardThree, cardThree),
-        onTap: stateCardThree
+        onTap: stateCardThree && !validateCurrentUserCard
             ? () {
                 showCardSelection(context, currentUserCard, cardThree, roomID,
                     isHost, nickname);
@@ -337,12 +353,19 @@ List<Widget> getThirdCardsRowInfo(
     String roomID,
     bool isHost,
     String nickname) {
+       List<String> currentUserCardInformation = cardTwo.key
+      .toString()
+      .replaceAll("[<", "")
+      .replaceAll(">]", "")
+      .replaceAll("'", "")
+      .split("%%");
+  bool validateCurrentUserCard = currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo");
   return ([
     Padding(
       padding: EdgeInsets.only(top: SizeConfig.blockSizeHorizontal * 1),
       child: InkWell(
           child: getVisibilityCard(stateCardOne, cardOne),
-          onTap: stateCardOne
+          onTap: stateCardOne && !validateCurrentUserCard
               ? () {
                   showCardSelection(
                       context, cardTwo, cardOne, roomID, isHost, nickname);
@@ -360,7 +383,7 @@ List<Widget> getThirdCardsRowInfo(
       padding: EdgeInsets.only(top: SizeConfig.blockSizeHorizontal * 1),
       child: InkWell(
           child: getVisibilityCard(stateCardThree, cardThree),
-          onTap: stateCardThree
+          onTap: stateCardThree && !validateCurrentUserCard
               ? () {
                   showCardSelection(
                       context, cardTwo, cardThree, roomID, isHost, nickname);

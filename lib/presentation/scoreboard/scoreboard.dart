@@ -303,7 +303,7 @@ Future<void> playAgain(args) async {
   }
 
   await playerCollection.add(Player(args.playerNickName, args.icon,
-          "empty,empty,empty,empty,empty,empty,empty,empty", 0, 0)
+          "SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo", 0, 0)
       .toJson());
 
   await scoreboardCollection.add(Scoreboard(args.playerNickName, 0).toJson());

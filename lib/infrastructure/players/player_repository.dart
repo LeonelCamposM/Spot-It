@@ -80,14 +80,14 @@ class PlayerRepository implements IPlayerRepository {
 
         bool winnerCard = winner.displayedCard == cardOneInformation[1];
         bool looserCard = looser.displayedCard == cardTwoInformation[1];
-        bool emptyWinner = winner.displayedCard.contains('empty,empty');
-        bool emptyLooser = looser.displayedCard.contains('empty,empty');
+        bool emptyWinner = winner.displayedCard.contains('SpotItLogo,SpotItLogo');
+        bool emptyLooser = looser.displayedCard.contains('SpotItLogo,SpotItLogo');
 
         bool validMovement = winnerCard && looserCard;
         if (validMovement && !emptyWinner && !emptyLooser) {
           // Update players
           transaction.update(winnerReference, {
-            "displayedCard": "empty,empty,empty,empty,empty,empty,empty,empty",
+            "displayedCard": "SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo",
             "cardCount": 0
           });
           transaction.update(looserReference,
