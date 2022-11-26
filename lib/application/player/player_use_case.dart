@@ -23,4 +23,8 @@ class PlayerUseCase {
   Future<List<Player>> getPlayers(String roomID) {
     return playerRepository.getPlayers(roomID);
   }
+
+  Future<bool> validatePlayerName(String roomID, String playerName) {
+    return playerRepository.validatePlayerName(roomID, playerName);
+  }
 }

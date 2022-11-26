@@ -55,8 +55,8 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
         List<Player> players = getAllPlayers(snapshot);
 
         bool roundCondition = players
-                .where(
-                    (element) => element.displayedCard.contains('SpotItLogo,SpotItLogo'))
+                .where((element) =>
+                    element.displayedCard.contains('SpotItLogo,SpotItLogo'))
                 .length ==
             players.length - 1;
 
@@ -79,7 +79,7 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
 
         if ((roundCondition || startCondition) && widget.isHost) {
           // Future.delayed(const Duration(seconds: 0), () {
-            updateNewRound(widget.roomID);
+          updateNewRound(widget.roomID);
           // });
         }
 
