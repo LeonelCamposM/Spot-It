@@ -53,7 +53,7 @@ class _RegisterRoomPageState extends State<RegisterRoomPage> {
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset:
-          false, //sino true(indio) y sino xd poner el scaffold antes de la columna que retorna abajo
+          false, 
       backgroundColor: getPrimaryColor(),
       body: const Padding(
         padding: EdgeInsets.all(10.0),
@@ -126,10 +126,8 @@ class _RegisterRoomWidgetState extends State<_RegisterRoomWidget> {
 
   bool validateName(String playerName) {
     if (playerName == "") {
-      //setState(() => joinable = false);
       return false;
     } else if (playerName.length > 12) {
-      //setState(() => joinable = false);
       return false;
     } else {
       return true;
