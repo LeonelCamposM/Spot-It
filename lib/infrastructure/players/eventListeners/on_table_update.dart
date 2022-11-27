@@ -78,7 +78,12 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
 
         if ((roundCondition || startCondition) && widget.isHost) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
-            await updateNewRound(widget.roomID);
+            while (true) {
+              bool result = await updateNewRound(widget.roomID);
+              if (result == true) {
+                break;
+              } else {}
+            }
           });
         }
 
@@ -109,7 +114,8 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
   return players;
 }
 
-Future<void> updateNewRound(String roomID) async {
+Future<bool> updateNewRound(String roomID) async {
+  bool result = false;
   final db = FirebaseFirestore.instance;
   var roomDoc = db.collection("Room").doc(roomID);
 
@@ -125,4 +131,13 @@ Future<void> updateNewRound(String roomID) async {
       });
     }
   });
+
+  DocumentSnapshot roomSnapshot = await roomDoc.get();
+  Room roomInstance =
+      Room.fromJson(roomSnapshot.data() as Map<String, dynamic>);
+  if (roomInstance.updatedRound == true) {
+    result = true;
+  }
+
+  return result;
 }

@@ -226,8 +226,6 @@ Row getNavigationButtons(context, Function setParentState, args) {
           },
         ),
       ),
-      // getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
-      //     MaterialPageRoute(builder: (context) => const HomePage())),
       args.isHost == true
           ? getIconButtonStyle(
               getSecondaryColor(),
