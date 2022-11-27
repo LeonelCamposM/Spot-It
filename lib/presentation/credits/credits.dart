@@ -162,7 +162,7 @@ class _CreditsWidgetState extends State<_CreditsWidget> {
     'Redlips',
     'ScarecrowMan',
     'Scissors',
-    'SkullandCrossbones',
+    'SkullAndCrossbones',
     'Snowflake',
     'Snowman',
     'Spider',
