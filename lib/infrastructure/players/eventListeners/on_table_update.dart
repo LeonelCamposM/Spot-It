@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spot_it_game/application/player/player_use_case.dart';
@@ -78,9 +77,22 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
         }
 
         if ((roundCondition || startCondition) && widget.isHost) {
-          // Future.delayed(const Duration(seconds: 0), () {
-          updateNewRound(widget.roomID);
-          // });
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            while (true) {
+              bool result = false;
+              if (players.length == 2) {
+                Future.delayed(const Duration(seconds: 2), () async {
+                  result = await updateNewRound(widget.roomID);
+                });
+              } else {
+                result = await updateNewRound(widget.roomID);
+              }
+
+              if (result == true) {
+                break;
+              } else {}
+            }
+          });
         }
 
         return Column(
@@ -110,7 +122,8 @@ List<Player> getAllPlayers(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
   return players;
 }
 
-void updateNewRound(String roomID) async {
+Future<bool> updateNewRound(String roomID) async {
+  bool result = false;
   final db = FirebaseFirestore.instance;
   var roomDoc = db.collection("Room").doc(roomID);
 
@@ -126,4 +139,13 @@ void updateNewRound(String roomID) async {
       });
     }
   });
+
+  DocumentSnapshot roomSnapshot = await roomDoc.get();
+  Room roomInstance =
+      Room.fromJson(roomSnapshot.data() as Map<String, dynamic>);
+  if (roomInstance.updatedRound == true) {
+    result = true;
+  }
+
+  return result;
 }

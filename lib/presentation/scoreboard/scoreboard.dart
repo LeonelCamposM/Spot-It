@@ -211,8 +211,21 @@ class _ScoreboardWidgetState extends State<_ScoreboardWidget> {
 Row getNavigationButtons(context, Function setParentState, args) {
   return Row(
     children: [
-      getChildrenWithIcon(context, const Icon(Icons.home), getSecondaryColor(),
-          MaterialPageRoute(builder: (context) => const HomePage())),
+      getIconButtonStyle(
+        getSecondaryColor(),
+        IconButton(
+          icon: const Icon(Icons.home),
+          iconSize: getIconSize(),
+          alignment: Alignment.center,
+          onPressed: () {
+            setParentState(NavigationState.waitingRoom, null);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+        ),
+      ),
       args.isHost == true
           ? getIconButtonStyle(
               getSecondaryColor(),
@@ -303,7 +316,7 @@ Future<void> playAgain(args) async {
   }
 
   await playerCollection.add(Player(args.playerNickName, args.icon,
-          "SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo,SpotItLogo", 0, 0)
+          "empty,empty,empty,empty,empty,empty,empty,empty", 0, 0)
       .toJson());
 
   await scoreboardCollection.add(Scoreboard(args.playerNickName, 0).toJson());

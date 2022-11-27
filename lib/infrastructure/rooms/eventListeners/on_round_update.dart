@@ -37,11 +37,15 @@ class OnRoundUpdate extends StatelessWidget {
         Room room = getUpdateRoom(snapshot, roomID);
         if (isHost) {
           if (room.newRound == true && !room.finished) {
-            dealCards(roomID);
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              await dealCards(roomID);
+            });
           }
         }
         if (room.round > room.maximumRounds) {
-          sendEndGame(roomID);
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            await sendEndGame(roomID);
+          });
         }
         room.round + 1;
         return getText("Ronda: " + room.round.toString(),
@@ -89,18 +93,69 @@ Future<void> dealCards(String roomID) async {
         .collection('players');
     var snapshots = await collection.get();
 
-    // Get deck collection
-    final roomDeckReference = FirebaseFirestore.instance.collection('Deck');
-
-    // Get new cards
-    final newCardsReference = await roomDeckReference.get();
-    List<CardModel> fullDeck = newCardsReference.docs
-        .map((snapshot) => CardModel.fromJson(snapshot.data()))
-        .toList();
+    List<String> fullDeck = [
+      'Anchor,Apple,Bomb,Cactus,Candle,Carrot,Cheese,Chessknight',
+      'Anchor,Clock,Clown,Diasyflower,Dinosaur,Dolphin,Dragon,Exclamationmark',
+      'Anchor,Eye,Fire,Fourleafclover,Ghost,Greensplats,Hammer,Heart',
+      'Anchor,IceCube,Igloo,Key,Ladybird,LightBulb,LightningBolt,Lock',
+      'Anchor,MapleLeaf,MilkBottle,Moon,NoEntrySign,ScarecrowMan,Pencil,PurpleBird',
+      'Anchor,PurpleCat,logo,QuestionMark,Redlips,Scissors,SkullAndCrossbones,Snowflake',
+      'Anchor,Snowman,Spider,Spidersweb,Sun,Sunglasses,Target,Taxi',
+      'Anchor,Tortoise,Trebleclef,Tree,Waterdrop,Dog,Yinandyang,Zebra',
+      'Apple,Clock,Eye,IceCube,MapleLeaf,PurpleCat,Snowman,Tortoise',
+      'Apple,Clown,Fire,Igloo,MilkBottle,logo,Spider,Trebleclef',
+      'Apple,Diasyflower,Fourleafclover,Key,Moon,QuestionMark,Spidersweb,Tree',
+      'Apple,Dinosaur,Ghost,Ladybird,NoEntrySign,Redlips,Sun,Waterdrop',
+      'Apple,Dolphin,Greensplats,LightBulb,ScarecrowMan,Scissors,Sunglasses,Dog',
+      'Apple,Dragon,Hammer,LightningBolt,Pencil,SkullAndCrossbones,Target,Yinandyang',
+      'Apple,Exclamationmark,Heart,Lock,PurpleBird,Snowflake,Taxi,Zebra',
+      'Bomb,Clock,Fire,Key,NoEntrySign,Scissors,Target,Zebra',
+      'Bomb,Clown,Fourleafclover,Ladybird,ScarecrowMan,SkullAndCrossbones,Taxi,Tortoise',
+      'Bomb,Diasyflower,Ghost,LightBulb,Pencil,Snowflake,Snowman,Trebleclef',
+      'Bomb,Dinosaur,Greensplats,LightningBolt,PurpleBird,PurpleCat,Spider,Tree',
+      'Bomb,Dolphin,Hammer,Lock,MapleLeaf,logo,Spidersweb,Waterdrop',
+      'Bomb,Dragon,Heart,IceCube,MilkBottle,QuestionMark,Sun,Dog',
+      'Bomb,Exclamationmark,Eye,Igloo,Moon,Redlips,Sunglasses,Yinandyang',
+      'Cactus,Clock,Fourleafclover,LightBulb,PurpleBird,logo,Sun,Yinandyang',
+      'Cactus,Clown,Ghost,LightningBolt,MapleLeaf,QuestionMark,Sunglasses,Zebra',
+      'Cactus,Diasyflower,Greensplats,Lock,MilkBottle,Redlips,Target,Tortoise',
+      'Cactus,Dinosaur,Hammer,IceCube,Moon,Scissors,Taxi,Trebleclef',
+      'Cactus,Dolphin,Heart,Igloo,NoEntrySign,SkullAndCrossbones,Snowman,Tree',
+      'Cactus,Dragon,Eye,Key,ScarecrowMan,Snowflake,Spider,Waterdrop',
+      'Cactus,Exclamationmark,Fire,Ladybird,Pencil,PurpleCat,Spidersweb,Dog',
+      'Candle,Clock,Ghost,Lock,Moon,SkullAndCrossbones,Spider,Dog',
+      'Candle,Clown,Greensplats,IceCube,NoEntrySign,Snowflake,Spidersweb,Yinandyang',
+      'Candle,Diasyflower,Hammer,Igloo,ScarecrowMan,PurpleCat,Sun,Zebra',
+      'Candle,Dinosaur,Heart,Key,Pencil,logo,Sunglasses,Tortoise',
+      'Candle,Dolphin,Eye,Ladybird,PurpleBird,QuestionMark,Target,Trebleclef',
+      'Candle,Dragon,Fire,LightBulb,MapleLeaf,Redlips,Taxi,Tree',
+      'Candle,Exclamationmark,Fourleafclover,LightningBolt,MilkBottle,Scissors,Snowman,Waterdrop',
+      'Carrot,Clock,Greensplats,Igloo,Pencil,QuestionMark,Taxi,Waterdrop',
+      'Carrot,Clown,Hammer,Key,PurpleBird,Redlips,Snowman,Dog',
+      'Carrot,Diasyflower,Heart,Ladybird,MapleLeaf,Scissors,Spider,Yinandyang',
+      'Carrot,Dinosaur,Eye,LightBulb,MilkBottle,SkullAndCrossbones,Spidersweb,Zebra',
+      'Carrot,Dolphin,Fire,LightningBolt,Moon,Snowflake,Sun,Tortoise',
+      'Carrot,Dragon,Fourleafclover,Lock,NoEntrySign,PurpleCat,Sunglasses,Trebleclef',
+      'Carrot,Exclamationmark,Ghost,IceCube,ScarecrowMan,logo,Target,Tree',
+      'Cheese,Clock,Hammer,Ladybird,MilkBottle,Snowflake,Sunglasses,Tree',
+      'Cheese,Clown,Heart,LightBulb,Moon,PurpleCat,Target,Waterdrop',
+      'Cheese,Diasyflower,Eye,LightningBolt,NoEntrySign,logo,Taxi,Dog',
+      'Cheese,Dinosaur,Fire,Lock,ScarecrowMan,QuestionMark,Snowman,Yinandyang',
+      'Cheese,Dolphin,Fourleafclover,IceCube,Pencil,Redlips,Spider,Zebra',
+      'Cheese,Dragon,Ghost,Igloo,PurpleBird,Scissors,Spidersweb,Tortoise',
+      'Cheese,Exclamationmark,Greensplats,Key,MapleLeaf,SkullAndCrossbones,Sun,Trebleclef',
+      'Chessknight,Clock,Heart,LightningBolt,ScarecrowMan,Redlips,Spidersweb,Trebleclef',
+      'Chessknight,Clown,Eye,Lock,Pencil,Scissors,Sun,Tree',
+      'Chessknight,Diasyflower,Fire,IceCube,PurpleBird,SkullAndCrossbones,Sunglasses,Waterdrop',
+      'Chessknight,Dinosaur,Fourleafclover,Igloo,MapleLeaf,Snowflake,Target,Dog',
+      'Chessknight,Dolphin,Ghost,Key,MilkBottle,PurpleCat,Taxi,Yinandyang',
+      'Chessknight,Dragon,Greensplats,Ladybird,Moon,logo,Snowman,Zebra',
+      'Chessknight,Exclamationmark,Hammer,LightBulb,NoEntrySign,QuestionMark,Spider,Tortoise'
+    ];
 
     // get random cards from deck
     fullDeck.shuffle();
-    Iterable<CardModel> cards = fullDeck.take(snapshots.docs.length);
+    Iterable<String> cards = fullDeck.take(snapshots.docs.length);
 
     int counter = 0;
     for (var doc in snapshots.docs) {
@@ -111,31 +166,12 @@ Future<void> dealCards(String roomID) async {
           data["displayedCard"], data["cardCount"], data["stackCardsCount"]);
 
       // Give card to user
-      CardModel newCard = cards.elementAt(counter);
+      String newCard = cards.elementAt(counter);
       counter += 1;
 
       // Update new player card
-      Player newPlayer = Player(
-          currentPlayer.nickname,
-          currentPlayer.icon,
-          newCard.iconOne +
-              ',' +
-              newCard.iconTwo +
-              ',' +
-              newCard.iconThree +
-              ',' +
-              newCard.iconFour +
-              ',' +
-              newCard.iconFive +
-              ',' +
-              newCard.iconSix +
-              ',' +
-              newCard.iconSeven +
-              ',' +
-              newCard.iconEight +
-              ',',
-          1,
-          1);
+      Player newPlayer =
+          Player(currentPlayer.nickname, currentPlayer.icon, newCard, 1, 1);
       await doc.reference.update(newPlayer.toJson());
     }
   }
