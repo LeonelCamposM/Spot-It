@@ -77,22 +77,7 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
         }
 
         if ((roundCondition || startCondition) && widget.isHost) {
-          WidgetsBinding.instance.addPostFrameCallback((_) async {
-            while (true) {
-              bool result = false;
-              if (players.length == 2) {
-                Future.delayed(const Duration(seconds: 2), () async {
-                  result = await updateNewRound(widget.roomID);
-                });
-              } else {
-                result = await updateNewRound(widget.roomID);
-              }
-
-              if (result == true) {
-                break;
-              } else {}
-            }
-          });
+          updateNewRound(widget.roomID);
         }
 
         return Column(

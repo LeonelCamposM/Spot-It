@@ -53,6 +53,5 @@ scripts/key.json
 .vscode
 game_server/node_modules
 game_server/package-lock.json
-lib/generated_plugin_registrant.dart
 windows/flutter/generated_plugins.cmake
 windows/flutter/generated_plugins.cmake
