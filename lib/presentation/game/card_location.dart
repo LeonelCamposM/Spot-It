@@ -254,13 +254,15 @@ List<Widget> getFirstCardsRowInfo(
     String roomID,
     bool isHost,
     String nickname) {
-   List<String> currentUserCardInformation = currentUserCard.key
+  List<String> currentUserCardInformation = currentUserCard.key
       .toString()
       .replaceAll("[<", "")
       .replaceAll(">]", "")
       .replaceAll("'", "")
       .split("%%");
-  bool validateCurrentUserCard = currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo");
+  bool validateCurrentUserCard =
+      currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo") ||
+          currentUserCardInformation[1].contains("empty,empty");
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
@@ -304,15 +306,16 @@ List<Widget> getSecondCardsRowInfo(
     String roomID,
     bool isHost,
     String nickname) {
-  
   List<String> currentUserCardInformation = currentUserCard.key
       .toString()
       .replaceAll("[<", "")
       .replaceAll(">]", "")
       .replaceAll("'", "")
       .split("%%");
-    
-  bool validateCurrentUserCard = currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo");
+
+  bool validateCurrentUserCard =
+      currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo") ||
+          currentUserCardInformation[1].contains("empty,empty");
   return ([
     InkWell(
         child: getVisibilityCard(stateCardOne, cardOne),
@@ -353,13 +356,15 @@ List<Widget> getThirdCardsRowInfo(
     String roomID,
     bool isHost,
     String nickname) {
-       List<String> currentUserCardInformation = cardTwo.key
+  List<String> currentUserCardInformation = cardTwo.key
       .toString()
       .replaceAll("[<", "")
       .replaceAll(">]", "")
       .replaceAll("'", "")
       .split("%%");
-  bool validateCurrentUserCard = currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo");
+  bool validateCurrentUserCard =
+      currentUserCardInformation[1].contains("SpotItLogo,SpotItLogo") ||
+          currentUserCardInformation[1].contains("empty,empty");
   return ([
     Padding(
       padding: EdgeInsets.only(top: SizeConfig.blockSizeHorizontal * 1),

@@ -76,7 +76,7 @@ class _OnTableUpdateState extends State<OnTableUpdate> {
           return const Text("");
         }
 
-        if ((roundCondition || startCondition) && widget.isHost) {
+        if ((roundCondition || startCondition)) {
           updateNewRound(widget.roomID);
         }
 

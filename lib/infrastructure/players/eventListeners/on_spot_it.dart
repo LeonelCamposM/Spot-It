@@ -56,8 +56,9 @@ class OnSpotIt extends StatelessWidget {
               'El juego ha terminado!', roomID, nickname);
         }
 
-        bool madeSpotit = currentUser.displayedCard.contains("SpotItLogo,SpotItLogo") &&
-            currentUser.cardCount == 0;
+        bool madeSpotit =
+            currentUser.displayedCard.contains("SpotItLogo,SpotItLogo") &&
+                currentUser.cardCount == 0;
         if (madeSpotit) {
           return getFeedback(
               context, 'assets/logo.png', '¡Spot it!', roomID, nickname);
@@ -107,6 +108,9 @@ Column getFeedback(
   String roomID,
   String nickname,
 ) {
+  Future.delayed(const Duration(seconds: 2), () {
+    Navigator.pop(context);
+  });
   return (Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
